@@ -1,0 +1,171 @@
+@import url('https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800;900&display=swap');
+@font-face {
+    font-family: 'Tenada';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2210-2@1.0/Tenada.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Thin.woff') format('woff');
+    font-weight: 100;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-SemiBold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-ExtraBold.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'iceJaram-Rg';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.0/iceJaram-Rg.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+::-moz-selection {background: #1c57a9;color: #fff;}
+::selection {background: #1c57a9;color: #fff;}
+.mt10{margin-top: 10px;}
+.mt15{margin-top: 15px;}
+.mt20{margin-top: 20px;}
+.mt30{margin-top: 30px;}
+.mt40{margin-top: 40px;}
+.mb10{margin-bottom: 10px;}
+.mb20{margin-bottom: 20px;}
+.mb30{margin-bottom: 30px;}
+.mb40{margin-bottom: 40px;}
+
+#wrap{width:100%; height:100%; overflow:hidden; position:relative;}
+.w1700{max-width:1700px; margin:0 auto;}
+.w1600{max-width:1600px; margin:0 auto;}
+.w1500{max-width:1500px; margin:0 auto;}
+.w1400{max-width:1400px; margin:0 auto;}
+.w1300{max-width:1300px; margin:0 auto;}
+.w1200{max-width:1200px; margin:0 auto;}
+.cbdb::after{clear:both; display:block; content:'';}
+
+/* bxslider 초기화 */
+.bx-wrapper{box-shadow: none!important;border: none!important;}
+
+@media (max-width : 720px) {
+    body{font-size: 14px!important;}
+}
+
+/* 탑버튼 */
+#top_btn{background:#ff8820; color:#fff;outline:none;}
+#top_btn:hover{}
+
+/* 팝업 반응형*/
+@media (max-width:700px){
+    .hd_pops{width: 95% !important;top: 65px !important;left: 10px !important;}
+    .hd_pops_con{width: 100%!important;}
+    .hd_pops_footer .hd_pops_reject,.hd_pops_footer .hd_pops_close{font-size: 12px;}
+}
+
+/* 게시판 리스트 카테고리 */
+#bo_cate li{padding: 0!important;}
+#bo_cate #bo_cate_on{border: 1px solid #3a3a3a!important;background: #3a3a3a!important;color: #fff!important;}
+#bo_cate a{background: #fff;padding: 5px 20px!important;box-shadow: none!important; border-radius: 0!important; border: 1px solid #eee!important; line-height: 25px!important; font-size: 14px;color: #888!important; margin-left: 4px; transition:all 0.4s ease;} 
+#bo_cate a:focus, #bo_cate a:hover, #bo_cate a:active{border-color: #0160e7!important}
+#bo_cate li:first-child a {margin-left:0;}
+#bo_cate a:focus, #bo_cate a:hover, #bo_cate a:active{border: 1px solid #545454!important;background: #ffffff!important;color: #3e3e3e!important;}
+
+/* 연도 많은 퍼블리케이션 카테고리 .cate_line */
+#bo_cate.cate_line ul {text-align: center; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd;padding: 10px 0;}
+#bo_cate.cate_line #bo_cate_on{border: none !important;background: #ffffff!important;color: #3e3e3e!important;}
+#bo_cate.cate_line a{background: none!important;border: none !important;padding: 5px 8px!important;box-shadow: none!important; border-radius: 0!important;line-height: 25px!important; font-size: 14px;color: #a5a5a5!important; margin-left: 4px;} 
+#bo_cate.cate_line a:focus, #bo_cate.cate_line a:hover, #bo_cate.cate_line a:active{border: none !important;color: #3e3e3e!important;}
+
+@media (max-width : 720px) { 
+    #bo_cate a{font-size: 11px;}
+    #bo_cate.cate_line a{    line-height: 12px!important;}
+}
+
+
+/* 게시판 리스트 */
+#bo_list .cnt_cmt{background: #dde6f3!important;color: #0160e7!important;} /* 코멘트*/
+#bo_gall .bo_tit .cnt_cmt{background: #dde6f3!important;color: #0160e7!important;} /* 코멘트*/
+
+/* 게시판 리스트 하단 page*/
+.pg_page{font-size: 1em!important;color: #959599 !important; height: 36px!important;line-height: 34px!important; min-width: 36px!important; background: #eee !important;border: 1px solid #eee!important;}
+.pg_page:hover{color:#1c57a9!important;background: #fff !important;border: 1px solid #ddd !important;}
+.pg_current{background:#1c57a9!important;border-color:#1c57a9!important; height: 36px!important;line-height: 34px!important; min-width: 36px!important;}
+.pg_end {background: url(../img/btn_end.gif) no-repeat 50% 50% #eee!important;}
+.pg_start {background: url(../img/btn_first.gif) no-repeat 50% 50% #eee!important;}
+.pg_end:hover {background: url(../img/btn_end.gif) no-repeat 50% 50% #fff!important;}
+.pg_start:hover {background: url(../img/btn_first.gif) no-repeat 50% 50% #fff!important;}
+
+
+/* 게시판 보기 */
+.cmt_btn span.total{color:#1c57a9!important}
+.cmt_btn span.total:after{background:#1c57a9!important}
+#bo_v_file a:focus, #bo_v_file li:hover a, #bo_v_file a:active,
+#bo_v_link a:focus, #bo_v_link li:hover a, #bo_v_link a:active
+{color: #1c57a9!important;}
+#bo_v_file li:hover i, #bo_v_link li:hover i{color: #1c57a9!important;}
+#bo_v_file li:hover, #bo_v_link li:hover{/* color: #dde6f3!important; */background: rgba(63,81,237,.1)!important;}
+.bo_v_nb li .nb_tit{color:#1c57a9!important}
+
+/* 버튼 */
+.btn_submit{background:#1c57a9!important;transition: .2s}
+.btn_submit:hover{background:#1c57a9!important;}
+.btn_b01:hover, .btn_b01:hover{opacity:0.7;}
+#bo_w .btn_submit{font-size: 1em!important;}
+#bo_w .btn_cancel{font-size: 1em!important;}
+a.btn_b02, .btn_b02{background:#1c57a9!important;}
+a.btn_b02:hover, .btn_b02:hover{background:#87bef5!important;}
+#bo_v .btn{font-size: 14px!important;}
+.more_opt li button, .more_opt li a{font-size: 14px!important;}
+
+/* 게시판 보기 */
+
+/* 로그인 탭*/
+/*.mb_log_cate{display: none;}*/
+.mbskin{margin: 50px auto !important;}
+
+
+/*링크 검은 테두리 삭제*/
+:focus, a, button{outline: none!important;}
+
+/* 다음 지도 */
+.root_daum_roughmap.root_daum_roughmap_landing{width: 100%;}
+.root_daum_roughmap .wrap_controllers{display: none !important;}
+.root_daum_roughmap_landing .border2{display: block!important;}
+
+/* iframe 동영상 반응형 */
+.vd_rep{position: relative;width: 100%;padding-bottom: 56%;margin-bottom: 5px;}
+.vd_rep iframe {position: absolute;width: 100%;height: 100%;}
+
+.vd_rep  iframe, .vd_rep  object, .vd_rep  embed{position: absolute;top: 0;left: 0;width: 100%;height: 100%;}

@@ -1,0 +1,679 @@
+
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=0,maximum-scale=10,user-scalable=yes">
+<meta http-equiv="imagetoolbar" content="no">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<title>퇴비화 과정 중 일별 암모니아 배출 예측을 위한 문헌 기반 기계학습 모델 개발 > 학술대회 | 충남대학교 축산환경특성화대학원</title>
+
+<link rel="stylesheet" href="../css/default.css">
+<link rel="stylesheet" href="../js/font-awesome/css/font-awesome.min.css">
+<link rel="shortcut icon" href="../images/common/favicon.ico" type="image/x-icon>
+<link rel="stylesheet" href="../css/slick.css">
+<link rel="stylesheet" href="../js/swiper/swiper.min.css">
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css?ver=2303229">
+<link rel="stylesheet" href="../css/splitting.css">
+<link rel="stylesheet" href="../js/XEIcon/xeicon.min.css">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet"/>
+<link rel="stylesheet" href="../skin/board/conference/style.css">
+
+<!-- 검색 등록 -->
+	<meta name="google-site-verification" content="0C35a9sx8VEv6z3XPh6KjWPJxtMxB-RxEcsDi9RJuSU" />
+	<meta name="naver-site-verification" content="02cfa835d63de730eb4a832ef1ca8443b188f701" />
+	<meta name="format-detection" content="telephone=no"/>
+	<meta name="NaverBot" content="All"/>
+    <meta name="NaverBot" content="index,follow"/>
+    <meta name="Yeti" content="All"/>
+    <meta name="Yeti" content="index,follow"/>
+    <meta name="Googlebot" content="index,follow"/>
+    <meta name="daumoa" content="index,follow"/>
+	<meta name="robots" content="index,follow">
+	<meta name="title" content="충남대학교 축산환경특성화 대학원"/>
+	<meta name="Publisher" content="충남대학교 축산환경특성화 대학원"> 
+	<meta name="keywords" content="충남대 축산환경특성화대학원, 충남대학교 축산환경특성화대학원, 축산환경, 축산환경특성화대학원, 안희권, 가축분뇨, 축산악취, 충남대 축산, 충남대학교, 충남대, 축산학과, 충남대 안희권, 안희권 교수">
+	<meta name="description" content="충남대학교 축산환경특성화 대학원">
+	<meta property="og:type" content="website">
+	<meta property="og:title" content="충남대학교 축산환경특성화 대학원">
+	<meta property="og:description" content="충남대학교 축산환경특성화 대학원">
+	<meta property="og:image" content="/images/common/search-logo.png">
+	<meta property="og:image:width" content="200" />
+	<meta property="og:image:height" content="200" />
+	<meta property="og:url" content="http://gsle.or.kr">
+	<link rel="canonical" href="../index.html" />
+
+<!--[if lte IE 8]>
+<script src="../js/html5.js"></script>
+<![endif]-->
+<script>
+// 자바스크립트에서 사용하는 전역변수 선언
+var g5_url       = "http://gsle.or.kr";
+var g5_bbs_url   = "http://gsle.or.kr/bbs";
+var g5_is_member = "";
+var g5_is_admin  = "";
+var g5_is_mobile = "";
+var g5_bo_table  = "sub4_4";
+var g5_sca       = "";
+var g5_editor    = "smarteditor2";
+var g5_cookie_domain = "";
+</script>
+<script src="../js/jquery-1.12.4.min.js"></script>
+<script src="../js/jquery-migrate-1.4.1.min.js"></script>
+<script src="../js/jquery.menu.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/wrest.js"></script>
+<script src="../js/placeholders.min.js"></script>
+<script src="../js/dsso.js"></script>
+<script src="../js/dsso.default.js"></script>
+<script src="../js/menucmn.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="../js/slick.min.js"></script>
+<script src="../js/swiper/swiper.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js?ver=2304171"></script>
+<script src="../js/splitting.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+</head>
+<body>
+
+<script>
+AOS.init({
+	once: true,
+	duration: 1000
+});
+</script>
+
+<script>
+//스크롤 애니메이션
+$(function(){
+	var $animation_elements = $('.ani');
+	var $window = $(window);
+
+	function check_if_in_view() {
+	  var window_height = $window.height();
+	  var window_top_position = $window.scrollTop();
+	  var window_bottom_position = (window_top_position + window_height);
+	 
+	  $.each($animation_elements, function() {
+		var $element = $(this);
+		var element_height = $element.outerHeight();
+		var element_top_position = $element.offset().top+ 100;
+		var element_bottom_position = (element_top_position + element_height);
+	 
+		//check to see if this current container is within viewport
+		if ((element_bottom_position >= window_top_position) &&
+			(element_top_position <= window_bottom_position)) {
+		  $element.addClass('in-view');
+		} else {
+		  //$element.removeClass('in-view');
+		}
+	  });
+	}
+	$window.on('scroll resize', check_if_in_view);
+	$window.trigger('scroll');
+
+});
+</script>
+
+<div id="wrap">
+	
+	<!-- 헤더 -->
+	<header id="header">
+		<style>
+.allmenu .w1800{padding: 0 30px;}
+.allmenu .btn_x{right: 35px;}
+
+/* 241011 링크버튼 추가 */
+</style>
+
+<!--header-->
+<div id="header">
+	<!--headDiv-->
+	<div class="headDiv">
+		<!--logo-->
+		<div class="cs-logo">
+			<h1>
+				<a href="../index.html" class="logo-top">충남대학교 축산환경특성화대학원</a>
+			</h1>
+		</div>
+
+		<div class="rightBox">
+			<div class="link">
+			  <a href="https://plus.cnu.ac.kr/html/kr/" class="link1" target="_blank"><span>충남대학교 바로가기</span></a>
+			</div>
+			<div class="lan">
+				<a href="../eng/index.html" class="tit"><i class="xi-globus"></i>EN</a>
+				<!-- 				<a href="#" class="tit"><em>LO</em>GIN</a>
+				 -->
+			</div>
+			<!--햄버거메뉴-->
+			<div class="btn_menu">전체메뉴</div>
+		</div>
+
+		<!--gnb-->
+		<div class="" id="gnb">
+			<a href="../sub1_1.html" class="oneD wd01">대학원 소개</a>
+			<div class="twoD one">
+				<a class="" href="../sub1_1.html">인사말</a>
+				<a class="" href="../sub1_2.html">연락처(찾아오시는 길)</a>
+			</div>
+
+			<a href="board_sub2_1.html" class="oneD wd02">특성화 대학원</a>
+			<div class="twoD two">
+				<a class="" href="board_sub2_1.html">교수소개</a>
+				<a class="" href="../sub2_2.html">컨소시엄 참여기관</a>
+				<a class="" href="../sub2_3.html">교육과정</a>
+				<a class="" href="../sub2_4.html">지원 프로그램</a>
+			</div>
+
+			<a href="../sub3_1.html" class="oneD wd03">연구실(LEL)</a>
+			<div class="twoD thr">
+				<a class="" href="../sub3_1.html">연구실 소개</a>
+				<a class="" href="board_sub3_2_a.html">교수·재학생·졸업생</a>
+				<a class="" href="../sub3_3_a.html">연구분야</a>
+			</div>
+
+			<a href="../sub4_2.html" class="oneD wd04">연구활동</a>
+			<div class="twoD fou">
+				<!-- <a class="" href="board_sub4_1.html">연구과제</a> -->
+				<a class="" href="../sub4_2.html">교육프로그램</a>
+				<a class="" href="board_sub4_3.html">논문</a>
+				<a class="" href="board_sub4_4.html">학술대회</a>
+				<a class="" href="board_sub4_5.html">특허</a>
+				<a class="" href="board_sub4_6.html">수상</a>
+			</div>
+
+			<a href="board_sub5_1.html" class="oneD wd05">소식</a>
+			<div class="twoD fiv">
+				<a class="" href="board_sub5_1.html">공지사항</a>
+				<a class="" href="board_sub5_2.html">갤러리</a>
+				<a class="" href="board_sub5_3_b.html">뉴스</a>
+				<a class="" href="board_sub5_4.html">자료실</a>
+			</div>
+
+		</div>
+		<!--//gnb-->
+
+		<!--모바일 메뉴버튼 -->
+		<a href="javascript:" class="mobileMenu"></a>
+		<!--//모바일 메뉴버튼 -->
+	</div><!--//headDiv-->
+	<div style="display: none;" class="twoDbg"></div><!--전체 배경영역-->
+	
+	<!--햄버거메뉴_전체메뉴-->
+		<div class="allmenu">
+			<div class="w1800">
+				<h1><a href="../index.html">로고</a></h1>
+				<div class="btn_x">닫기</div>
+				<div class="allmenuwrap">
+					<div class="boxwrap">
+						<h2>대학원 소개</h2>
+						<ul>
+							<li><a href="../sub1_1.html">인사말</a></li>
+							<li><a href="../sub1_2.html">연락처(찾아오시는 길)</a></li>
+						</ul>
+					</div>
+					<div class="boxwrap">
+						<h2>특성화대학원</h2>
+						<ul>
+							<li><a href="board_sub2_1.html">교수소개</a></li>
+							<li><a href="../sub2_2.html">컨소시엄 참여기관</a></li>
+							<li><a href="../sub2_3.html">교육과정</a></li>
+							<li><a href="../sub2_4.html">지원 프로그램</a></li>
+						</ul>
+					</div>
+					<div class="boxwrap">
+						<h2>연구실</h2>
+						<ul>
+							<li><a href="../sub3_1.html">연구실 소개</a></li>
+							<li><a href="board_sub3_2_a.html">교수·재학생·졸업생</a></li>
+							<li><a href="../sub3_3_a.html">연구분야</a></li>
+						</ul>
+					</div>
+					<div class="boxwrap">
+						<h2>연구활동</h2>
+						<ul>
+							<!-- <li><a href="board_sub4_1.html">연구과제</a></li> -->
+							<li><a href="../sub4_2.html">교육프로그램</a></li>
+							<li><a href="board_sub4_3.html">논문</a></li>
+							<li><a href="board_sub4_4.html">학술대회</a></li>
+							<li><a href="board_sub4_5.html">특허</a></li>
+							<li><a href="board_sub4_6.html">수상</a></li>
+						</ul>
+					</div>
+					<div class="boxwrap">
+						<h2>소식</h2>
+						<ul>
+							<li><a href="board_sub5_1.html">공지사항</a></li>
+							<li><a href="board_sub5_2.html">갤러리</a></li>
+							<li><a href="board_sub5_3_b.html">뉴스</a></li>
+							<li><a href="board_sub5_4.html">자료실</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+</div> <!--//header -->
+
+<p class="dimdBg"></p>
+
+<!-- 모바일 gnb -->
+<div style="height: 1234px; right: -300px;" id="gnbM">
+	<!--탑메뉴-->
+	<div class="mUtil">
+		<a href="../index.html">Home</a>
+		<a href="javascript:" class="mobileMenuXbt"><i class="ri-close-line"></i><span>닫기</span></a>
+		<!--닫기버튼-->
+	</div>
+	<!--//탑메뉴-->
+
+	<!--gnbDiv-->
+	<div class="gnbDiv">
+		<!--대메뉴1-->
+		<a href="javascript:" class="one">대학원 소개</a>
+		<div style="display: none;" class="two">
+			<a href="../sub1_1.html" class="twoD">인사말</a>
+			<a href="../sub1_2.html" class="twoD">연락처(찾아오시는 길)</a>
+		</div>
+		<!--대메뉴2-->
+		<a href="javascript:" class="one">특성화대학원</a>
+		<div style="display: none;" class="two">
+			<a href="board_sub2_1.html" class="twoD">교수소개</a>
+			<a href="../sub2_2.html" class="twoD">컨소시엄 참여기관</a>
+			<a href="../sub2_3.html" class="twoD">교육과정</a>
+			<a href="../sub2_4.html" class="twoD">지원 프로그램</a>
+		</div>
+		<!--대메뉴3-->
+		<a href="javascript:" class="one">연구실</a>
+		<div style="display: none;" class="two">
+			<a href="../sub3_1.html" class="twoD">연구실 소개</a>
+			<a href="board_sub3_2_a.html" class="twoD">교수·재학생·졸업생</a>
+			<a href="../sub3_3_a.html" class="twoD">연구분야</a>
+		</div>
+		<!--대메뉴4-->
+		<a href="javascript:" class="one">연구활동</a>
+		<div style="display: none;" class="two">
+			<!-- <a href="board_sub4_1.html" class="twoD">연구과제</a> -->
+			<a href="../sub4_2.html" class="twoD">교육프로그램</a>
+			<a href="board_sub4_3.html" class="twoD">논문</a>
+			<a href="board_sub4_4.html" class="twoD">학술대회</a>
+			<a href="board_sub4_5.html" class="twoD">특허</a>
+			<a href="board_sub4_6.html" class="twoD">수상</a>
+		</div>
+		<!--대메뉴5-->
+		<a href="javascript:" class="one">소식</a>
+		<div style="display: none;" class="two">
+			<a href="board_sub5_1.html" class="twoD">공지사항</a>
+			<a href="board_sub5_2.html" class="twoD">갤러리</a>
+			<a href="board_sub5_3_b.html" class="twoD">뉴스</a>
+			<a href="board_sub5_4.html" class="twoD">자료실</a>
+		</div>
+		
+		<a href="https://plus.cnu.ac.kr/html/kr/" class="one" target="_blank">충남대학교 바로가기</a>
+	</div>
+	<!--//gnbDiv-->
+</div>
+<!-- //모바일 gnb -->
+
+<!--PC전체메뉴-->
+<script>
+$(function(){
+		$(".btn_menu").click(function(){
+		$(".allmenu").slideDown();
+	})
+	$(".btn_x").click(function(){
+		$(".allmenu").slideUp();
+	})
+})
+</script>
+
+<!--2019 EE362
+2020 EE463-->	</header>
+	
+	<!-- 비주얼 -->
+	<section id="s_visual">
+		<div class="svtxt ani">
+			<div class="area">
+				<h3>
+									연구활동								</h3>
+				<p>Livestock Environmental Lab</p>
+			</div>
+		</div>
+	</section>
+
+	<section id="location">
+		
+
+
+<style>
+#location{box-shadow: 0 15px 20px 0 rgb(0,0,0,0.05);}
+#location .loinn{display: flex; max-width: 1300px; margin: 0 auto;}
+#location .loinn > div{position: relative;}
+#location .loinn > div:after{content: ''; position: absolute; top: 50%; right: 0; transform: translateY(-50%); width: 1px; height: 25px; background: #eee;}
+#location .loinn > div > a{display: block; line-height: 70px;}
+
+#location .lohom{flex: 0 0 70px; text-align: center;}
+#location .lohom a i{font-size: 18px;}
+#location .lodepth{flex: 0 1 300px; position: relative;}
+#location .lodepth > a{position: relative;}
+#location .lodepth > a span{padding-left: 30px; font-family: 'Pretendard'; font-weight: 400; font-size: 17px; color: #333;}
+#location .lodepth > a i{position: absolute; top: 50%; right: 30px; transform: translateY(-50%); font-size: 22px; color: #ccc;}
+#location .lodepth ul{display: none; position: absolute; left: 0; top: 72px; width: 100%; padding: 10px 30px 15px; background: #fff; border: 1px solid #e8e8e8; border-top: 0; z-index:1;}
+#location .lodepth ul li a{display: block; padding: 8px 0; font-family: 'Pretendard'; font-weight: 400; font-size: 16px; color: #666; word-break: keep-all;}
+#location .lodepth ul li a:hover{font-weight: 500; color: #1c57a9; transition: all 0.5s ease;}
+#location .lodepth ul li a.active{font-weight: 500; color: #1c57a9;}
+
+@media (max-width: 640px){
+	#location .loinn > div > a{line-height: 55px;}
+	#location .lohom{flex: 0 0 55px;}
+	#location .lodepth{flex: 0 1 220px;}
+	#location .lodepth > a span{padding-left: 20px; font-size: 15px;}
+	#location .lodepth > a i{right: 15px;}
+	#location .lodepth ul{top: 56px; padding: 8px 20px 12px;}
+	#location .lodepth ul li a{padding: 5px 0; font-size: 14px; line-height: 16px;}
+}
+
+@media (max-width: 500px){
+	#location .loinn{flex-wrap: wrap;}
+	#location .lodepth2{margin-left: 55px;}
+}
+</style>
+
+
+
+<script>
+$(document).ready(function (){
+	$('#location .lodepth a').click(function(){
+		$('#location .lodepth ul').not($(this).siblings('ul')).hide();
+		$(this).siblings('ul').slideToggle(200);
+	});
+});
+</script>
+
+
+
+<div class="loinn">
+	<div class="lohom">
+		<a href="../index.html"><i class="ri-home-5-line"></i></a>
+	</div>
+	<div class="lodepth">
+		<a href="#void">
+			<span>
+									연구활동							</span>
+			<i class="xi-angle-down-min"></i>
+		</a>
+		<ul title="다른 대메뉴 링크들">
+			<li><a href="../sub1_1.html" >대학원 소개</a></li>
+			<li><a href="board_sub2_1.html" >특성화대학원</a></li>
+			<li><a href="../sub3_1.html" >연구실(LEL)</a></li>
+			<li><a href="board_sub4_1.html" class="active">연구활동</a></li>
+			<li><a href="board_sub5_1.html" >소식</a></li>
+		</ul>		
+	</div>
+	<div class="lodepth lodepth2">
+		<a target="_self" href="#void">
+			<span>
+									학술대회							</span>
+			<i class="xi-angle-down-min"></i>
+		</a>
+		<ul title="다른 대메뉴 링크들">
+																<!-- <li><a href="board_sub4_1.html" >연구과제</a></li> -->
+				<li><a href="../sub4_2.html" >교육프로그램</a></li>
+				<li><a href="board_sub4_3.html" >논문</a></li>
+				<li><a href="board_sub4_4.html" class="active">학술대회</a></li>
+				<li><a href="board_sub4_5.html" >특허</a></li>
+				<li><a href="board_sub4_6.html" >수상</a></li>
+								</ul>		
+	</div>
+</div>
+
+ 
+
+ 	</section>
+
+	<!-- 컨텐츠 -->
+	<section id="s_content">
+		<div class="area">
+			<div class="s_tit" id="top" data-aos="fade-down">
+				<h3 class="big">
+											학술대회									</h3>
+			</div>
+<script src="../js/viewimageresize.js"></script>
+
+<!-- 게시물 읽기 시작 { -->
+
+
+
+<article id="bo_v" style="width:100%">
+<!-- 게시물 상단 버튼 시작 { -->
+	    <div id="bo_v_top">
+	        
+	        <ul class="btn_bo_user bo_v_com">
+				<li><a href="board_sub4_4.html" class="btn_b01 btn" title="목록"><i class="fa fa-list" aria-hidden="true"></i><span class="sound_only">목록</span></a></li>
+	            	            	        		        </ul>
+	        <script>
+
+            jQuery(function($){
+                // 게시판 보기 버튼 옵션
+				$(".btn_more_opt.is_view_btn").on("click", function(e) {
+                    e.stopPropagation();
+				    $(".more_opt.is_view_btn").toggle();
+				})
+;
+                $(document).on("click", function (e) {
+                    if(!$(e.target).closest('.is_view_btn').length) {
+                        $(".more_opt.is_view_btn").hide();
+                    }
+                });
+            });
+            </script>
+	        	    </div>
+	    <!-- } 게시물 상단 버튼 끝 -->
+
+
+  <div class="publi_view">
+	<h5 class="txtTitle">퇴비화 과정 중 일별 암모니아 배출 예측을 위한 문헌 기반 기계학습 모델 개발</h5>
+		<dl>
+		<dt>Author</dt>
+		<dd>박성준</dd>
+	</dl>
+	
+		<dl>
+		<dt>Co-author</dt>
+		<dd>Riuh Wardhani, 안희권</dd>
+	</dl>
+	
+		<dl>
+		<dt>Conference</dt>
+		<dd>냄새환경학회</dd>
+	</dl>
+	
+	
+	
+	
+	<dl>
+		<dt>Year</dt>
+		<dd>2026</dd>
+	</dl>
+
+	<!--  -->
+	<!---->
+
+
+
+
+    
+    
+         <!-- 관련링크 시작 { -->
+    <section id="bo_v_link">
+           </section>
+    <!-- } 관련링크 끝 -->
+    
+	<div class="conWr">
+		<div id="bo_v_img">
+</div>
+<p style="text-align:center;font-weight:bold;font-size:12pt;"><span style="font-family:'맑은 고딕';font-size:14pt;">퇴비화 과정 중 일별 암모니아 배출 예측을 위한 문헌 기반 기계학습 모델 개발</span></p><p style="text-align:center;"><span lang="en-us" style="font-family:'맑은 고딕';letter-spacing:0pt;font-weight:bold;font-size:14pt;" xml:lang="en-us">Development of a Literature-Based Machine Learning Model for Predicting Daily Ammonia Emissions during Composting</span></p><p style="text-align:center;"><u><span style="font-family:'맑은 고딕';font-weight:bold;">박성준</span></u><u><span lang="en-us" style="font-family:'맑은 고딕';letter-spacing:0pt;font-weight:bold;vertical-align:super;" xml:lang="en-us">1</span></u><span lang="en-us" style="font-weight:bold;" xml:lang="en-us"> </span><span lang="en-us" style="font-family:'맑은 고딕';letter-spacing:0pt;font-weight:bold;" xml:lang="en-us">· Riuh Wardhani</span><span lang="en-us" style="font-family:'맑은 고딕';letter-spacing:0pt;font-weight:bold;vertical-align:super;" xml:lang="en-us">2</span><span lang="en-us" style="font-weight:bold;" xml:lang="en-us"> </span><span lang="en-us" style="font-family:'맑은 고딕';letter-spacing:0pt;font-weight:bold;" xml:lang="en-us">· </span><span style="font-family:'맑은 고딕';font-weight:bold;">안희권</span><span lang="en-us" style="font-family:'맑은 고딕';letter-spacing:0pt;font-weight:bold;vertical-align:super;" xml:lang="en-us">1,2,3*</span></p><p style="text-align:center;"><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;vertical-align:super;" xml:lang="en-us">1</span><span style="font-family:'한양신명조';">충남대학교 축산환경학과 석사과정</span></p><p style="text-align:center;"><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;vertical-align:super;" xml:lang="en-us">2</span><span style="font-family:'한양신명조';">충남대학교 낙농학과 박사과정</span></p><p style="text-align:center;"><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;vertical-align:super;" xml:lang="en-us">3</span><span style="font-family:'한양신명조';">충남대학교 동물바이오시스템과학과 교수</span></p><p style="text-align:center;">     </p><p></p><p style="text-align:center;font-weight:bold;font-size:14pt;">     </p><p></p><p>     </p><p></p><p><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;font-weight:bold;" xml:lang="en-us">1. </span><span style="font-family:'한양신명조';font-weight:bold;">서  론</span></p><p><span style="font-family:'한양신명조';">퇴비화는 가축분뇨를 비롯한 유기성 고형폐기물의 안정화와 자원화를 위한 대표적인 처리 방법이다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">. </span><span style="font-family:'한양신명조';">그러나 이 과정에서는 암모니아</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">(NH</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;vertical-align:sub;" xml:lang="en-us">3</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">) </span><span style="font-family:'한양신명조';">배출로 인한 질소 손실이 발생할 수 있으며</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">이는 퇴비의 비료 가치를 저하시킬 뿐 아니라 악취를 유발하고 입자상 물질 형성 및 질소 침적과 같은 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">2</span><span style="font-family:'한양신명조';">차 환경부하를 초래할 수 있다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">. </span><span style="font-family:'한양신명조';">따라서 퇴비화 과정에서의 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">NH</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;vertical-align:sub;" xml:lang="en-us">3</span><span lang="en-us" xml:lang="en-us"> </span><span style="font-family:'한양신명조';">배출을 정확하게 예측하는 것은 공정 관리와 양분 보전 측면에서 매우 중요하다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">. </span><span style="font-family:'한양신명조';">하지만 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">NH</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;vertical-align:sub;" xml:lang="en-us">3</span><span lang="en-us" xml:lang="en-us"> </span><span style="font-family:'한양신명조';">배출은 원료 특성</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">운전 조건</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">시간 경과에 따른 공정 변화가 복합적으로 작용한 결과로 나타나기 때문에</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">서로 다른 연구 결과를 포괄하는 일반화된 예측은 쉽지 않다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">. </span><span style="font-family:'한양신명조';">특히 퇴비화 기간</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">온도</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">수분</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">폭기</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">첨가제와 같은 요인들은 미생물 활성과 암모니아화 및 휘산 과정에 영향을 주어 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">NH</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;vertical-align:sub;" xml:lang="en-us">3</span><span lang="en-us" xml:lang="en-us"> </span><span style="font-family:'한양신명조';">배출 양상을 더욱 복잡하게 만든다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">.</span></p><p><span style="font-family:'한양신명조';">기존의 회귀분석은 이러한 반복측정형 퇴비화 데이터의 복잡한 상호작용을 충분히 설명하는 데 한계가 있다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">. </span><span style="font-family:'한양신명조';">반면 기계학습은 비선형 관계와 다양한 형태의 변수를 함께 다룰 수 있어 유용한 대안이 될 수 있다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">. </span><span style="font-family:'한양신명조';">그러나 문헌 기반 데이터에는 결측치</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">불일치한 처리구 표기</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">동일 실험 내 반복 측정값이 포함되어 있으므로</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">모델 개발 시에는 예측 정확도뿐 아니라 일반화 가능성도 함께 고려해야 한다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">. </span><span style="font-family:'한양신명조';">이에 본 연구에서는 문헌에서 수집한 일별 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">NH</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;vertical-align:sub;" xml:lang="en-us">3</span><span lang="en-us" xml:lang="en-us"> </span><span style="font-family:'한양신명조';">데이터를 활용하여 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">NH</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;vertical-align:sub;" xml:lang="en-us">3</span><span lang="en-us" xml:lang="en-us"> </span><span style="font-family:'한양신명조';">배출 예측용 기계학습 모델을 구축하고</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">정확성과 일반화 성능을 함께 평가하고자 하였다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">.</span></p><p><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;font-weight:bold;" xml:lang="en-us">2. </span><span style="font-family:'한양신명조';font-weight:bold;">연구 방법 </span></p><p><span style="font-family:'한양신명조';">본 연구에서는 총 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">626</span><span style="font-family:'한양신명조';">개의 일별 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">NH</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;vertical-align:sub;" xml:lang="en-us">3</span><span lang="en-us" xml:lang="en-us"> </span><span style="font-family:'한양신명조';">자료를 수집하였으며</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">이를 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">24</span><span style="font-family:'한양신명조';">개의 실험 시계열로 구성하였다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">. </span><span style="font-family:'한양신명조';">품질 검토를 거친 뒤 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">620</span><span style="font-family:'한양신명조';">개 자료를 최종 분석에 사용하였고</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">추정된 일자 자료 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">1</span><span style="font-family:'한양신명조';">개</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">극단치 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">1</span><span style="font-family:'한양신명조';">개</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">비정상적인 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">pH </span><span style="font-family:'한양신명조';">값을 보인 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">4</span><span style="font-family:'한양신명조';">개 자료는 제외하였다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">. </span><span style="font-family:'한양신명조';">예측 대상은 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">NH</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;vertical-align:sub;" xml:lang="en-us">3</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">_emission_g/kg_Initial TS</span><span style="font-family:'한양신명조';">로 표현된 일별 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">NH</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;vertical-align:sub;" xml:lang="en-us">3</span><span lang="en-us" xml:lang="en-us"> </span><span style="font-family:'한양신명조';">배출량이었다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">.</span></p><p><span style="font-family:'한양신명조';">목표값 누설을 방지하기 위해 예측 시점에 확보 가능한 변수만 사용하였다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">. </span><span style="font-family:'한양신명조';">이에 따라 누적 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">NH</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;vertical-align:sub;" xml:lang="en-us">3</span><span lang="en-us" xml:lang="en-us"> </span><span style="font-family:'한양신명조';">손실량</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">총질소</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">(TN) </span><span style="font-family:'한양신명조';">손실량</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">최고 온도 값</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">고온 유지 일수</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">최종 물질 특성과 같은 사후 정보는 제외하였다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">. </span><span style="font-family:'한양신명조';">최종 입력 변수에는 퇴비화 일수</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">송풍량</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">초기 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">C/N </span><span style="font-family:'한양신명조';">비</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">초기 함수율</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">일별 온도</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, pH, </span><span style="font-family:'한양신명조';">출처 정보</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">논문 제목</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">처리구 정보가 포함되었다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">. </span><span style="font-family:'한양신명조';">송풍량</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">온도</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, pH</span><span style="font-family:'한양신명조';">의 결측치는 삭제하지 않고 중앙값으로 대체하였으며</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">결측 여부를 별도 변수로 추가하여 정보 손실을 최소화하였다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">.</span></p><p><span style="font-family:'한양신명조';">데이터 분할은 행 단위가 아니라 실험 단위로 수행하였다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">. </span><span style="font-family:'한양신명조';">즉</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">동일 실험에서 얻어진 일별 자료가 학습용과 검증용에 동시에 포함되지 않도록 하였다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">. </span><span style="font-family:'한양신명조';">고정 분할에서는 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">19</span><span style="font-family:'한양신명조';">개 실험</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">(446</span><span style="font-family:'한양신명조';">개 자료</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">)</span><span style="font-family:'한양신명조';">을 학습용</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, 5</span><span style="font-family:'한양신명조';">개 실험</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">(174</span><span style="font-family:'한양신명조';">개 자료</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">)</span><span style="font-family:'한양신명조';">을 검증용으로 사용하였으며</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">원천 연구가 양쪽에 모두 포함되도록 구성하였다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">. </span><span style="font-family:'한양신명조';">또한 일반화 성능을 보다 안정적으로 평가하기 위해 전체 실험을 대상으로 그룹 기반 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">5-fold </span><span style="font-family:'한양신명조';">교차검증을 실시하였다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">.</span></p><p><span style="font-family:'한양신명조';">비교한 회귀 알고리즘은 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">ridge regression, random forest, XGBoost, CatBoost, LightGBM</span><span style="font-family:'한양신명조';">이었다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">. </span><span style="font-family:'한양신명조';">초기에는 처리구 정보를 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">one-hot encoding </span><span style="font-family:'한양신명조';">방식으로 반영하였으나</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">이후 새로운 처리구에 대한 일반화 성능</span></p><p>     </p><p></p><p>     </p><p></p><p>     </p><p></p><p><span style="font-family:'한양신명조';">을 높이기 위해 처리구 라벨을 문자 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">n-gram </span><span style="font-family:'한양신명조';">기반 특성으로 변환하였다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">. </span><span style="font-family:'한양신명조';">출처와 논문 제목은 메타데이터로 인코딩하였고</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">목표 변수는 변환 전 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">NH</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;vertical-align:sub;" xml:lang="en-us">3</span><span lang="en-us" xml:lang="en-us"> </span><span style="font-family:'한양신명조';">값과 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">log </span><span style="font-family:'한양신명조';">변환값을 모두 검토하였다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">. </span><span style="font-family:'한양신명조';">모델 평가는 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">R</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;vertical-align:super;" xml:lang="en-us">2</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, RMSE, MAE</span><span style="font-family:'한양신명조';">를 이용하였으며</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">최종 해석에는 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">SHAP </span><span style="font-family:'한양신명조';">분석을 적용하였다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">.</span></p><p><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;font-weight:bold;" xml:lang="en-us">3. </span><span style="font-family:'한양신명조';font-weight:bold;">결과 및 고찰 </span></p><p><span style="font-family:'한양신명조';">분석 결과</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">처리구 정보를 어떻게 표현하느냐에 따라 모델 성능이 뚜렷하게 달라졌다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">. one-hot encoding</span><span style="font-family:'한양신명조';">을 적용한 기본 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">XGBoost </span><span style="font-family:'한양신명조';">모델의 검증 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">R</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;vertical-align:super;" xml:lang="en-us">2</span><span style="font-family:'한양신명조';">는 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">0.561</span><span style="font-family:'한양신명조';">이었으나</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">출처와 제목 정보를 추가했을 때 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">0.708</span><span style="font-family:'한양신명조';">로 향상되었고</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">처리구를 문자 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">n-gram </span><span style="font-family:'한양신명조';">특성으로 바꾸자 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">0.761</span><span style="font-family:'한양신명조';">까지 증가하였다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">. </span><span style="font-family:'한양신명조';">이는 모델 종류 자체보다 처리구 정보를 어떻게 구조화하느냐가 예측 성능에 더 큰 영향을 줄 수 있음을 보여준다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">.</span></p><p><span style="font-family:'한양신명조';">최종적으로 가장 우수한 성능은 출처 및 제목 메타데이터</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">문자 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">n-gram </span><span style="font-family:'한양신명조';">처리구 특성</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">결측 지시 변수</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">그리고 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">log1p </span><span style="font-family:'한양신명조';">변환 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">NH</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;vertical-align:sub;" xml:lang="en-us">3</span><span style="font-family:'한양신명조';">를 사용한 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">LightGBM </span><span style="font-family:'한양신명조';">모델에서 나타났다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">. </span><span style="font-family:'한양신명조';">이 모델은 고정 검증에서 학습 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">R</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;vertical-align:super;" xml:lang="en-us">2</span><span lang="en-us" xml:lang="en-us"> </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">0.989, </span><span style="font-family:'한양신명조';">검증 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">R</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;vertical-align:super;" xml:lang="en-us">2</span><span lang="en-us" xml:lang="en-us"> </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">0.853, </span><span style="font-family:'한양신명조';">검증 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">RMSE 0.0513, </span><span style="font-family:'한양신명조';">검증 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">MAE 0.0368</span><span style="font-family:'한양신명조';">을 기록하였다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">. </span><span style="font-family:'한양신명조';">추가로 수행한 그룹 기반 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">5-fold </span><span style="font-family:'한양신명조';">교차검증에서는 전체 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">R</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;vertical-align:super;" xml:lang="en-us">2</span><span lang="en-us" xml:lang="en-us"> </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">0.828, RMSE 0.0849, MAE 0.0509</span><span style="font-family:'한양신명조';">를 나타냈으며</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, fold</span><span style="font-family:'한양신명조';">별 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">R</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;vertical-align:super;" xml:lang="en-us">2</span><span style="font-family:'한양신명조';">는 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">0.645~0.879 </span><span style="font-family:'한양신명조';">범위였다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">. </span><span style="font-family:'한양신명조';">이는 실험별 편차는 있으나 전반적으로 안정적인 예측 성능을 확보했음을 의미한다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">.</span></p><p><span style="font-family:'한양신명조';">한편</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">하이퍼파라미터 최적화는 최종 성능 향상에 크게 기여하지 않았다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">. </span><span style="font-family:'한양신명조';">일부 튜닝 모델은 기본 설정 모델보다 검증 성능이 오히려 낮았으며</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">적극적인 이상치 제거와 수치 스케일링 역시 핵심 성능 요인은 아니었다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">. </span><span style="font-family:'한양신명조';">이는 복잡한 파라미터 조정보다 적절한 변수 표현이 성능 개선에 더 중요했음을 시사한다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">.</span></p><p><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">SHAP </span><span style="font-family:'한양신명조';">분석 결과</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">주요 예측 변수는 처리구 관련 특성</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">일별 온도</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">퇴비화 일수</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">초기 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">C/N </span><span style="font-family:'한양신명조';">비</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">폭기율 결측 여부였다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">. </span><span style="font-family:'한양신명조';">이 가운데 직접 해석이 가능한 변수로는 온도와 퇴비화 일수의 영향이 가장 컸으며</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">이는 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">NH</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;vertical-align:sub;" xml:lang="en-us">3</span><span lang="en-us" xml:lang="en-us"> </span><span style="font-family:'한양신명조';">휘산이 공정 단계</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">미생물 활성</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">열적 조건과 밀접하게 연관된다는 기존 이해와 일치한다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">. </span><span style="font-family:'한양신명조';">초기 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">C/N </span><span style="font-family:'한양신명조';">비 역시 중요한 변수로 나타나</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">기질 조성이 질소 무기화와 휘산의 균형에 영향을 미침을 보여주었다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">. </span><span style="font-family:'한양신명조';">또한 처리구 특성이 중요하게 나타난 것은 첨가제 종류와 운전 방식이 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">NH</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;vertical-align:sub;" xml:lang="en-us">3</span><span lang="en-us" xml:lang="en-us"> </span><span style="font-family:'한양신명조';">배출에 큰 영향을 준다는 점을 시사한다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">.</span></p><p><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;font-weight:bold;" xml:lang="en-us">4. </span><span style="font-family:'한양신명조';font-weight:bold;">결  론</span></p><p><span style="font-family:'한양신명조';">본 연구는 엄격한 검증 전략과 적절한 처리구 표현 방식을 적용할 경우</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">비교적 소규모의 문헌 기반 데이터셋으로도 일별 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">NH</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;vertical-align:sub;" xml:lang="en-us">3</span><span lang="en-us" xml:lang="en-us"> </span><span style="font-family:'한양신명조';">배출량을 양호한 정확도로 예측할 수 있음을 보여주었다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">. </span><span style="font-family:'한양신명조';">특히 모델 종류 자체보다 처리구 정보를 어떻게 표현하느냐가 예측 성능 향상에 더 중요하게 작용하였으며</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">최종적으로는 </span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">LightGBM </span><span style="font-family:'한양신명조';">모델이 가장 우수한 성능을 나타냈다</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">. </span><span style="font-family:'한양신명조';">또한 온도</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span style="font-family:'한양신명조';">퇴비화 일수</span><span lang="en-us" style="font-family:'한양신명조';letter-spacing:0pt;" xml:lang="en-us">, </span><span></span></p>
+	</div>
+
+
+
+
+
+    
+
+
+
+</article>
+<!-- } 게시판 읽기 끝 -->
+
+<script>
+
+function board_move(href)
+{
+    window.open(href, "boardmove", "left=50, top=50, width=500, height=550, scrollbars=1");
+}
+</script>
+
+<script>
+$(function() {
+    $("a.view_image").click(function() {
+        window.open(this.href, "large_image", "location=yes,links=no,toolbar=no,top=10,left=10,width=10,height=10,resizable=yes,scrollbars=no,status=no");
+        return false;
+    });
+
+    // 추천, 비추천
+    $("#good_button, #nogood_button").click(function() {
+        var $tx;
+        if(this.id == "good_button")
+            $tx = $("#bo_v_act_good");
+        else
+            $tx = $("#bo_v_act_nogood");
+
+        excute_good(this.href, $(this), $tx);
+        return false;
+    });
+
+    // 이미지 리사이즈
+    $("#bo_v_atc").viewimageresize();
+});
+
+function excute_good(href, $el, $tx)
+{
+    $.post(
+        href,
+        { js: "on" },
+        function(data) {
+            if(data.error) {
+                alert(data.error);
+                return false;
+            }
+
+            if(data.count) {
+                $el.find("strong").text(number_format(String(data.count)));
+                if($tx.attr("id").search("nogood") > -1) {
+                    $tx.text("이 글을 비추천하셨습니다.");
+                    $tx.fadeIn(200).delay(2500).fadeOut(200);
+                } else {
+                    $tx.text("이 글을 추천하셨습니다.");
+                    $tx.fadeIn(200).delay(2500).fadeOut(200);
+                }
+            }
+        }, "json"
+    );
+}
+</script>
+<!-- } 게시글 읽기 끝 -->
+<style>
+	footer{border-top: 1px solid #eee;}
+</style>
+
+    </div>
+</div>
+
+</div>
+<!-- } 콘텐츠 끝 -->
+
+<hr>
+
+<!-- 하단 시작 { -->
+<footer>
+	<article class="back">
+		<div class="back_wr w1500">
+			<div class="ad_sub_wr">
+				<div class="ad_sub_L">
+					<img src="../images/common/f_logo.png" alt="">
+				</div>
+				<div class="ad_sub">
+					<p><span><i class="xi-maker"></i>Address</span><b>대전광역시 유성구 궁동 대학로 99, 충남대학교 농업생명과학대학 2호관 2405호</b></br></p>
+					<p><span><i class="xi-call"></i>Tel</span><b><a href="tel:042-821-7861">042-821-7861</a></b></p>
+					<p><span><i class="xi-maker"></i>E-mail</span><b><a href="mailto: gsle@cnu.ac.kr">gsle@cnu.ac.kr</a></b></p>
+				</div>
+			</div>
+			<p class="copy">Copyright ⓒ 2023. <b> Graduate school of livestock environment.</b> | All rights reserved | Designed by <a href="http://dsso.kr" class="dsso" target="blank">dsso.kr</a></p>
+		</div>
+	</article>											
+</footer>												
+
+<button type="button" id="top_btn">
+	<i class="xi-angle-up" aria-hidden="true"></i><span class="sound_only">상단으로</span>
+</button>
+<script>
+$(function() {
+	$("#top_btn").on("click", function() {
+		$("html, body").animate({scrollTop:0}, '500');
+		return false;
+	});
+	
+	$(window).scroll(function() {
+		var pos = $(window).scrollTop();
+			if (pos >= 300) {
+				$("#top_btn").addClass('on');
+			} else {
+				$("#top_btn").removeClass('on');
+			}
+		})
+	});
+</script>
+
+<button type="button" id="eng_btn" class="ani">
+	<a href="../eng/index.html">
+		<i class="xi-globus" aria-hidden="true"></i><span>EN</span>
+	</a>
+</button>
+<script>
+$(function() {
+	$(window).scroll(function() {
+		var pos = $(window).scrollTop();
+			if (pos >= 300) {
+				$("#eng_btn").addClass('on');
+			} else {
+				$("#eng_btn").removeClass('on');
+			}
+		})
+	});
+</script>
+
+<script>
+//Splitting
+Splitting();
+</script>
+
+
+<!-- } 하단 끝 -->
+
+<script>
+$(function() {
+    // 폰트 리사이즈 쿠키있으면 실행
+    font_resize("container", get_cookie("ck_font_resize_rmv_class"), get_cookie("ck_font_resize_add_class"));
+});
+</script>
+
+
+
+
+
+</body>
+</html>
+
+<!-- 사용스킨 : conference -->
