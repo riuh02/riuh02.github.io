@@ -535,7 +535,7 @@ $(document).ready(function (){
            </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">분뇨에서 암모니아(NH₃) 및 황화수소(H2S) 배출을 정확하게 측정하기 위해 단순화된 다중 챔버 분뇨(대변과 소변의 혼합물) 배양 시스템이 개발되었습니다. 기존 장비의 복잡성을 해결하는 이 방법론적 혁신은 개별 질량 유량 컨트롤러와 실시간 가스 분석기를 실용적인 24시간 복합 샘플링 접근 방식으로 대체합니다. 이 시스템은 공기 흐름(2L/분)과 습도가 제어된 6개의 챔버로 구성되어 있으며, 배출된 공기를 Tedlar 백으로 유도하여 신뢰할 수 있는 일일 정량화를 제공합니다. 알려진 농도의 NH₃(92ppm)를 빈 챔버에 주입하여 정확도를 평가했는데, 그 결과 챔버 간 큰 차이 없이 평균 회수율이 95.7%였습니다. 5일 동안 모든 챔버에서 동일한 분뇨 샘플을 배양하여 정확성을 평가했으며, 이는 일관된 NH₃ 배출률(변동 계수: 2.6%)을 보여줍니다. 적용 사례로서, 검증된 시스템을 사용하여 10일 배양 기간 동안 한우 소의 분뇨에서 나오는 NH3 및 H2S 배출에 대한 식이 조단백질(CP) 수준의 영향을 평가했습니다. 이 시스템은 배출 역학을 성공적으로 포착하여 CP가 높은 식단이 CP가 낮은 식단에 비해 일일 NH₃ 배출 속도(P &lt; 0.001)를 크게 증가시키는 동시에 누적 NH₃ 및 H2S 배출량이 식단의 CP 수준에 영향을 받지 않는다는 것을 확인했습니다. 궁극적으로 이 비용 효율적이고 표준화된 시스템은 복잡한 실험실 장비와 실제 영양 연구 사이의 격차를 해소하여 가축 냄새 배출을 완화하기 위한 식이 전략을 평가하기 위한 강력한 플랫폼을 제공합니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="font-size:11pt;">A simplified multi-chamber manure (mixture of feces and urine) incubation system was developed </span><span style="font-size:11pt;">to accurately measure ammonia (NH₃) and hydrogen sulfide (H2S) emissions from manure. Addressing the complexity of conventional equipment, this methodological innovation replaces individual mass flow controllers and real-time gas analyzers with a practical 24-hour composite sampling approach. The system comprises six chambers with controlled airflow (2 L/minute) and humidity, directing vented air into Tedlar bags for reliable daily quantification. Accuracy was evaluated by introducing a known concentration of NH₃ (92 ppm) into empty chambers, resulting in a mean recovery rate of 95.7% with no significant differences among chambers. Precision was assessed by incubating identical manure samples in all chambers over five days, demonstrating consistent NH₃ emission rates (coefficient of variation: 2.6%). As an application example, the validated system was used to evaluate the effects of dietary crude protein (CP) levels on NH3 and H2S emissions from manure of Hanwoo steers during a 10-day incubation. The system successfully </span><span style="font-size:11pt;">captured emission dynamics, clearly detecting that a high-CP diet significantly increased daily NH₃ emission rates (P &lt; 0.001) compared to lower-CP diets, while confirming that cumulative NH₃ and H₂S emissions remained unaffected by the dietary CP levels. Ultimately, this costeffective and standardized system bridges the gap between complex laboratory instrumentation and practical nutritional research, providing a robust platform for evaluating dietary strategies aimed at mitigating livestock odor emissions.</span></p>
@@ -713,7 +713,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -726,7 +726,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -740,12 +741,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

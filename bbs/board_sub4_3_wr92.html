@@ -530,7 +530,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">2001년 영국에서 구제역이 유행한 후, 아이오와주 천연자원부는 아이오와주립대학교 연구원들에게 아이오와주에서 질병이 발생할 경우 쇠고기 또는 젖소 사체의 긴급 처리를 위해 농장 내 퇴비화를 사용하는 것의 잠재적 효과(부패 속도 및 범위), 환경 영향(공기, 토양 및 수질), 생물보안(바이러스 병원체의 억제 및 불활성화)을 평가하도록 요청했습니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">Following the foot-and-mouth disease epidemic in Great Britain in 2001, the Iowa Department of Natural Resources asked researchers at Iowa State University to evaluate the potential effectiveness (rate and extent of decay), environmental impacts (air, soil, and water quality), and biosecurity (containment and inactivation of viral pathogens) of using on-farm composting for emergency disposal of beef or dairy cattle carcasses in the event of a disease outbreak in the State of Iowa.</span> </p>
@@ -708,7 +708,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -721,7 +721,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -735,12 +736,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

@@ -529,7 +529,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">본 연구에서는 모바일 냄새 알림 애플리케이션을 활용하여 냄새 관련 갈등에 대한 해결책을 모색하고, 냄새의 위치, 날짜, 빈도, 강도에 대한 정보를 수집하여 지역주민이 인지하는 냄새 정도를 분석하는 것을 목적으로 하였다. 실시된 861건의 평가 중 냄새 주의보의 89%가 '무취', '약함', '보통'으로 평가되었으며, 시설별 분석에서는 돼지농장, 공장, 축산장, 기타 축산농장에서 '강함' 또는 악취가 심한 냄새가 높은 빈도로 나타났습니다. 그러나 마을, 도심지/학교/공원 등 민원이 예상되는 지역에서는 반경 2km 이내에 악취 유발 시설이 있음에도 불구하고 악취로 인한 영향이 낮은 것으로 나타났다. 연구팀이 개발한 애플리케이션을 통해 수집된 데이터는 시민참여 악취환경 모니터링에 유용하며, 지자체 정책수립 및 환경개선에 활용될 것으로 기대된다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">This study aimed to explore solutions for odor-related conflicts using a mobile odor alert application, and to collect information on the location, date, frequency, and intensity of odor to analyze the degree of odor perceived by local residents. Of the 861 evaluations conducted, 89% of the odor alerts were rated as ‘odorless’,‘slight’, or ‘moderate’, and in the facility-based analysis, pig farms, factories, cattle farms, and other livestock farms showed a high frequency of ‘strong’or worse odor. However, in areas where complaints were expected, such as villages, downtown areas/schools/parks, it was found that despite the presence of odor-causing facilities within 2 km, the impact of odor was low. The data collected through the application developed by the research team is useful for citizen-participatory odor environmental monitoring and is expected to be used for policy making and environmental improvement by local …</span>
@@ -707,7 +707,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -720,7 +720,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -734,12 +735,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

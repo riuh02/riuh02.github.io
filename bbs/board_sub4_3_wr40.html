@@ -529,7 +529,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">본 연구는 젖소분뇨와 톱밥 혼합물을 처리하기 위한 반연속식 혼합로(SCFMR)의 최적 운전 조건을 평가하기 위해 수행되었다. 중온에서 바이오가스 부피가 크게 감소할 때까지 유기물 적재율(OLR)의 단계적 증가 또는 수리학적 체류 시간(HRT)의 감소를 활용했습니다( ). TS 13% 젖소 분뇨와 톱밥 혼합물을 공급한 SCFMR의 최적 작동 조건은 HRT가 25일이고 이에 상응하는 OLR이 . 이 조건에서 바이오가스 및 메탄 생산율은 각각 1.44 v/vd 및 1.12 v/vd(일일 반응기 부피당 바이오가스 부피)였으며 TVS 제거 효율은 37%에 달했습니다. 이처럼 높은 OLR을 달성한 성공적인 운전은 원기질인 젖소분뇨 및 톱밥 혼합물의 알칼리도가 8,000mg/L 이상인 특성으로 인해 반응기 알칼리도 농도가 14,500~15,600mg/L로 높은 데에 기인한다. 반응기 안정성 변수인 휘발성산과 알칼리도 농도비(V/A), 프로피온산과 아세트산 농도비(P/A)는 각각 0.11과 0.43으로 운전에 있어 매우 안정적인 것으로 나타났다. 전체 운전 기간 동안 반응기의 TS 함량은 7.2~10.4% 범위로 장기간 순응하므로 유리 암모니아 독성은 경험되지 않았습니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">This study was carried out to evaluate the optimum operational condition of Semi-continuously Fed and Mixed Reactor (SCFMR) to treat the dairy cow manure and saw dust mixture. Step-wise increase in organic loading rates (OLRs) or decrease in hydraulic retention times (HRTs) were utilized until the biogas volume became significantly decreased at mesophilic temperature (</span><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">). The optimum operating condition of the SCFMR fed with TS 13% dairy cow manure and saw dust mixture was found to be an HRTs of 25 days and its corresponding OLRs of </span><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">. At this condition the biogas and methane production rates were 1.44 v/vd and 1.12 v/vd (volume of biogas per volume of reactor per day), respectively and the TVS removal efficiency of 37% was achieved. The successful operation with such a high OLR was due to the high reactor alkalinity concentration of 14,500~ 15,600 mg/L as </span><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);"> as a result of the characteristic of the original substrate, dairy cow manure and saw dust mixture whose alkalinity was more than 8,000 mg/L as </span><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">. The parameters for the reactor stability, the ratios of volatile acids and alkalinity concentrations (V/A) and the ratio of propionic acid and acetic acid concentrations (P/A) appeared to be 0.11 and 0.43, respectively, that were greatly stable in operation. Free ammonia toxicity was not experienced due to the long term acclimation by the reactor TS content ranged 7.2~ 10.4% during the entire operational period.</span> </p>
@@ -707,7 +707,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -720,7 +720,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -734,12 +735,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

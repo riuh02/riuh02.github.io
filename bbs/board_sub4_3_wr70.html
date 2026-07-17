@@ -534,7 +534,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">가금류와 가축의 지역적 재앙적 손실로 인해 북미 환경 관리들은 매장보다 토양과 얕은 지하수에 대한 오염 위험이 적은 긴급 농장 내 폐기 대안을 모색하게 되었습니다. 유해의 생분해와 그에 따른 결과물의 토지 적용은 미국과 캐나다 전역에서 일상적인 가금류, 돼지 및 소의 폐사 관리를 위해 사용되며, 영양분과 기타 잠재적 오염 물질을 땅속 깊숙한 지하수에 두는 대신 표토와 작물 생산 주기로 재활용하기 때문에 매장보다 더 환경 친화적이라고 종종 인용됩니다. 그러나 시간과 자원이 제한된 긴급 상황에서는 보호되지 않은 토양에 건설된 보호되지 않은 윈드로에서 생물적 감소가 수행될 가능성이 높습니다. 이는 국지적인 토양 오염을 일으킬 수 있는 조건입니다. 긴급 생물 저감 절차와 관련된 오염은 생물 저감 현장 아래 토양의 생물 저감 전후 농도를 비교하여 평가되었습니다. 1.2m 깊이에서 작지만 통계적으로 유의미한(p&lt;0.05) 염화물 증가는 생물학적 환원 침출수가 이 깊이에 도달했음을 나타냅니다. 총 질소 %와 총 탄소 %의 상당한 증가는 토양의 상부 15cm에서만 관찰되었지만 총 암모니아-질소의 큰 증가는 30-90cm 깊이에서 관찰되었습니다. 생물학적 환원에 의해 토양에 추가된 N의 총 질량은 소 사체에서 추정된 총 N의 10-25%였으며, 이는 생물학적 환원이 매장보다 토양과 얕은 지하수에 대한 오염 위협이 더 낮다는 것을 나타냅니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(34,34,34);font-family:Merriweather, serif;font-size:18px;background-color:rgb(255,255,255);">Catastrophic regional losses of poultry and livestock have caused environmental officials in North America to seek emergency on-farm disposal alternatives that pose less pollution risk to soil and shallow groundwater than burial. Bio-decomposition of remains followed by land application of the resulting product is used throughout the U.S. and Canada for management of routine poultry, swine, and cattle mortalities, and is often cited as being more environmentally friendly than burial since it recycles nutrients and other potential pollutants into the topsoil and crop production cycle, rather than placing them deeper in the ground and closer to groundwater. During emergencies, however, when time and resources are limited, bio-reduction is likely to be done in unsheltered windrows constructed on unprotected soil—conditions that could cause localized soil pollution. Pollution associated with emergency bio-reduction procedures was assessed by comparing pre- and post-bio-reduction concentrations in soil beneath the bio-reduction sites. Small but statistically significant (</span><i style="color:rgb(34,34,34);font-family:Merriweather, serif;font-size:18px;background-color:rgb(255,255,255);">p</i><span style="color:rgb(34,34,34);font-family:Merriweather, serif;font-size:18px;background-color:rgb(255,255,255);"> &lt; 0.05) increases in chloride at depths of 1.2 m indicated that bio-reduction leachate reached this depth. Significant increases in % total nitrogen and % total carbon were observed only in the top 15 cm of soil, but large increases in total ammonia–nitrogen were observed at depths of 30–90 cm. The total mass of N added to soil by bio-reduction was 10–25% of the estimated total N in the cattle carcasses, indicating that bio-reduction poses a lower pollution threat to soil and shallow groundwater than burial.</span> </p>
@@ -712,7 +712,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -725,7 +725,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -739,12 +740,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

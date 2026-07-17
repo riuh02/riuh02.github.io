@@ -534,7 +534,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">가축 분뇨는 유기물의 미생물 분해로 인한 악취 외에도 병원균(예: 구제역-FMD) 및 오염물질의 주요 원인입니다. 본 연구에서는 돼지 분뇨의 뇌심근염 바이러스(EMCV) 치료를 위한 고온성 호기성 산화(TAO) 방법의 타당성을 전통적인 알칼리 방법을 참조하여 조사했습니다. 본 연구 과정에서 화학적 산소 요구량(COD)과 영양분 감소에 대해 두 가지 치료법의 상대적 성능도 테스트했습니다. TAO와 알칼리법은 총 킬달질소(TKN) 농도를 각각 52%, 알칼리법은 23% 감소시켰습니다. NH4-N의 경우 각각 67%, 11% 감소했습니다. 마찬가지로 전자도 후자에 비해 EC를 크게 줄였습니다. 이 연구에 따르면, 알칼리 처리 시스템에 의한 EMCV의 비활성화는 후자에 의한 EMCV 감소를 1시간 내에 99.97%에 도달한 반면, 전자는 약간 느리게(3시간까지) 동일한 작업을 수행했습니다. 우리 연구의 전반적인 결과는 TAO 방법이 감염된 분뇨를 처리하여 미생물을 허용 가능한 수준으로 줄이는 데 알칼리 방법과 동등하거나 더 우수하다는 것을 시사합니다. 따라서 TAO 시스템은 가축분뇨의 위생적인 ​​관리를 위해 알칼리 처리방법에 대한 적절한 대안으로 여겨진다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">Livestock manure is a major source of pathogens (eg, foot and mouth disease–FMD) and pollutants, in addition to odors from microbial degradation of organic matter. In this study, the feasibility of a Thermophilic Aerobic Oxidation (TAO) method for the treatment of Encephalomyocarditis virus (EMCV) in swine manure was investigated in reference to a classical alkaline method. In the course of this study, relative performance of two treatments was also tested against chemical oxygen demand (COD) and nutrient reduction. The TAO and alkaline method reduced total kjeldahl nitrogen (TKN) concentration by 52% and alkaline method 23%, respectively. In the case of NH4–N, they reduced 67 and 11%, respectively. Similarly, the former also reduced the EC significantly compared to the latter. Based on this study, deactivation of the EMCV by the alkaline treatment system reduced EMCV by the latter approached 99.97% within an hour, whereas the former did the same a little slowly (by 3 hours). The overall results of our study suggest that TAO method is equally good or better than the alkaline method in treating infected manure to reduce microorganisms to an acceptable level. Thus, TAO system is considered an appropriate alternative to the alkaline treatment method for hygienic management of livestock manure.</span> </p>
@@ -712,7 +712,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -725,7 +725,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -739,12 +740,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

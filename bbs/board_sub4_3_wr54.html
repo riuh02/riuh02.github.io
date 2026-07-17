@@ -534,7 +534,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">3개의 900L 회분식 반응기에서 쇠고기, 돼지, 가금류 분뇨를 포함한 세 가지 유형의 동물 폐기물에 대한 생물건조 기술이 연구되었습니다. 혼합물의 초기 수분 함량을 약 60% w.b로 줄이기 위해 실험 전에 옥수수 여대를 각 거름 유형과 혼합했습니다. 각 유형의 거름-옥수수 스토버 혼합물에 대해 3개의 반복 실험을 한 번에 조사했습니다. 공기를 혼합물을 통해 하강 기류 모드로 이동시키기 위해 송풍기를 반응기 출구에 연결했습니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">A biodrying technique was explored for three types of animal wastes including beef, swine, and poultry manures in three 900-L batch reactors. Corn stover was mixed with each manure type prior to the experiments to reduce the initial moisture content of the mixture to about 60% w.b. Three replicates of each type of manure-corn stover mixture were investigated at a time. Blowers were connected to the reactors outlets to move air in a downdraft mode through the mixtures.</span> </p>
@@ -712,7 +712,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -725,7 +725,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -739,12 +740,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

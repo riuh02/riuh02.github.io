@@ -526,7 +526,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">가축 사체를 퇴비화하는 것은 사체를 토양 개량제로 유용한 무취의 부식질 같은 물질로 전환시키는 경제적, 생물학적으로 안전한 방법입니다. 최종 제품의 품질을 결정하는 주요 요소 중 하나는 안정성입니다. 본 연구에서는 호기성 및 혐기성 조건에서 작동하는 실험실 설정을 사용하여 사망률 퇴비화를 시뮬레이션했습니다. 85μm Carboxen/PDMS SPME 섬유 코팅과 10분 샘플링 시간을 사용하여 부패하는 식물(옥수수 사일리지) 및 동물(잘게 썬 돼지 몸 전체) 조직의 상부 공간을 샘플링합니다. 화합물은 다차원 가스 크로마토그래피-질량 분석-후각계(MDGC-MS-O) 시스템에서 분리 및 식별됩니다. 황 함유 화합물(메틸 메르캅탄, 탄소이황화물, 디메틸 이황화물, 디메틸 삼황화물, 1,4-디메틸 사황화물)과 1-H-인돌 및 3-메틸-1H-인돌이 동물 조직 부패의 지표로 발견됩니다. 이들 화합물의 최고 면적 수는 퇴비화 시간 8주 후에 감소하는 것으로 나타났습니다. VOC 배출의 이러한 경향은 미생물 활동의 감소와 퇴비의 안정화로 설명될 수 있습니다. 이러한 결과는 호흡측정 측정으로도 뒷받침됩니다. 60일 동안 호기성 퇴비화 동물 조직에서 측정된 호흡률은 신선한 동물 조직 호흡률의 절반입니다. 또한 호기성 및 혐기성 조건에서 퇴비화되는 동식물 재료의 VOC 배출량에서도 상당한 차이가 관찰됩니다. 혐기성 분해 동안 검출된 화합물의 수는 호기성 분해에서 검출된 것보다 두 배나 많습니다. VOC 배출량을 모니터링하는 것은 폭기 상태와 실제 퇴비 퇴비 완성을 평가하는 데 유용한 도구가 될 수 있다는 결론을 내릴 수 있습니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(102,102,102);font-family:'Nexus Sans Pro', sans-serif;font-size:16px;background-color:rgb(255,255,255);">Composting livestock carcasses is an economically and biologically safe method to convert carcasses into odorless, humus like material useful as a soil amendment. One of the key factors to determine the quality of the end product is stability. In this study, mortality composting is simulated using a laboratory set-up operating under aerobic and anaerobic conditions. 85 μm Carboxen/PDMS SPME fiber coating and 10 minutes sampling time are used to sample headspace of decaying plant (corn silage) and animal (shredded whole pig body) tissues. Compounds are separated and identified on a multidimensional gas chromatography-mass spectrometry-olfactometry (MDGC-MS-O) system. Sulfur containing compounds (methyl mercaptan, carbondisulfide, dimethyl disulfide, dimethyl trisulfide, 1,4-dimethyl tetra sulfide) and 1-H-indole and 3-methyl-1H-indole are found as indicators of decaying animal tissue. Peak area counts of these compounds show a decrease after eight week composting time. This trend in VOC emissions can be explained by decrease in the microbial activity and stabilization of the composts. These results are also supported with respirometric measurements. The measured respiration rates of aerobically composted animal tissues during 60 days are half of the respiration rates of fresh animal tissues. Also, a significant difference is observed in VOC emissions from plant and animal materials composted under aerobic and anaerobic conditions. The number of detected compounds during anaerobic decomposition is twice as much as the ones detected under aerobic decomposition. It can be concluded that monitoring VOC emissions can be a useful tool to estimate aeration status and completion of real life mortality composts.</span> </p>
@@ -704,7 +704,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -717,7 +717,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -731,12 +732,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

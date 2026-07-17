@@ -529,7 +529,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">낙농 분뇨 및 톱밥 침구 혼합물의 고체 혐기성 소화의 바이오가스 생산 및 유기 물질 제거 성능에 대한 혼합의 영향을 22L 용량의 실험실 규모 소화기를 사용하여 평가했습니다. 37℃에서 45일 동안 혐기성 소화를 한 후, 혼합되지 않은 테스트 장치의 누적 메탄 수율(73.1 N mL/g-VS)은 혼합된 테스트 장치(56.3 N mL/g-VS)의 거의 1.3배였습니다. 비혼합 시험 장치의 생분해성 휘발성 고형물 제거율은 67%로 혼합 시험 장치보다 거의 28% 더 높았습니다. 우리의 결과는 바이오가스 생산 및 유기물질 감소 측면에서 비혼합 조건이 혼합 조건보다 더 나은 것으로 나타났습니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">The influence of mixing on biogas production and organic material removal performance of solid state anaerobic digestion of dairy manure and sawdust bedding mixtures was evaluated using 22 L volume lab-scale digesters. After 45 days of anaerobic digestion at 37 C, cumulative methane yield of unmixed test unit (73.1 N mL/g-VS) was almost 1.3 times of that of mixed one (56.3 N mL/g-VS). The biodegradable volatile solids removal rate of unmixed test unit was 67%, which was almost 28% greater than mixed one. Our results reveal that unmixed condition is better than mixed one in terms of biogas production and organic material reduction.</span> </p>
@@ -707,7 +707,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -720,7 +720,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -734,12 +735,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

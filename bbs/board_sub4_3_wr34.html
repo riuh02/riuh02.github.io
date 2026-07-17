@@ -529,7 +529,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">수분 함량은 동물 분뇨를 퇴비화하는 동안 미생물의 생리학적 특성과 고형 매트릭스의 물리적 구조에 영향을 미칩니다. 수분 함량이 적정 수준으로 유지되면 호기성 미생물은 미생물 활동이 증가하여 퇴비화 과정에서 더 많은 활성 산소 소비를 나타냅니다. 본 연구에서는 압력 센서 방식으로 측정한 산소흡수율을 바탕으로 두 가지 깔짚 재료(톱밥, 왕겨)와 두 가지 깔짚과 우분의 혼합물(BS, 육우 거름+톱밥; BR, 육우 거름+왕겨)의 퇴비화를 위한 최적 수분 수준을 결정했습니다. 광범위한 산소 흡수율(0.3 ~ 33.3 mg O 2 /g VS d)이 수분 수준 및 퇴비화 공급원료 유형의 함수로 모니터링되었습니다. 각 재료의 최대 산소 소비량은 포화 상태 근처에서 관찰되었으며, 보수 용량의 75%~98% 범위였습니다. BS와 BR의 최적 수분 함량은 습식 기준으로 각각 70%와 57%였습니다. BS의 최적 수분 함량은 포화 상태에 가까웠지만, 톱밥의 거친 입자 크기와 벌킹 효과로 인해 자유 공기 공간은 호기성 퇴비화에 유리한 수준(30% 이상)을 유지했습니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(33,33,33);font-family:Cambria, 'Cambria Math', stixgeneral, 'Times New Roman', Times, serif;font-size:20px;background-color:rgb(255,255,255);">Moisture content influences physiological characteristics of microbes and physical structure of solid matrices during composting of animal manure. If moisture content is maintained at a proper level, aerobic microorganisms show more active oxygen consumption during composting due to increased microbial activity. In this study, optimum moisture levels for composting of two bedding materials (sawdust, rice hull) and two different mixtures of bedding and beef manure (BS, Beef cattle manure+sawdust; BR, Beef cattle manure+rice hull) were determined based on oxygen uptake rate measured by a pressure sensor method. A broad range of oxygen uptake rates (0.3 to 33.3 mg O</span><span style="font-size:15px;vertical-align:baseline;color:rgb(33,33,33);font-family:Cambria, 'Cambria Math', stixgeneral, 'Times New Roman', Times, serif;background-color:rgb(255,255,255);">2</span><span style="color:rgb(33,33,33);font-family:Cambria, 'Cambria Math', stixgeneral, 'Times New Roman', Times, serif;font-size:20px;background-color:rgb(255,255,255);">/g VS d) were monitored as a function of moisture level and composting feedstock type. The maximum oxygen consumption of each material was observed near the saturated condition, which ranged from 75% to 98% of water holding capacity. The optimum moisture content of BS and BR were 70% and 57% on a wet basis, respectively. Although BS’s optimum moisture content was near saturated state, its free air space kept a favorable level (above 30%) for aerobic composting due to the sawdust’s coarse particle size and bulking effect.</span> </p>
@@ -707,7 +707,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -720,7 +720,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -734,12 +735,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

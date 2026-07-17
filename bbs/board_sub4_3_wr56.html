@@ -534,7 +534,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">특정 휘발성 유기 화합물(VOC)을 생물안전한 사체 분해의 지표로 모니터링하는 것은 퇴비화 과정의 진행 및 완료를 테스트하는 유망한 방법입니다. 이 연구의 목적은 퇴비화 장치의 기존 통기 덕트를 실제 샘플링 위치로 사용할 수 있는 가능성을 테스트하는 것이었습니다. 두 번째 목적은 퇴비화 장치 내부의 기류 패턴에 대한 정보를 밝히기 위해 폭기 덕트의 마커 VOC 농도를 사용하는 타당성을 테스트하는 것이었습니다. 마커 VOC 농도는 상부 폭기 덕트에서 상당히 높았으며 이 덕트는 일반적으로 퇴비화 장치 내부에 특수 공기 샘플링 프로브를 배치하는 대신 공기 샘플을 수집하는 데 사용할 수 있습니다. 때때로 퇴비화 장치 내부의 공기 흐름 방향이 바뀔 수 있습니다. 마커 VOC 농도는 퇴비화 장치 내부의 공기 흐름 방향을 결정하는 데 사용될 수 있습니다. 본 연구에서는 상부 폭기 덕트에서 더 높은 VOC 농도가 측정되었으며 이 덕트가 배출구인 것으로 나타났습니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(31,31,31);font-family:ElsevierGulliver, Georgia, 'Times New Roman', Times, STIXGeneral, 'Cambria Math', 'Lucida Sans Unicode', 'Microsoft Sans Serif', 'Segoe UI Symbol', 'Arial Unicode MS', serif;font-size:16px;">Monitoring specific volatile organic compounds (VOCs) as markers of biosecure carcass degradation is a promising method to test progress and completion of the composting process. The objective of this study was to test the feasibility of using existing aeration ducts in composting units as practical sampling locations. The secondary objective was to test the feasibility of using marker VOC concentrations in aeration ducts to elucidate information about airflow patterns inside composting units. Marker VOC concentrations were significantly higher in the upper aeration duct and this duct can typically be used to collect air samples instead of placing special air sampling probes inside the composting units. Occasionally, the airflow direction inside composting units can change. Marker VOC concentrations can be used to decide the airflow direction inside the composting units. In this study, higher VOC concentrations were measured from the upper aeration duct, and this duct was shown to be an outlet.</span> </p>
@@ -712,7 +712,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -725,7 +725,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -739,12 +740,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

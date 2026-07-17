@@ -534,7 +534,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">젖소분뇨와 톱밥 혼합물을 처리하기 위한 반연속공급 및 혼합로(SCFMR)의 최적 운전조건을 파악하기 위한 노력이 이루어졌다. 중온성 온도(35°C)에서 SCFMR의 바이오가스 부피가 크게 감소할 때까지 유기물 적재율(OLR)의 단계적 증가와 수리학적 체류 시간(HRT)의 감소가 활용되었습니다. TS 15% 젖소분뇨와 톱밥 혼합물을 공급한 SCFMR의 최적 작동 조건은 HRT가 30~35일, 해당 OLR이 3.5~4.3kgVS/m3-day인 것으로 나타났습니다. 바이오가스 및 메탄 생산율의 최적 범위는 각각 반응기 부피당 일일 바이오가스 부피 1.36~1.47 부피(v/vd)와 1.0~1.14 v/vd였습니다. 이러한 결과는 원기질과 젖소거름, 톱밥 혼합물을 첨가한 SCFMR의 알칼리도 농도가 높아서 알칼리도가 ...</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">Efforts were made to identify the optimum operational condition of Semi-continuously Fed and Mixed Reactor (SCFMR) to treat the dairy cow manure and saw dust mixture. Step-wise increase in organic loading rates (OLRs) and decrease in hydraulic retention times (HRTs) were utilized until the biogas volume became significantly decreased in SCFMR at mesophilic temperature (35 C). The optimum operating condition of the SCFMR fed with TS 15% dairy cow manure and saw dust mixture was found to be at HRTs of 30~ 35 days and its corresponding OLRs of 3.5~ 4.3 kgVS/m3-day. The optimum ranges of biogas and methane production rates were 1.36~ 1.47 volume of biogas per volume of reactor per day (v/vd) and 1.0~ 1.14 v/vd, respectively. This result was due to the high alkalinity concentration of SCFMR fed with the original substrate, dairy cow manure and saw dust mixture whose alkalinity was more than …</span> </p>
@@ -712,7 +712,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -725,7 +725,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -739,12 +740,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

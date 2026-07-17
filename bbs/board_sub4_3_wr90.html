@@ -534,7 +534,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">자열 호열성 호기성 소화(ATAD) 시스템의 성능을 연구하여 암모니아와 같은 질소 손실이 배기 가스 응축기에 의해 영향을 받는지 확인했습니다. 시스템은 8일 동안 8m3의 돼지분뇨 슬러리를 처리하는 동안 콘덴서 유무에 관계없이 작동되었습니다. 응축기가 있는 시스템(SWC)은 8일 동안 2일 동안 반응기 온도를 40C 이상으로 유지한 반면, 응축기가 없는 시스템(SWOC)은 6일 동안 40C 이상을 유지했습니다. SWC는 대부분 중온성 조건에서 반응기 온도를 유지한 반면 SWOC는 호열성 조건에서 유지했습니다. 두 실행의 운전 조건 차이는 주로 대기 온도의 차이로 인해 발생했습니다. SWC(SCOD: 62%, VS: 41%)의 용해성 화학적 산소요구량(SCOD) 및 휘발성 고형물(VS) 제거효율은 SWOC(SCOD: 40%, VS: 20%)보다 높았다. SWC의 총킬달질소(TKN) 제거효율(7%)은 SWOC(25%)에 비해 낮았다. SWC의 총 휘발성 지방산(VFA) 농도는 6일 후에 임계값인 0.23g 총 VFA/L보다 낮은 것으로 관찰되었으며, SWOC는 3일 후에 임계값 아래로 진행되었습니다. 두 실행 모두에서 불쾌한 냄새 배출이 관찰되지 않았으며, 이는 ATAD 시스템의 사용이 좋은 냄새 제거 전략일 수 있음을 시사합니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">The performance of an autothermal thermophilic aerobic digestion (ATAD) system was studied to determine if nitrogen loss, as ammonia, was affected by an exhaust gas condenser. The system was run with and without a condenser while treating 8 m3 of piggery slurry for 8 days. The system with a condenser (SWC) maintained the reactor temperatures above 40 C for 2 days during the 8 days run, while the system without a condenser (SWOC) remained above 40 C for 6 days. The SWC maintained the reactor temperatures mostly at mesophilic conditions while the SWOC at thermophilc conditions. Differences in operation conditions for the two runs were mainly caused by differences in atmospheric temperatures. Soluble chemical oxygen demand (SCOD) and volatile solids (VS) removal efficiencies of the SWC (SCOD: 62%, VS: 41%) were higher than those of the SWOC (SCOD: 40%, VS: 20%). The total Kjeldal nitrogen (TKN) removal efficiency of the SWC (7%) was less than that of the SWOC (25%). The concentration of total volatile fatty acids (VFA) in the SWC was observed to be lower than the threshold value of 0.23 g total VFA/L after 6 days, while the SWOC progressed below the threshold value after 3 days. No offensive odor emissions were observed in either run, which suggest that the use of the ATAD system may be a good odor removal strategy.</span> </p>
@@ -712,7 +712,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -725,7 +725,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -739,12 +740,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

@@ -529,7 +529,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">본 연구는 지상통풍시스템을 설치한 비육돈사를 대상으로 외부온도 변화에 따른 암모니아 배출특성을 평가하기 위해 수행되었다. 외부 공기의 온도는 돼지사로 유입되기 전에 지상 수로에서 조절되었기 때문에 환기율의 계절적 차이는 일반적인 수준보다 크지 않았습니다. 따라서 추운 날씨의 암모니아 배출량(62.4±9.4 g day-1 AU-1)은 더운 날씨의 암모니아 배출량(54.8±6.3 g day-1 AU-1)보다 높았으며(p&lt; 0.05), 그 결과는 일반적인 경향과 달랐다. 온도 조절 시스템이 설치된 돈사의 경우 추운 날씨와 더운 날씨에 환기율 차이가 적어 추운 날씨에 실내 공기 상태를 개선하고 더운 날씨의 암모니아 배출을 줄일 수 있습니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">This study was conducted to evaluate the ammonia emission characteristics depend on outside temperature variation, from swine finishing barn installed with ground channel ventilation system. Because the temperatures of outside air were tempered in the ground channel before flowed into the swine barn, the seasonal differences in ventilation rate were not greater than the general levels. Therefore, cold weather ammonia emissions (62.4±9.4 g day-1 AU-1) were higher than those (54.8±6.3 g day-1 AU-1) of hot weather (p&lt; 0.05), which result was different from the general trend. In the case of swine barn installed with temperature control system caused less ventilation rate differences during cold and hot weather, it is possible to improve the room air condition during cold weather and reduce the hot weather ammonia emissions.</span> </p>
@@ -707,7 +707,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -720,7 +720,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -734,12 +735,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

@@ -534,7 +534,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">퇴비화는 나뭇잎, 덤불 등 상대적으로 건조한 유기 물질을 재활용하는 방법으로 빠르게 받아들여지고 있으며, 대체 처리 비용이 높을 경우 예지된 잔디 및 탈수된 하수 슬러지와 같은 습한 물질도 재활용할 수 있습니다. 그러나 수분 함량이 60% 이상으로 증가하면 건식 벌킹 개량의 필요성으로 인해 개량물 직접 구매와 반응기 용량 및 재료 취급 요구 사항 증가로 인해 퇴비화 비용이 증가합니다. 수분 함량이 높은 재료는 또한 산소 전달 감소로 인해 혐기성 악취 형성 위험이 증가합니다(Miller 1991). 이러한 비용과 운영상의 어려움은 농업용 거름과 같은 수분 함량이 높은 물질을 퇴비화할 기회를 제한하는 경우가 많습니다. 지난 수십 년 동안 가축 생산의 규모의 경제로 인해 가축 밀도가 증가하고 분뇨 관리가 이루어졌습니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">Composting has gained rapid acceptance as a method of recycling relatively dry organic materials such as leaves and brush and, when alternative disposal costs are high, even moist materials such as grass clippings and dewatered sewage sludges. However, as moisture contents rise above 60%, the need for a dry bulking amendment increases the costs of composting, both by direct purchases of amendment and though increased reactor capacity and materials handling requirements. High moisture mate-rials also present increased risks of anaerobic odor formation through reduced oxygen transport (Miller 1991). These costs and operational challenges often constrain the op-portunities to compost high moisture materials such as agricultural manures. During the last several decades economies of scale in livestock production have been increasing livestock densities and creating manure management …</span> </p>
@@ -712,7 +712,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -725,7 +725,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -739,12 +740,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

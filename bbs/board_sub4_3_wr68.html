@@ -534,7 +534,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">생물학적 안전 퇴비화에서는 분해 과정에서 동물의 사망이 완전히 격리되므로 육안 검사를 사용하여 진행 상황이나 과정 상태를 모니터링할 수 없습니다. 한 가지 새로운 접근 방식은 부패한 사망으로 인해 방출되는 휘발성 유기 화합물(VOC)을 모니터링하고 이를 공정 상태의 바이오마커로 사용하는 것입니다. 현장 규모의 생물학적 안전 사멸 퇴비화 장치에서 잠재적인 바이오마커(디메틸 이황화물, 디메틸 삼황화물, 피리미딘, 아세트산, 프로판산, 3-메틸부탄산, 펜탄산 및 헥산산)를 정량적으로 분석하기 위한 새로운 방법이 개발되었습니다. 이 방법은 휴대용 펌프와 SPME(고상 미세추출)를 사용하여 생물학적 안전 퇴비화 장치 내부에서 공기 샘플을 수집하는 것에 기반을 두고 있습니다. 4개의 SPME 섬유 코팅 중에서 85μm CAR/PDMS가 1시간 샘플링 시간 동안 가장 많은 양의 표적 분석물질을 추출하는 것으로 나타났습니다. 검량선은 96~99% 범위의 높은 상관 계수를 나타냈습니다. 이론적 농도와 검량선에서 추정된 농도 사이의 차이는 1.47~20.96% 범위였습니다. 바이오마커의 방법 검출 한계는 11pptv에서 572ppbv 사이였습니다. 준비된 보정 곡선의 적용 가능성은 현장 규모의 돼지 폐사 퇴비화 테스트 장치에서 채취한 공기 샘플에 대해 테스트되었습니다. 결과는 준비된 보정 곡선이 생물안전한 동물 치사 퇴비화 장치의 잠재적인 바이오메이커 화합물의 농도 범위에 적용 가능하다는 것을 보여줍니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="font-family:georgia, serif;font-size:17.008px;background-color:rgb(244,244,244);">In biosecure composting, animal mortalities are so completely isolated during the degradation process that visual inspection cannot be used to monitor progress or the process status. One novel approach is to monitor the volatile organic compounds (VOCs) released by decaying mortalities and to use them as biomarkers of the process status. A new method was developed to quantitatively analyze potential biomarkers—dimethyl disulfide, dimethyl trisulfide, pyrimidine, acetic acid, propanoic acid, 3-methylbutanoic acid, pentanoic acid, and hexanoic acid—from field-scale biosecure mortality composting units. This method was based on collection of air samples from the inside of biosecure composting units using portable pumps and solid phase microextraction (SPME). Among four SPME fiber coatings, 85 μm CAR/PDMS was shown to extract the greatest amount of target analytes during a 1 h sampling time. The calibration curves had high correlation coefficients, ranging from 96 to 99%. Differences between the theoretical concentrations and those estimated from the calibration curves ranged from 1.47 to 20.96%. Method detection limits of the biomarkers were between 11 pptv and 572 ppbv. The applicability of the prepared calibration curves was tested for air samples drawn from field-scale swine mortality composting test units. Results show that the prepared calibration curves were applicable to the concentration ranges of potential biomaker compounds in a biosecure animal mortality composting unit.</span> </p>
@@ -712,7 +712,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -725,7 +725,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -739,12 +740,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

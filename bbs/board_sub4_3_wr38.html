@@ -534,7 +534,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">분리된 돼지분뇨 고형분의 고체상 혐기성 소화(SS-AD)를 위한 챔버 및 백 소화기의 성능은 37°C에서 63일 동안 작동하는 실험실 규모 소화기(총 부피 4,460mL 및 유효 부피 1,800mL)를 사용하여 조사되었습니다. 두 가지 다른 소화조 유형의 성능은 Gompertz 및 Gaussian 방정식에서 얻은 메탄 생산의 운동 상수로 평가되었습니다. 챔버 및 백 소화조의 메탄 생산 잠재력은 202 및 218 N·mL CHSUB4/SUB/g VS였습니다. 95% 메탄 생산 잠재력(T95)을 생성하는 시간과 계산된 유효 혐기성 소화 시간은 챔버 소화조의 경우 각각 55.5일과 41.8일, 백 소화조의 경우 52.8일과 43.5일이었습니다. 우리의 결과는 챔버와 백 소화기 사이의 성능이 크게 다르지 않다는 것을 보여줍니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">The performance of chamber and bag digesters for solid state anaerobic digestion (SS-AD) of separated solid fraction of swine manure was investigated using lab-scale digester (4,460 mL total volume and 1,800 mL of effective volume) operating at 37°C for 63 days. The performance of two different digester types was evaluated in terms of the kinetic constants of methane production obtained from the Gompertz and Gaussian equations. Methane production potential of chamber and bag digester was 202 and 218 N·mL CHSUB4/SUB/ g VS. Time to produce 95% methane production potential (T95) and calculated effective anaerobic digestion time were 55.5 days and 41.8 days for chamber digester and 52.8 days and 43.5 days for bag digester, respectively. Our results reveal that the performance was not significantly different between chamber and bag digester.</span> </p>
@@ -712,7 +712,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -725,7 +725,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -739,12 +740,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

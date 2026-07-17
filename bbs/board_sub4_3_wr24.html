@@ -529,7 +529,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">층상 팩 분뇨는 고형분 함량이 높기 때문에 오랫동안 기존 혐기성 소화 시스템에 적합하지 않은 공급원료로 간주되어 왔습니다. 그러나 고체 혐기성 소화(SS-AD)는 이러한 고고형 공급원료로부터 메탄을 생성할 수 있는 기회를 제공합니다. 본 연구는 SS-AD를 이용하여 층상 포장 낙농분뇨의 소화에 수분 함량이 미치는 영향을 확인하기 위해 수행되었습니다. 톱밥 깔개와 낙농 거름의 혼합물은 수분 함량(MC)이 70%, 76%, 83%로 제조되었으며 37°C에서 85일 동안 소화되었습니다. 83% MC 분뇨를 함유한 소화조의 성능은 휘발성 고형물(VS) 감소 및 바이오가스 생산 측면에서 70% MC 분뇨를 함유한 소화조보다 1.3~1.4배 더 높았습니다. VS 감소율은 55~75%였으며 누적 메탄 수율은 64~90 NmL/g VS -1 범위였습니다. 이 값은 신선한 분뇨의 SS-AD 값보다 낮으며 이는 분뇨가 축사에서 제거되기 전 2~3개월 동안 생분해성 물질이 부분적으로 분해되었기 때문인 것 같습니다. 그러나 농장 악취를 효율적으로 관리하고 난방을 위한 재생 에너지원을 제공한다는 측면에서 층상 팩 분뇨의 SS-AD는 현재 사용 중인 기존 퇴비화 시스템에 대한 잠재적인 대안을 제공합니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(34,34,34);font-family:Arial, Arial, Helvetica, sans-serif;font-size:13.2px;text-align:justify;background-color:rgb(255,255,255);">Bedded pack manure has long been considered an unsuitable feedstock for conventional anaerobic digestion systems due to its high solids content. However, solid-state anaerobic digestion (SS-AD) provides an opportunity to generate methane from such high-solids feedstocks. This study was conducted to determine the influence of moisture content on the digestion of bedded pack dairy manure using SS-AD. Mixtures of sawdust bedding and dairy manure were prepared with moisture contents (MCs) of 70%, 76% and 83% and digested at 37 °C for 85 days. The performance of digesters containing manure at 83% MC was 1.3 to 1.4-fold higher than that of digesters containing 70% MC manure in terms of volatile solids (VS) reduction and biogas production. VS reduction rates were 55 to 75% and cumulative methane yield ranged from 64 to 90 NmL g VS</span><span style="font-size:smaller;vertical-align:baseline;color:rgb(34,34,34);font-family:Arial, Arial, Helvetica, sans-serif;text-align:justify;background-color:rgb(255,255,255);">−1</span><span style="color:rgb(34,34,34);font-family:Arial, Arial, Helvetica, sans-serif;font-size:13.2px;text-align:justify;background-color:rgb(255,255,255);">. These values are lower than those from SS-AD of fresh manure and this is likely due to the partial decomposition of biodegradable materials during the two to three-month period before the manure was removed from the barn. However, in terms of efficient management of farm odors and providing a renewable energy source for heating, SS-AD of bedded pack manure offers a potential alternative to the conventional composting systems currently in use.</span> </p>
@@ -707,7 +707,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -720,7 +720,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -734,12 +735,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

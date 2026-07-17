@@ -530,7 +530,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">혐기성 소화는 환경에 부정적인 영향을 주지 않고 유기 폐기물을 토지에 적용할 수 있는 안정적인 제품으로 전환하는 데 사용되는 생물학적 방법입니다. 생산된 바이오가스는 대체 재생에너지원으로 사용될 수 있습니다. 건식 혐기성 소화(&gt; 15% TS: 총 고형물)는 더 작은 반응기 부피를 사용할 수 있고 폐수 생성을 감소시키기 때문에 습식 소화(&lt;10% TS)에 비해 이점이 있습니다. 또한, 운반하기 쉬운 비료를 생산합니다. 동물성 분뇨-스위치그래스 혼합물의 혐기성 소화 성능은 건조(15% TS) 및 호열성 조건(55oC)에서 평가되었습니다. 동물성 분뇨(돼지 분뇨, 가금류 분뇨 및 낙농 분뇨)와 스위치그래스의 세 가지 다른 혼합물은 배치 작동식 1L 반응기를 사용하여 소화되었습니다. 돼지 분뇨 테스트 장치는 30일 시험 동안 58%의 VS 제거율을 보인 반면, 낙농 및 가금류 분뇨 테스트 장치는 각각 24%와 31%를 나타냈습니다. 30일 소화 기간 동안 돼지 분뇨 테스트 장치는 0.229L CH4/g VS로 가장 높은 메탄 생산량을 산출한 반면, 낙농 및 가금류 분뇨 테스트 장치는 각각 0.009L CH4/g VS 및 0.002L CH4/g VS로 매우 낮은 메탄 생산량을 나타냈습니다. 이러한 결과는 돼지 분뇨 시험 장치가 세 가지 다른 유형의 동물 분뇨 중에서 가장 높은 바이오가스 생산 잠재력을 가지고 있음을 나타냅니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(51,51,51);font-family:'Open Sans', sans-serif;background-color:rgb(255,255,255);">Anaerobic digestion is a biological method used to convert organic wastes into a stable product for land application without adverse environmental effects. The biogas produced can be used as an alternative renewable energy source. Dry anaerobic digestion (&gt; 15% TS: total solid) has an advantage over wet digestion (&lt;10% TS) because it allows for the use of a smaller volume of reactor and because it reduces wastewater production. In addition, it produces a fertilizer that is easier to transport. Performances of anaerobic digestion of animal manure-switchgrass mixture were evaluated under dry (15% TS) and thermophilic conditions (55oC).Three different mixtures of animal manure (swine manure, poultry manure, and dairy manure) and switchgrass were digested using batch-operated 1-L reactors. Swine manure test unit showed 58% VS removal during 30 day trial while dairy and poultry manure test units showed 24% and 31%, respectively. Over the 30 day digestion, the swine manure test unit yielded the highest amount of methane yield 0.229 L CH4 /g VS, while, the dairy and poultry manure test units showed very poor methane yield 0.009 L CH4 /g VS and 0.002 L CH4 /g VS, respectively. These results indicate that the swine manure test unit has the highest biogas production potential among the three different types of animal manure.</span> </p>
@@ -708,7 +708,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -721,7 +721,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -735,12 +736,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

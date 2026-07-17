@@ -534,7 +534,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">본 실험은 젖소의 사료 섭취량과 물 섭취량이 우유 생산량과 분뇨 생산에 미치는 영향을 확인하기 위해 수행되었습니다. 젖소의 평균 사료 섭취량(건조물)은 19.5kg/hd/d였습니다. 봄(23.9kg)과 가을(22.1kg)의 사료 섭취량은 여름(17.0kg)과 겨울(15.3kg/hd/d)보다 높습니다. 젖소의 평균 물 소비량은 . 여름이 가장 높은 값을 보였고, 겨울이 가장 낮은 값을 보였다. 봄, 여름, 가을, 겨울의 평균 우유 생산량은 각각 30.8, 24.0, 25.4, 23.7kg/hd/d였습니다. 봄철의 우유 생산량은 다른 계절에 비해 통계적으로 더 높은 것으로 나타났습니다. 봄, 여름, 가을, 겨울 동안 젖소의 분뇨 생산량은 각각 64.4, 63.5, 60.4, 51.0kg/hd/d였습니다. 결과적으로, 우유 생산량과 물 소비량, 우유 생산량과 사료 섭취량, 물, 소비량과 소변 생산량, 사료 섭취량과 배설물 생산량, 젖소에서 우유 생산량과 배설물 생산량 사이에 상대적으로 높은 상관관계가 관찰되었습니다. 한편, 물 섭취량과 대변 생성량, 사료 섭취량과 소변 생성량 사이의 상관관계는 다음과 같습니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">This experiment was conducted to determine the effect of feed intake and water consumption on milk yield and manure production in milking cows. The average feed intake (dry matter) of milking cows were 19.5 kg/hd/d. Spring (23.9 kg) and fall (22.1 kg) feed intake rates when higher than in the summer (17.0 kg) and winter (15.3 kg/hd/d). The average water consumption of milking cows were </span><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">. Summer showed the highest value </span><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);"> and winter showed the lowest value </span><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">. The average milk yield during spring, summer, fall, and winter was 30.8, 24.0, 25.4, and 23.7 kg/hd/d, respectively. Milk yield during spring was found to be statiscally greater than for the other seasons. Manure production of milking cows during spring, summer, fall, and winter was 64.4, 63.5, 60.4, and 51.0 kg/hd/d, respectively. Consequently, a relatively high correlation between milk yield and water consumption </span><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">, milk yield and feed intake </span><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">, water, consumption and urine production </span><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">, feed intake and feces production </span><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">, and milk yield and feces production </span><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);"> were observed in milking cows. The other hand, correlation between water consumption and feces production </span><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">, feed intake and urine production </span></p>
@@ -712,7 +712,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -725,7 +725,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -739,12 +740,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

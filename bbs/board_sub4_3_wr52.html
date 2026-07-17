@@ -534,7 +534,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">가축분뇨에 포함된 질소는 적절히 처리하면 유기비료로 사용할 수 있으나 제대로 관리하지 않으면 심각한 대기 및 수질 오염을 초래할 수 있다. 분뇨가 동물사 및 저장 시설에 머무르다가 퇴비화되어 밭에 적용될 때 암모니아 형태로 상당한 양의 질소 손실이 발생합니다. 분뇨 질소 활용을 극대화하려면 다양한 분뇨 처리 및 처리 과정에서 질소 손실 메커니즘을 이해하는 것이 중요합니다. 배설분뇨 중 식물의 이용 가능한 질소분은 동물의 종류, 동물분뇨 수집 시스템, 분뇨 처리 과정 및 적용 방법을 기준으로 평가되었습니다. 배설된 돼지 분뇨에 포함된 질소의 약 27%는 퇴비화 공정 후 밭에 적용하면 식물 이용이 가능합니다. 식물의 유효 질소 비율은 소화된 돈분뇨 슬러리의 적용 방법에 따라 29%(표면 적용)에서 54%(고형 주입)까지 다양합니다. 퇴비화된 소 및 가금류 분뇨를 표면 살포 방법을 사용하여 밭에 살포하면 식물은 분뇨 질소를 18% 사용할 수 있습니다. 분뇨 질소를 적절하게 제어하고 활용하려면 분뇨 처리 및 살포 방법을 신중하게 선택해야 합니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">Nitrogen included in animal manure can be used as organic fertilizer if it is treated properly but it may cause serious air and water pollution without proper management. Significant amount of nitrogen losses happen in the form of ammonia when the manure staying in animal house and storage facilities and being composted and applied to the field. In order to maximize the manure nitrogen utilization, it is important to understand the mechanisms of nitrogen loss during the diverse manure handling and treatment procedures. The plant available nitrogen portion of total nitrogen in excreted manure was evaluated based on animal type, animal manure collection system, manure treatment process, and application method. About 27% of nitrogen included in excreted pig manure could be plant available if it is applied to the filed after composting process. The plant available nitrogen portion varies from 29%(surface application) to 54%(solid injection) based on application method of digestated piggery slurry. Plant can use 18% of manure nitrogen if the composted cattle and poultry manure applied to the field using surface application method. Manure treatment and application methods need to be carefully selected to control and utilize the manure nitrogen properly.</span> </p>
@@ -712,7 +712,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -725,7 +725,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -739,12 +740,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

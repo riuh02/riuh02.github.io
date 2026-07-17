@@ -529,7 +529,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">접종은 유기물 부하가 높은 혐기성 소화(AD)의 효율성을 향상시키기 위해 널리 사용되는 방법입니다. 이 연구는 돼지 분뇨의 AD에 대한 접종원으로서 낙농 분뇨의 잠재력을 입증하기 위해 수행되었습니다. 또한, 메탄 수율을 향상시키고 AD에 필요한 시간을 줄이기 위해 적절한 접종원 대 기질(I/S) 비율이 결정되었습니다. 우리는 중온성 조건에서 고체 용기에 잠긴 실험실 규모 반응기를 사용하여 분뇨의 5가지 서로 다른 I/S 비율(휘발성 고체 기준으로 3, 1, 0.3, 낙농 분뇨 단독, 돼지 분뇨 단독)에 대해 176일 동안 혐기성 소화를 수행했습니다. 그 결과 낙농분뇨를 접종한 고상 돼지분뇨는 암모니아와 휘발성 지방산 축적으로 인한 억제 없이 소화될 수 있었다. 가장 높은 메탄 수율 잠재력은 I/S 비율 1과 0.3에서 각각 133과 145mL CH4·g-1-VS로 관찰되었습니다. 돼지 분뇨 단독의 지연 단계는 낙농 분뇨를 포함하는 다른 처리 방법에 비해 41~47일로 더 연장되었으며 이는 시작 지연과 직접적으로 관련이 있습니다. 이러한 결과는 젖소분뇨가 돼지분뇨의 AD에 대한 접종원으로 사용될 수 있음을 보여주었습니다. 돈분뇨의 성공적인 AD를 이끄는 적절한 I/S 비율은 1과 0.3이었다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 Inoculation is a widely used method to improve the efficiency of anaerobic digestion (AD) with a high organic load. This study was conducted to prove the potential of dairy manure as an inoculum source for AD of swine manure. Furthermore, an appropriate inoculum-to-substrate (I/S) ratio was determined to improve methane yield and reduce the required time of AD. We carried out 176 days of anaerobic digestion for five different I/S ratios (3, 1, and 0.3 on a volatile solid basis, dairy manure alone, and swine manure alone) of manure, using solid container submerged lab-scale reactors in mesophilic conditions. As a result, solid-state swine manure inoculated with dairy manure could be digested without inhibition caused by ammonia and volatile fatty acid accumulation. The highest methane yield potential was observed in I/S ratios 1 and 0.3, as 133 and 145 mL CH4·g−1-VS, respectively. The lag phase of swine manure alone was more extended, 41 to 47 days, than other treatments containing dairy manure, directly related to tardy startup. These results revealed that dairy manure can be used as an inoculum source for AD of swine manure. The proper I/S ratios leading to successful AD of swine manure were 1 and 0.3.
@@ -707,7 +707,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -720,7 +720,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -734,12 +735,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

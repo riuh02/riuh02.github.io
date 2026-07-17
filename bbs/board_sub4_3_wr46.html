@@ -534,7 +534,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">낙농장용 고액분리기의 설계기준에 대한 연구는 스크류프레스형 돈분분리기를 개조한 스크류 오거의 다양한 스크린, 프레스, RPM을 시험하여 수행하였다. 압력 34.8kPa, 슬릿 웨지 와이어 스크린 1.0mm 조건에서 오거 회전 속도가 9.8에서 29.2RPM으로 증가함에 따라 분리된 고체의 수분 함량은 68.3%에서 74.2%로 증가했습니다. 분리된 고형물의 수분함량은 72~77%였으며, 슬릿 웨지 철망 1.0mm에서 작업효율은 16~18kg/min이었다. 돼지 분뇨 분리에 사용된 0.5mm 슬릿 웨지 와이어 스크린보다 효율이 높았다. 최고의 작업 효율은 42.5kPa, 1.0mm 슬릿 스크린에서 18kg/min이었습니다. 이 조건에서 분리된 고형수분 함량은 75%였다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">The study on design criteria of solid-liquid separator for dairy farms was done by testing various screens, presses, and RPMs of screw auger with remodeled screw-press type pig-manure separator. The moisture content of separated solid increase from 68.3% to 74.2% as auger rotating speed increased from 9.8 to 29.2 RPM at 34.8 kPa of pressure and 1.0 mm of slit wedge wire screen condition. The moisture contents of separated solid were 72~ 77%, work efficiencies were 16~ 18 kg/min at 1.0 mm of slit wedge wire screen. The efficiency was higher than one at 0.5 mm of slit wedge wire screen, which was used to separate for pig manure. The best work efficiency was 18 kg/min at 42.5 kPa, 1.0 mm slit screen. The separated solid moisture content was 75% at this condition.</span> </p>
@@ -712,7 +712,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -725,7 +725,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -739,12 +740,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

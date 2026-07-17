@@ -530,7 +530,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">병든 돼지의 긴급 처리를 위해 설계된 수동적으로 통기되는 플라스틱 포장 폐사 퇴비화 시스템의 모니터링은 도체를 감싸는 데 사용되는 재료의 물리적 특성의 중요성을 강조했습니다. 밀도가 낮고 공기 충진 다공성이 높은 옥수수대나 짚 등의 봉투재를 사용할 경우 수분 부족이 문제가 되었습니다. 이러한 물질 전체에 걸쳐 높은 O2 농도와 도체 주변 물질보다 최상층의 수분 수준이 훨씬 더 높은 것은 상당한 공기 이동과 도체 습기가 도체에서 멀리 이동하여 도체 건조 및 불완전 부패를 초래했음을 시사합니다. 옥수수 사일리지로 만든 테스트 유닛의 내부 온도와 습도 수준은 옥수수대나 짚으로 만든 테스트 유닛보다 훨씬 더 좋았지만, 시체 분해가 덜 발생했습니다. 높은 용적 밀도와 낮은 공기 충진 다공성을 초래하는 침전 및 압축으로 인해 사일리지 테스트 장치에서 도체 부패를 손상시키는 것으로 보이는 낮은 O2 농도가 발생했습니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(51,51,51);font-family:'Open Sans', sans-serif;background-color:rgb(255,255,255);">Monitoring of a passively-aerated plastic-wrapped mortality composting system designed for emergency disposal of diseased swine highlighted the importance of the physical characteristics of materials used to envelop the carcasses. Inadequate moisture was a problem when using envelope materials such as ground cornstalks or straw having low density and high air-filled porosity. High O2 concentrations throughout these materials, and significantly higher moisture levels in the top layers than in the materials surrounding the carcasses, suggested significant air movement and transport of carcass moisture away from the carcasses, resulting in carcass desiccation and incomplete decay. Although internal temperatures and moisture levels in test units constructed with corn silage were much more favorable than in those constructed with cornstalks or straw, less carcass decomposition occurred. Settling and compaction, resulting in high bulk density and low air-filled porosity, caused low O2 concentrations that appeared to impair carcass decay in the silage test units.</span> </p>
@@ -708,7 +708,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -721,7 +721,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -735,12 +736,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

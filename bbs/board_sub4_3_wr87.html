@@ -530,7 +530,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">아이오와 주에서 가축이나 가금류 질병이 발생하는 경우(또는 농업 테러) 비상 처리를 위해 퇴비를 사용하는 실제 타당성, 성능, 환경 영향 및 생물학적 보안을 평가하기 위해 아이오와주 천연자원부에서 3년간의 연구를 의뢰했습니다. 계절별 현장 시험 동안 퇴비화 성능, 환경 영향 및 공정의 생물학적 보안을 평가하기 위해 테스트 장치를 모니터링했습니다. 세 가지 도체 덮개 재료(옥수수 사일리지, 옥수수대 분쇄 및 짚/거름)가 반복된 현장 테스트에서 평가되었습니다. 이들 및 10가지 기타 잠재적인 덮개 재료도 실험실에서 광범위하게 테스트되었으며 수학적으로 모델링되어 일상 및 비상 퇴비화 작업에 사용할 수 있는 성능 잠재력을 특성화하고 예측했습니다. "가축 폐사의 긴급 처리를 위한 퇴비화의 환경 영향 및 생물학적 보안"이라는 제목의 최종 프로젝트 보고서에는 현장 모니터링 및 전체 분석 중에 수집된 데이터가 포함되어 있습니다. 조사 결과는 덮힌 도체 분해, 내부 온도/병원체 파괴, 내부 산소 농도, 온도, 산소 및 도체 분해, 악취 방출 및 대기 오염 가능성 침출수 방출 및 토양/수질 오염 가능성, 토양 오염 및 덮개 재료 성능입니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(102,102,102);font-family:'Nexus Sans Pro', sans-serif;font-size:16px;background-color:rgb(255,255,255);">A three-year study was commissioned by the Iowa Department of Natural Resources to evaluate the practical feasibility, performance, environmental impacts and biosecurity of using composting for emergency disposal, should a livestock or poultry disease outbreak (or agro-terrorism) occur in Iowa. During the seasonal field trials, test units were monitored to evaluate composting performance, environmental impacts and biosecurity of the process. Three carcass cover materials (corn silage, ground cornstalks and straw/manure) were evaluated in replicated field tests; these and 10 other potential cover materials were also extensively tested in the lab and mathematically modeled to characterize and predict their performance potential for use in both routine and emergency mortality composting operations. The final project report entitled "Environmental Impacts and Biosecurity of Composting for Emergency Disposal of Livestock Mortalities" contained data collected during the field monitoring and a full analysis. Findings covered carcass decomposition, internal temperatures/pathogen destruction, internal oxygen concentrations, temperature, oxygen and carcass degradation, odor release and air pollution potential leachate release and soil/water pollution potential, soil contamination and cover material performance.</span> </p>
@@ -708,7 +708,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -721,7 +721,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -735,12 +736,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

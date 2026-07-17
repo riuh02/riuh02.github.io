@@ -529,7 +529,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">본 연구는 쇠고기 분뇨와 톱밥 깔짚 혼합물의 고체상 혐기성 소화(SS-AD)를 위한 최적의 기질/접종원(S/I) 비율을 결정하기 위해 수행되었습니다. 유기물 제거 및 메탄 수율 성능은 37°C에서 49일 동안 5가지 다른 S/I 수준(VS 기준 1, 2, 4, 50 및 우비 단독)에서 평가되었습니다. 결과에 따르면 우비 단독 테스트 장치의 생분해성 휘발성 고형물(BVS) 감소는 76%였으며 이는 접종된 모든 테스트 장치의 나머지 부분과 크게 다르지 않았습니다. 5개 테스트 유닛 모두의 메탄 생산 잠재력은 S/I 비율에 관계없이 유사한 수준(135~154mL/g VS)을 나타냈습니다. 유사한 메탄 생산 잠재력을 보였지만, 소분뇨 단독 및 S/I 비율 50 시험 장치는 소화조 부피당 생성된 메탄 양을 기준으로 각각 7.3 및 7.2로 가장 높은 메탄 생산량을 나타냈습니다. 또한, 소화조 가용량의 이용효율을 고려하면 우비 단독 처리구가 S/I 비 50 처리구에 비해 15% 더 높은 것으로 나타났다. 이러한 결과는 쇠고기 거름과 톱밥 깔개 혼합물이 SS-AD 성능을 향상시키기 위해 접종이 필요하지 않음을 보여줍니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">This study was conducted to determine the optimal substrate/inoculum (S/I) ratio for solid state anaerobic digestion (SS–AD) of beef manure and sawdust bedding mixtures. The organic material removal and methane yield performance were evaluated at five different S/I levels (1, 2, 4, 50, and beef manure alone on a VS basis) for 49 days at 37 C. Results showed that biodegradable volatile solids (BVS) reduction of beef manure alone test unit was 76% which was not significantly different from the rest of all inoculated test units. The methane production potential of all five test units showed similar levels (135 to 154 mL/g VS), regardless of S/I ratio. Although it showed similar methane production potential, the beef manure alone and S/I ratio 50 test units showed the highest methane yields of 7.3 and 7.2 based on the volume of methane produced per volume of digester, respectively. In addition, when considering utilization efficiency of the available digester volume, the beef manure alone treatment was 15% higher than that of the S/I ratio 50 treatment. These results reveal that the beef manure and sawdust bedding mixture does not require inoculation to improve SS–AD performance.</span> </p>
@@ -707,7 +707,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -720,7 +720,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -734,12 +735,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

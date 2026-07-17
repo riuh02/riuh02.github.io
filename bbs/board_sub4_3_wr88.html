@@ -530,7 +530,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">퇴비 벌킹 재료의 열적 특성은 퇴비화 과정 중 온도와 생분해에 영향을 미칩니다. 따라서 퇴비 공급원료의 잘 결정된 열적 특성은 실용적인 열역학적 접근 방식에 기여할 것입니다. 본 연구에서는 13가지 퇴비 벌킹 재료의 열전도율, 열확산율 및 체적 열용량을 결정했습니다. 비열은 시차 주사 열량계로 측정되었습니다. 열전도도 및 확산도 측정에는 과도 열 방출 및 정상 상태 구배 방법이 사용되었습니다. 열적 특성은 다양한 압축(1, 1.3, 1.7, 2.5 및 5배 비압축 벌크 밀도), 입자 크기(분쇄 및 벌크) 및 수분 함량(보수 용량 및 포화 조건의 0, 20, 50, 80%)에서 결정되었습니다. 퇴비 벌킹 재료의 결과적인 열 특성은 퇴비화 시스템에서 보다 최적의 온도 제어 설계를 위한 열 전달 모델을 개발하는 데 사용될 수 있습니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(51,51,51);font-family:'Open Sans', sans-serif;background-color:rgb(255,255,255);">Thermal properties of compost bulking materials affect temperature and biodegradation during the composting process. Well determined thermal properties of compost feedstocks will therefore contribute to practical thermodynamic approaches. Thermal conductivity, thermal diffusivity, and volumetric heat capacity of 13 compost bulking materials were determined in this study. Specific heat was measured by a differential scanning calorimeter. Transient heat dissipation and steadystate gradient methods were used for thermal conductivity and diffusivity measurements. Thermal properties were determined at varying compaction (1, 1.3, 1.7, 2.5, and 5 times uncompacted bulk density), particle size (ground and bulk), and water content (0, 20, 50, 80% of water holding capacity and saturated condition). The resulting thermal properties of compost bulking materials can be used to develop heat transport models for design of more optimal temperature control in composting systems.</span> </p>
@@ -708,7 +708,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -721,7 +721,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -735,12 +736,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

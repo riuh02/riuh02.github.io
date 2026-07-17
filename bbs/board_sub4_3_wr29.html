@@ -529,7 +529,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">본 연구는 축사에서 사육되는 한우의 분뇨 생산량과 적절한 깔판 교체 시기를 규명하기 위해 수행되었다. 총 40두의 한우(체중 약 412kg)를 5개의 우리(두당 7.5m2)에서 76일 동안 키웠습니다. 깔개 없이 하루 평균 분뇨 생산량은 13.4kg/두였습니다. 깔개를 포함한 일일 거름 생산량은 14.9kg/두로 기존 한국 한우비료 생산시설(17.3kg/두)에 비해 14% 감소하였다. 처음 30일 동안 톱밥 침구의 수분 함량은 톱밥 보수력(WHC)의 89%까지 상당히 증가했습니다. 30~50일 사이에 매우 안정적인 수준을 유지했습니다. 학문적으로는 WHC 기준으로 새 침구를 추가한 후 30일이 적절한 교체 시기로 보입니다. 반면, 실무적인 관점에서 보면 침구 재료 구입 비용, 급식 환경의 청결도, 분뇨 처리 가능 여부 등 여러 가지 요인을 고려하여 최대 50일을 허용할 수 있습니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">The current study was conducted to clarify the amount of manure production from Korean native beef cattle (Hanwoo) raised in bedded pack barn and the suitable bedding replacement time. Total forty heads of Hanwoo (about 412 kg body weight) were raised in five pens (7.5 m2 per head) for 76 days. Average daily manure production without bedding was 13.4 kg/head. The amount of daily manure production including the bedding was 14.9 kg/head, which is 14% lesser than conventional S. Korean Hanwoo manure production unit (17.3 kg/head). During the first 30days, moisture content of sawdust beddings were considerably increased up to 89% of water holding capacity (WHC) of sawdust. It maintained a very stable level between 30 to 50 days. Academically, 30 days after adding fresh bedding seems to be appropriate replacement time based on WHC. Whereas, from a practical standpoint, maximum 50 days should be acceptable by considering several other factors, such as the expense of purchasing bedding material, the cleanliness of the feeding environment, and the availability of manure treatment.</span> </p>
@@ -707,7 +707,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -720,7 +720,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -734,12 +735,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

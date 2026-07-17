@@ -534,7 +534,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">여름의 기온은 젖소의 젖을 짜기에 적합한 기온보다 높기 때문에 고온 스트레스로 인해 우유 생산량이 감소하여 낙농가에 심각한 영향을 미치고 있습니다. 본 연구는 폭염 기간 동안 젖소의 열 스트레스를 감소시키기 위한 빗물 살수 시스템의 효과를 조사하기 위해 수행되었다. 치료 조건은 2가지 유형으로 나뉘었습니다. 빗물 살수(T1) 및 빗물 살수(T2) 없음. 젖소의 생리적, 생산적 반응에 뜨거운 환경이 미치는 영향을 조사하기 위해 젖소의 온도, 사료 섭취량, 우유 생산량, 호흡률 및 직장 온도를 측정했습니다. 얻은 결과는 다음과 같이 요약된다. 실험 기간 동안 T1과 T2에서 일일 우유 생산량은 1인당 24.5kg과 27.4kg이었다. 호흡률은 T2보다 T1에서 유의하게 높았습니다. T1( )의 직장 온도는 T2( )의 직장 온도보다 높았습니다. 젖소 축사에 설치된 빗물 살수 시스템은 젖소의 열 스트레스를 줄이는 효과적인 수단임을 시사하였다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">Since the temperature during summer is higher than the temperature which is suitable for milking cows, high temperature stress have severely affected dairy farmers due to decreased milk production. This study was carried out to investigate the effect of rainwater sprinkling system for reducing heat stress in milking cows during intense heat time. Treatment conditions were divided into 2 types; No rainwater sprinkling (T1) and Rainwater sprinkling (T2). Temperature in the milking cow shed, feed intake, milk yield, respiration rate and rectal temperature were measured to investigate the effect of hot environment on the physiological, productive responses in milkig cows. The results obtained are summarized as follows: The daily milk yields were 24.5 and 27.4 kg per head in T1 and T2 during experimental period. The respiration rate was significantly higher in T1 than those of T2. The rectal temperature in T1 (</span><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">) was higher than those of T2 (</span><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">). It was suggested that rainwater sprinkling system installed in the dairy cow shed was effective means to reduce heat stress of milking cow.</span> </p>
@@ -712,7 +712,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -725,7 +725,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -739,12 +740,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

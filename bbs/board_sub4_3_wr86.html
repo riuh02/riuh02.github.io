@@ -530,7 +530,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">가축 사체를 퇴비화하는 것은 현장 처리 및 폐기를 위한 실행 가능한 방법입니다. 적절하게 추정된 사체의 생분해성은 동물 사망 퇴비화 시스템을 설계하고 제어하는 ​​데 중요합니다. 그러나 퇴비 내부의 생분해성을 평가하는 것은 여전히 ​​어렵습니다. 본 연구에서는 옥수수 사일리지, 옥수수대 간 및 귀리 짚의 세 가지 봉투 재료를 사용하여 9개의 2m X 2m 중량 퇴비화 테스트 장치 각각에서 약 250kg의 돼지 시체를 퇴비화했습니다. 퇴비화 시간에 따른 사체 분해 경향을 관찰하기 위해 퇴비 재료의 총 중량을 매달 측정하였다. 가장 중요한 체중 감소는 퇴비화 첫 6주 동안 발생했습니다. 돼지 시체의 생분해성은 16주 동안 퇴비화한 후 남은 시체의 질량과 건설 기간 동안 더미에 놓인 총 시체 무게를 비교하여 평가되었습니다. 이러한 결과를 바탕으로 돼지 시체의 생분해성에 대한 봉투 재료 유형의 영향을 평가했습니다. 사일리지 테스트 유닛 내 도체 분해는 초기 도체 질량의 66%에 불과한 반면, 옥수수대 및 귀리 짚 테스트 유닛의 도체는 각각 86% 및 79% 분해되었습니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="background-color:rgb(255,255,255);color:rgb(51,51,51);font-family:'Open Sans', sans-serif;">Composting livestock carcasses is a viable method for on-site treatment and disposal. Properly estimated carcass biodegradability is valuable for designing and controlling animal mortality composting systems. However, it is still difficult to assess the biodegradability inside composts. In this study, approximately 250kg of swine carcasses were composted in each of nine 2m X 2m weighable composting test units using three different envelope materials: corn silage, ground cornstalks, and ground oat straw. Total weight of compost material was measured monthly to observe the carcass decomposition trend with composting time. The most significant weight loss occurred during the first 6 weeks of composting. Biodegradability of the swine carcasses was estimated by comparing the mass of carcass remains after 16 weeks composting with the total carcass weight placed in the pile during the time of construction. Based on these results the influence of envelope material type on the biodegradability of swine carcasses was evaluated. The carcass decomposition within silage test units was only 66% of the initial carcass mass, while carcasses in cornstalk and oat straw test units decomposed 86% and 79% respectively.</span> </p><div><div class="gtx-trans-icon"></div></div>
@@ -708,7 +708,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -721,7 +721,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -735,12 +736,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

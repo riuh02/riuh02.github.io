@@ -529,7 +529,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">감염성 및 감염 가능성이 있는 가축 및 가금류 동물의 매장은 비상 상황에 대한 가장 일반적인 대응입니다. 데이터 세트는 전 세계 동물 사체의 긴급 처리를 위한 기존 매장 도랑 내에서 발견되는 환경을 시뮬레이션하는 22주간의 실험을 요약하며, 때로는 대한민국에서 요구되는 생석회를 국소 적용하기도 합니다. 이 데이터 세트는 동물 사체의 극도로 느린 부패에 대한 거의 제시되지 않은 증거를 보여줍니다. 도체 재료가 눈에 띄게 분해되지 않았다는 시각적 증거, 즉 도체(또는 도체 1/4 및 거친 절단 부분)가 연구가 끝날 때에도 여전히 초기 재료와 유사하다는 시각적 증거 외에도 프로세스를 특성화하는 데이터를 제시합니다. 특히, 소화액 품질(pH, 암모니아, 휘발성 지방산), 바이오가스 생산 및 악취가 나는 휘발성 유기 화합물의 지속성의 시간적 변화가 요약되어 있습니다. 데이터는 소화 과정이 바람직하지 않고 느리게 진행된다는 중요한 증거를 제공합니다. 혐기성 소화로 실제적인 종말점을 달성하지 못했다는 증거는 폭기된 매장 개념과 같은 비상 상황에서 실행 가능한 대안적이고 개선된 폐기 방법을 모색하는 자극을 제공합니다(Koziel et al., 2018[1]).</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(31,31,31);font-family:ElsevierGulliver, Georgia, 'Times New Roman', Times, STIXGeneral, 'Cambria Math', 'Lucida Sans Unicode', 'Microsoft Sans Serif', 'Segoe UI Symbol', 'Arial Unicode MS', serif;font-size:16px;">Burial of infectious and potentially infectious livestock and poultry animals is the most common response to an emergency situation. The data set summarizes 22-week-long experiment that simulates the environment found within conventional burial trenches for emergency disposal of animal carcasses, worldwide, sometimes with a topical application of quicklime as it is required in the Republic of Korea. This data set shows the rarely presented evidence of the extremely slow decay of animal carcasses. Besides visual evidence of no visible breakdown of carcass material, i.e., carcass (or carcass quarters and coarse cuts) still resembled the initial material at the end of the study, we present data characterizing the process. Specifically, temporal variations of digestate quality (pH, ammonia, volatile fatty acids), biogas production, and the persistence of odorous volatile organic compounds are summarized. The data provide important evidence of undesirable, slow progression of the digestion process. The evidence of failure to achieve practical endpoints with the anaerobic digestion provides the impetus for seeking alternative, improved methods of disposal that will be feasible in emergency context, such as aerated burial concept (Koziel et al., 2018 [1]).</span> </p>
@@ -707,7 +707,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -720,7 +720,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -734,12 +735,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

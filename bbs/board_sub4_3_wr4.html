@@ -529,7 +529,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">본 연구에서는 사료 첨가제로서 피트모스가 슬러리 구덩이에 저장된 돈분뇨 슬러리에서 발생하는 메탄(CH4)과 이산화탄소(CO2) 배출에 미치는 영향을 조사했습니다. 사료 첨가제로 피트모스를 공급한 후 발생하는 돼지 분뇨와 저장 기간 동안 배출되는 CH4 및 CO2와의 관계에 대한 잘 알려진 연구는 없습니다. 6개의 용기로 구성된 슬러리 피트 시뮬레이터를 사용하여 실험실 규모 실험을 2개월 동안 수행했습니다. 3개는 사료 첨가제(PFS)로 3.0% 피트모스를 공급한 후 수집된 돼지 슬러리용이고 3개는 피트모스를 공급하지 않은 돼지 슬러리(CTL)용입니다. PFS는 저장된 돼지 배설물에서 CO2 및 CH4 배출을 각각 약 23% 및 44% 감소시켰습니다(p &lt; 0.05). PFS는 CTL에 비해 휴믹산, 풀빅산, 휴민과 같은 휴믹 물질(HS)의 농도가 상당히 높은 것으로 나타났으며, 그 차이는 각각 2.3, 1.8, 1.1입니다. PFS의 HS 수준이 높아지면 가수분해가 제한되어 CTL에 비해 총 휘발성 지방산 농도가 낮아지는 것으로 보입니다. 총 탄소 배출량에서 CH4의 지배력이 관찰되었으며(p &lt; 0.05), CH4는 PFS와 CTL에서 각각 총 탄소 배출량의 약 93%와 95%를 차지했습니다. PFS는 주로 CH4 배출 감소로 인해 CTL보다 누적 탄소 배출에 약 43% 더 낮은 영향을 미쳤습니다. 이러한 발견은 PFS가 탄소 배출을 완화하고 잠재적으로 환경 지속 가능성 및 기후 변화 완화 노력에 영향을 미칠 수 있는 유망한 접근 방식일 수 있음을 시사합니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 The present study investigated the impact of peat moss as a feed additive on the emission of methane (CH4) and carbon dioxide (CO2) from piggery slurry stored in slurry pits. There is no well-known study on the relationship between pig manure generated after feeding peat moss as a feed additive and CH4 and CO2 released during the storage period. A lab-scale experiment was conducted for two months using a slurry pit simulator composed of six vessels—three for pig slurry collected after feeding 3.0% peat moss as a feed additive (PFS) and three for pig slurry without feeding peat moss (CTL). PFS reduced CO2 and CH4 emissions (p &lt; 0.05) from stored pig slurry by approximately 23% and 44%, respectively. PFS exhibits substantially elevated concentrations of humic substance (HS) such as humic acid, fulvic acid, and humin compared with CTL, with fold differences of 2.3, 1.8, and 1.1, respectively. Elevated HS levels in the PFS seemed to limit hydrolysis, resulting in lower total volatile fatty acid concentrations compared with CTL. A dominance of CH4 in total carbon emissions was observed (p &lt; 0.05), with CH4 accounting for approximately 93% and 95% of total carbon emissions in PFS and CTL, respectively. PFS had a roughly 43% lower impact on cumulative carbon emissions than CTL, primarily due to decreased CH4 emissions. These findings suggest that PFS may be a promising approach for mitigating carbon emissions and potentially impacting environmental sustainability and climate change mitigation efforts.
@@ -707,7 +707,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -720,7 +720,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -734,12 +735,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

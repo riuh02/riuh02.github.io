@@ -534,7 +534,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">본 연구는 퇴비여과층에 의한 혐기성소화폐수의 여과효과를 비교하기 위해 수행되었다. 여과시험을 위해 침구재의 구성에 따라 3가지 유형의 여과시스템을 설정하였다. 두 개의 여과 시스템은 톱밥, 왕겨 및 나무 칩으로 채워졌습니다. 그리고 다른 하나는 톱밥과 왕겨로 가득 차 있었습니다. 혐기성소화폐수를 분무노즐을 이용하여 여과층 표면에 균일하게 도포하였다. 여과처리를 통해 혐기성소화폐수의 질소농도, 생화학적산소요구량(BOD), 부유물질(SS)이 감소하였다. 총질소 함량은 1,313 mg/L에서 1,090~1,293 mg/L로 감소하였고, BOD 농도는 529.7 mg/L에서 125~162.3 mg/L로 각각 감소하였다. 여과공정을 통해 SS 함량이 69~79%로 감소하였다. 또한 전기전도도(EC)도 10.22ds/m에서 7.91~8.31ds/m으로 감소하였다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">This study was carried out to compare the filtration effect of anaerobic digestion waste water by compost filtration bed. Three types of filtration systems were set for filtration test following to composition of bedding materials. Two filtration systems were filled with sawdust, rice-hull and wood-chip. And the other was filled with sawdust and rice-hull. Anaerobic digestion waste water was applied evenly on the surface of the filtration bed with spraying nozzle. The concentration of nitrogen, biochemical oxygen demand (BOD), suspended solids (SS) of anaerobic digestion waste water was decreased by filtration treatment. The total nitrogen content was decreased from 1,313 mg/L to 1,090~ 1,293 mg/L and BOD concentration was decreased from 529.7 mg/L to 125~ 162.3 mg/L, respectively. The SS content was decreased from 69~ 79% by filtration process. In addition, the electrical conductivity (EC) was decreased from 10.22 ds/m to 7.91~ 8.31 ds/m.</span> </p>
@@ -712,7 +712,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -725,7 +725,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -739,12 +740,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

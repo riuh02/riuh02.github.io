@@ -534,7 +534,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">가축 폐사에 대한 지속가능한 퇴비화 방법을 개발하기 위해 자연 통기-퇴비화 공정을 설계하고 폐사 퇴비화 공정에 벌킹 재료가 미치는 영향을 연구했습니다. 이번 연구에서는 동물 폐사 현장에서 쉽게 공급할 수 있는 벌킹 재료(예: 퇴비, 돼지똥, 톱밥, 왕겨)를 테스트했습니다. 100mm 스티로폼을 사용하여 실험실 규모의 퇴비화 시스템(W34 L60 H26cm)을 만들었으며, 시스템 바닥에 설치된 파이프를 통해 자연 통기가 이루어졌습니다. 4가지 처리법(퇴비, 퇴비+돼지똥, 톱밥, 왕겨 처리군)을 설계하고 모든 실험을 3회 반복하여 수행했습니다. 40일 동안 퇴비화하는 동안 퇴비와 톱밥 처리군에서는 침출수가 전혀 관찰되지 않았으나, 퇴비+분변과 왕겨 처리군에서는 각각 18ml 및 8.2ml의 침출수/kg-사망률이 배출되었습니다. 퇴비화 과정에서 DMDS(Dimethyl disulfide) 방출은 모든 처리군에서 매우 낮았는데, 이는 퇴비 더미 덮개층의 생물 여과 기능 때문일 수 있습니다. 퇴비, 퇴비+분변, 톱밥, 왕겨의 분해도는 각각 25.3, 25.8, 13.5, 14.5%로 퇴비, 퇴비+분변 그룹에서 유의하게 높은 수준을 보였다(p&lt; 0.05). 또한 퇴비+대변군만이 충분한 열을 생산(이상)하여 7일 동안 지속되어 분변 보충 없이는 생물학적 안전성을 보장할 수 없음을 알 수 있다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">To develop a sustainable composting method for livestock mortality, a natural aeration-composting process was designed and the influences of bulking materials on the mortality composting process were studied. Bulking materials (eg, compost, swine manure, sawdust, and rice husks), easily supplied at the scene of an animal mortality outbreak, were tested in this research. A lab-scale composting system (W34 </span><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);"> L60 </span><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);"> H26 cm) was made using 100 mm styrofoam, and natural aeration was achieved through pipes installed on the bottom of the system. Four treatments were designed (compost, compost+ swine feces, sawdust, and rice husks treatment groups) and all experiments were done in triplicates. During composting for 40 days, no leachate was observed in compost and sawdust treatment groups, whereas 18 and 8.2 ml leachate/kg-mortality was emitted from the compost+ feces and rice husks treatment groups, respectively. Dimethyl disulfide (DMDS) emission during the composting was very low in all treatment groups, possibly due to the bio-filtering function of the compost cover layer on the pile. The mortality degradability in compost, compost+ feces, sawdust, and rice husks groups was 25.3, 25.8, 13.5, and 14.5%, respectively, showing significantly higher levels in compost and compost+ feces groups (p&lt; 0.05). Also, only the compost+ feces group produced enough heat (over </span><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">) and lasted for 7 days, indicating that bio-security cannot be guaranteed without feces supplementation.</span> </p>
@@ -712,7 +712,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -725,7 +725,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -739,12 +740,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

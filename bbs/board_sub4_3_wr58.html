@@ -530,7 +530,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">2011년 3월 기준으로, 대한민국에는 약 330만 마리의 소, 700만 마리의 돼지, 1억 4천만 마리의 가금류가 있으며, 연간 약 4,650만 톤의 동물 분뇨를 생산하고 있습니다. 생산된 전체 폐기물의 약 87%가 퇴비와 액체 유기비료로 토지로 재활용됩니다. 액체 유기 비료에는 많은 양의 유기 영양소가 포함되어 있습니다. 또한 병원균, 냄새, 좋지 않은 잡초 씨앗 및 독성 물질이 없습니다. 국내의 대부분의 액체비료는 호기성 액체퇴비화 공정(Autothermal thermophilic aerobic Digestion-ATAD)을 통해 생산됩니다. 톱밥 깔개는 국내에서 가장 널리 사용되는 낙농분뇨 수집방법이다. 소규모 낙농장의 90% 이상이 유기농 침구재를 사용하고 있습니다. 유기농 침구 재료는 분뇨의 수분을 흡수하여 소에게 쿠션을 제공합니다. 낙농장은 일반적으로 사용한 유기농 침구 재료를 12개월마다 새로운 재료로 교체합니다. 제거된 깔짚 재료는 정적 파일 및 기포형 정적 파일 퇴비화 공정을 통해 퇴비로 전환됩니다. 한국 정부는 가축분뇨를 액체비료, 퇴비 등으로 재사용하는 것을 농민들에게 장려하고 있습니다. 화학비료 사용을 줄이고 토양의 질을 향상시켜 지속가능한 농업을 촉진하는 데 도움이 되기 때문입니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">As of March 2011, there were about 3.3 million cattle, 7 million pigs, and 140 million poultry in Republic of Korea, producing about 46.5 million tons of animal manure annually. About 87% of the total produced waste is recycled to land as compost and liquid organic fertilizer. Liquid organic fertilizer contains plenty of organic nutrients; it is also free from pathogens, odor, unfavorable weed seeds, and toxic materials. Most liquid fertilizers in Korea are produced through aerobic liquid composting process (Autothermal thermophilic aerobic digestion-ATAD). Sawdust bedding is the most prevalent dairy manure collection method in Korea. More than 90% of small-scale dairy farms use organic bedding materials. Organic bedding materials absorb moisture from manure and provide cushion to cattle. Dairy farms normally replace used organic bedding material with fresh ones every 12 months. The removed bedding materials are turned to compost through static pile and aerated static pile composting processes. Korean government encourages farmers to reuse animal manure as liquid fertilizer and compost because they help reduce chemical fertilizer consumption and improve soil quality, thereby promoting sustainable agriculture.</span> </p>
@@ -708,7 +708,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -721,7 +721,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -735,12 +736,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

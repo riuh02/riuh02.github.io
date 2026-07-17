@@ -530,7 +530,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">2012년 한국의 젖소 분뇨 생산량은 약 22,000톤/일에 달합니다. 젖소 분뇨에는 일반적으로 깔판형 축사에서 소 발톱을 보호하는 데 사용되는 톱밥이나 왕겨가 포함됩니다. 퇴비화는 젖소 분뇨 처리를 위한 최고의 대안 중 하나였습니다. 그러나 최근 혐기성 기술은 재생 에너지로서 바이오가스 생산에 더 많은 관심을 불러일으켰습니다. 다른 잠재적인 처리 옵션과 비교할 때, 혐기성 소화에 이은 퇴비화는 유망하고 경제적으로 실행 가능한 기술인 것으로 보입니다. 따라서 중온성 혐기성 소화 시스템을 설계하기 위해서는 젖소 분뇨의 혐기성 최종 생분해성과 분해 속도에 대한 기질 특성을 아는 것이 중요합니다. k로 표시되는 1차 배치 반응 속도 계수는 동물 분뇨의 혐기성 분해 정도를 설명하는 가장 유용한 매개변수 중 하나입니다. 이상적인 배치 반응은 단일 붕괴율 계수를 나타내는 직선을 생성합니다. 그러나 반응 곡선은 일반적으로 초기 작동 기간 동안 가파른 기울기(k1)를 갖는 선형 형태, 이어서 점진적인 비선형 전이, 그리고 더 느린 기울기(k2)를 갖는 두 번째 선형 선으로 구성됩니다. 본 연구에서는 회분식 반응 중 젖소 분뇨의 분해 동역학을 평가하기 위해 해당 생분해성 기질 분획(S1 및 S2)의 다중 반응 속도 계수를 계산했습니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <div class="gsh_csp" style="margin:0px 0px 16px;padding:0px;border:0px;color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">The production of dairy cow manure in Korea amounted to approximately 22 thousand tonnes/day in 2012. Dairy cow manure includes saw dust or rice hull that are usually used to protect cow claw in bedded pack dairy barn. Composting has been one of the best alternatives for the dairy cow manure treatment. However recently anaerobic technology has brought more interest in production of biogas as a renewable energy. Compared to other potential treatment options, anaerobic digestion followed by composting appears to be a promising and economically feasible technology. It is therefore important to know the substrate characteristics on the anaerobic ultimate biodegradability and degradation rates of dairy cow manure to design the mesophilic anaerobic digestion system.</div><div class="gsh_csp" style="margin:16px 0px 0px;padding:0px;border:0px;color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">The first order batch reaction rate coefficient, represented k, is the one of most useful parameter to describe the degree of anaerobic degradation of animal manure. An ideal batch reaction yields straight line, indicating a single decay rate coefficient. However the reaction curves usually consisted of the linear form with a steep slope (k1) during the initial period of operation, followed by a gradual non-linear transition, and then a second linear line with a slower slope (k2). In this study the multiple reaction rate coefficients at their corresponding biodegradable substrate fractions (S1 and S2) were calculated to evaluate the degradation kinetics of dairy cow manure during the batch reaction.</div>
@@ -708,7 +708,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -721,7 +721,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -735,12 +736,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

@@ -529,7 +529,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">가축 생산 시스템은 지역 사회와 지역 대기 질에 영향을 미치는 불쾌한 냄새와 가스 배출을 생성합니다. 농장 노동자의 직업적 건강과 안전에 대한 우려도 있습니다. 축산업의 사회경제적 과제와 일치하는 입증된 완화 기술이 필요합니다. 우리는 농장 규모의 준비를 목표로 실험실 규모에서 배출되는 광촉매 처리를 확장해 왔습니다. 본 논문에서는 농장 내 연구를 위한 이동식 실험실의 설계, 테스트 및 시운전을 제시하고 농장에서 테스트하기 전에 시뮬레이션된 농장 조건에서 성능을 시연합니다. 이동식 실험실은 이산화티타늄, TiO 2 기반 광촉매, LED 램프를 기반으로 조정 가능한 UV-A 조사량을 사용하여 최대 1.2m 3 /s의 공기를 처리할 수 있습니다. 우리는 공기의 광촉매 처리 효율성(감소율로 측정) 및 비용과 같은 이동 실험실에 대한 주요 기술 요구 사항, 제약 조건, 접근 방식 및 성능 측정 기준을 요약합니다. 표준 가스를 사용한 모든 시스템의 시운전 결과 암모니아(NH 3 ) 및 부탄-1-올이 각각 ~9% 및 34% 감소되었습니다. 우리는 빛의 강도와 처리 시간이 증가함에 따라 증가하는 표준 가스의 감소율을 입증했습니다. 이러한 결과는 이동 실험실이 농장에 배치되고 UV 처리의 효과를 평가할 준비가 되었음을 보여줍니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">Livestock production systems generate nuisance odor and gaseous emissions affecting local communities and regional air quality. There are also concerns about the occupational health and safety of farmworkers. Proven mitigation technologies that are consistent with the socio-economic challenges of animal farming are needed. We have been scaling up the photocatalytic treatment of emissions from lab-scale, aiming at farm-scale readiness. In this paper, we present the design, testing, and commissioning of a mobile laboratory for on-farm research and demonstration of performance in simulated farm conditions before testing to the farm. The mobile lab is capable of treating up to 1.2 m</span><sup style="color:rgb(34,34,34);font-family:Arial, sans-serif;background-color:rgb(255,255,255);">3</sup><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">/s of air with titanium dioxide, TiO</span><sub style="color:rgb(34,34,34);font-family:Arial, sans-serif;background-color:rgb(255,255,255);">2</sub><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">-based photocatalysis, and adjustable UV-A dose based on LED lamps. We summarize the main technical requirements, constraints, approach, and performance metrics for a mobile laboratory, such as the effectiveness (measured as the percent reduction) and cost of photocatalytic treatment of air. The commissioning of all systems with standard gases resulted in ~9% and 34% reduction of ammonia (NH</span><sub style="color:rgb(34,34,34);font-family:Arial, sans-serif;background-color:rgb(255,255,255);">3</sub><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">) and butan-1-ol, respectively. We demonstrated the percent reduction of standard gases increased with increased light intensity and treatment time. These results show that the mobile laboratory was ready for on-farm deployment and evaluating the effectiveness of UV treatment.</span> </p>
@@ -707,7 +707,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -720,7 +720,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -734,12 +735,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

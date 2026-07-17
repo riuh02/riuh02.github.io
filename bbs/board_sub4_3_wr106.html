@@ -545,7 +545,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">개요: 이 연구는 실험실 규모의 돼지 슬러리 구덩이에서 암모니아(NH3) 및 황화수소(H2S) 배출을 완화하는 플로팅 커버(FC)의 효과를 조사했습니다. 실험실 실험은 슬러리 표면의 약 51.6%를 덮는 FC가 있는 처리 설정과 덮개가 없는 대조 설정을 비교하면서 125일에 걸쳐 수행되었습니다. 결과는 FC를 사용하여 NH3 배출을 54.4%까지 크게 감소시켰으며(p &lt; 0.05), 이는 NH3 휘발을 제한하고 껍질 형성을 촉진하는 능력에 기인합니다. H2S 배출량도 22.7% 감소했지만 이러한 감소는 H2S 생산에 영향을 미치는 복잡한 요인으로 인해 통계적으로 유의미하지 않았습니다. 이러한 발견은 돼지우리 내부의 공기 질을 개선하고 환경 오염을 줄이는 데 있어 플로팅 커버(FC)의 역할을 강조합니다. 암모니아(NH3)로 인한 질소 손실을 최소화함으로써 FC는 농경지로의 질소 재활용을 향상시켜 지속 가능한 영양분 관리를 지원합니다. 이는 대기 질 문제를 해결하고 악취를 줄이며 축산 시스템의 자원 효율성을 향상함으로써 보다 광범위한 지속 가능성 목표에 부합합니다. 본 연구는 대기 오염을 완화하는 효과적인 방법을 제시하여 실용적이고 지속 가능한 농업 관행의 기반을 제공합니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="font-family:'Times New Roman';font-size:12pt;"> Abstract: This study investigated the effectiveness of floating covers (FCs) in mitigating
@@ -737,7 +737,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -750,7 +750,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -764,12 +765,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

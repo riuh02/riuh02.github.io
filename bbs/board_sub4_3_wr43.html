@@ -534,7 +534,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">낙농분뇨와 톱밥 혼합물의 가수분해 특성에 대한 열 전처리 조건의 영향이 평가되었습니다. 열 전처리 온도는 35~120°C로 다양했고, 처리 기간은 30~1440분(24시간)으로 다양했습니다. 열 전처리 온도와 지속시간이 증가할수록 유기재료의 용해율은 향상되었다. SCOD(화학적 산소 요구량), 탄수화물, 휘발성 지방산(VFA)의 최대 가용화는 낙농 분뇨를 120°C에서 하루 동안 처리했을 때 관찰되었습니다. 120°C에서 하루 처리한 경우 SCOD, 수용성 탄수화물, VFA 농도가 가장 높았으나 가수분해율은 약 12%에 불과했습니다. 결과는 본 연구에서 시도한 열적 전처리 조건이 낙농 분뇨와 톱밥 혼합물에 포함된 유기물을 용해시키기에 충분하지 않음을 보여줍니다. 극대화하기 위해…</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">The effect of thermal pretreatment conditions on hydrolysis characteristics of dairy manure and sawdust mixtures has been evaluated. Thermal pretreatment temperature varied between 35 and 120°Cand the period of the treatment changed between 30 and 1440min (24h). As thermal pretreatment temperature and duration increased, organic material solublization rates were improved. Maximum solubilizations of chemical oxygen demand (SCOD), carbohydrates, and volatile fatty acids(VFAs) were observed when dairy manure treated for one day at 120°C. Although one day treatment duration at 120°Cshowed the highest SCOD, soluble carbohydrates, and VFAs concentration, its hydrolysis rate was only about 12%. The results reveal that the thermal pretreatment conditions tried in this study are not enough to solubilize the organic matter contained in dairy manure and sawdust mixtures. In order to maximize …</span> </p>
@@ -712,7 +712,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -725,7 +725,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -739,12 +740,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

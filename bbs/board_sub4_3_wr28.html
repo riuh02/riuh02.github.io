@@ -525,7 +525,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">일상적이고 치명적인 질병 발생으로 인한 감염성 동물 사체의 처리를 관리하는 것은 세계적인 관심사입니다. 최근 연구에 따르면 줄이 있고 공기가 통하는 도랑에 매장하면 매장을 통해 병원균을 신속하게 봉쇄하는 동시에 대기 및 수질 오염 가능성을 줄이고 토지가 농업 생산에서 제외되는 기간이 단축되는 것으로 나타났습니다. 그러나 소화액 내 병원균의 생존은 여전히 ​​문제로 남아 있습니다. 잠재적인 대답은 트렌치 라이너가 궁극적으로 누출될 때 병원균 오염 위험을 줄이기 위해 암모니아를 2차 장벽 처리로 사용하는 '이중' 장벽 접근 방식입니다. 이 연구 결과에 따르면 NH 3 의 최소 억제 농도(MIC)는 24시간 및 pH = 9±0.1에서 ST4232 및 MRSA43300에 대해 각각 0.1 M(~1,468 NH 3 -N mg/L) 및 0.5 M NH 3(~7,340 NH 3 -N mg/L)이며 불활성화는 NH 3 농도 및/또는 처리 시간을 증가시킴으로써 증가했습니다. NH3로 처리된 소화액의 결과는 MIC와 일치했으며, 두 병원균 모두 24시간 이내에 완전히 비활성화되었습니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(32,32,32);font-family:Helvetica, Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">Managing the disposal of infectious animal carcasses from routine and catastrophic disease outbreaks is a global concern. Recent research suggests that burial in lined and aerated trenches provides the rapid pathogen containment provided by burial, while reducing air and water pollution potential and the length of time that land is taken out of agricultural production. Survival of pathogens in the digestate remains a concern, however. A potential answer is a ‘dual’-barrier approach in which ammonia is used as a secondary barrier treatment to reduce the risk of pathogen contamination when trench liners ultimately leak. Results of this study showed that the minimum inhibitory concentration (MIC) of NH</span><span style="vertical-align:0px;color:rgb(32,32,32);font-family:Helvetica, Arial, sans-serif;background-color:rgb(255,255,255);">3</span><span style="color:rgb(32,32,32);font-family:Helvetica, Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);"> is 0.1 M (~1,468 NH</span><span style="vertical-align:0px;color:rgb(32,32,32);font-family:Helvetica, Arial, sans-serif;background-color:rgb(255,255,255);">3</span><span style="color:rgb(32,32,32);font-family:Helvetica, Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">-N mg/L), and 0.5 M NH</span><span style="vertical-align:0px;color:rgb(32,32,32);font-family:Helvetica, Arial, sans-serif;background-color:rgb(255,255,255);">3</span><span style="color:rgb(32,32,32);font-family:Helvetica, Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);"> (~7,340 NH</span><span style="vertical-align:0px;color:rgb(32,32,32);font-family:Helvetica, Arial, sans-serif;background-color:rgb(255,255,255);">3</span><span style="color:rgb(32,32,32);font-family:Helvetica, Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">-N mg/L) for ST4232 &amp; MRSA43300, respectively at 24 h and pH = 9±0.1 and inactivation was increased by increasing NH</span><span style="vertical-align:0px;color:rgb(32,32,32);font-family:Helvetica, Arial, sans-serif;background-color:rgb(255,255,255);">3</span><span style="color:rgb(32,32,32);font-family:Helvetica, Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);"> concentration and/or treatment time. Results for digestate treated with NH</span><span style="vertical-align:0px;color:rgb(32,32,32);font-family:Helvetica, Arial, sans-serif;background-color:rgb(255,255,255);">3</span><span style="color:rgb(32,32,32);font-family:Helvetica, Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);"> were consistent with the MICs, and both pathogens were completely inactivated within 24 h.</span> </p>
@@ -703,7 +703,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -716,7 +716,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -730,12 +731,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

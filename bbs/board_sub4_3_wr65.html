@@ -534,7 +534,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">수증기, 이산화탄소, 메탄, 아산화질소, 오존 등 많은 온실가스들이 자연적으로 발생합니다. HFC(수소불화탄소), PFC(과불화탄소), 육불화황( )과 같은 다른 물질은 전적으로 인간의 산업 공정에서 발생합니다. 현재 지구 온난화는 인위적인 온실가스 농도 증가와 연관되어 있습니다. 축산업에 따른 온실가스 배출량을 정량화하는 방법과 이를 세계적 상황에 적용할 수 있는 가능성을 연구하였다. 미량가스 분석기(TGA)를 갖춘 다양한 챔버 방법을 사용하여 저장된 분뇨의 온실가스 배출량을 정량화했습니다. 액체 돼지 분뇨를 저장하는 통에서 나오는 메탄 플럭스를 측정했습니다. 메탄 배출량은 시간이 지남에 따라 약간 증가했으며 평균은 393.2(표준 오차: 4)였습니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">Many greenhouse gases occur naturally, such as water vapor, carbon dioxide, methane, nitrous oxide, and ozone. Others such as hydrofluorocarbons (HFCs), perfluorocarbons (PFCs), and sulfur hexafluoride (</span><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">) result exclusively from human industrial processes. Current global warming has been linked to anthropogenic greenhouse gas concentration increases. Methods to quantify greenhouse gas emissions during animal agriculture and the possibility to apply those to circumstance in the world were studied. Various chamber methods with trace gas analyzer (TGA) were used to quantify greenhouse gas emissions from stored manure. Methane fluxes from pails storing liquid swine manure were measured. Methane emissions increased a little with time and mean was 393.2</span><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">(standard error: 4</span><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">).</span> </p>
@@ -712,7 +712,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -725,7 +725,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -739,12 +740,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

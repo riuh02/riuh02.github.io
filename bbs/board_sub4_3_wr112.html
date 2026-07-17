@@ -535,7 +535,7 @@ $(document).ready(function (){
            </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">실험실 규모의 돼지 슬러리 피트 시뮬레이터를 사용하여 56일 저장 기간 동안 질소(N) 분획과 암모니아(NH3) 휘발의 시간적 역학을 조사했습니다. 총 N(TN), 총 암모늄 N(TAN), 유기 N 및 질산염 N(NO3 --N) 부분을 포함하는 상세한 N 질량 균형은 개별 배출 측정과 관련된 불확실성에도 불구하고 96.5%의 N 질량 회수율을 나타냈으며, 28.3g 용기의 TN 감소는 27.3g의 누적 NH3-N 배출과 거의 일치합니다. NH3 방출 프로파일은 뚜렷한 2단계 패턴을 나타냈습니다. 1단계(1~28일) 동안 배출량은 16.7~19.5gm−2d−1로 안정적으로 유지되었으며, 이는 총 누적 NH3-N 손실(518.6gm−2)의 약 58%를 차지하며 0차 동역학과 일치합니다. 2단계(29~56일)는 점진적인 TAN 고갈과 동시에 1차 지수 붕괴(k = 0.0293 d−1, R2 = 0.982)를 특징으로 합니다. 측정된 방출 속도는 pH 및 온도(R2 = 0.74)에서 파생된 이론적인 유리 암모니아 N(FAN) 농도와 강한 상관관계가 있었으며, 실제 기체 플럭스는 슬러리-공기 경계면에서의 물질 전달 제한에 의해 제한되지만 이론적인 FAN이 방출 잠재력에 대한 유용한 상한을 제공한다는 것을 확인했습니다. 이러한 결과는 지속적인 pH 및 온도 모니터링이 특히 플럭스 초기 저장 단계에서 배출 역학을 추적하고 완화 개입 시기를 알리기 위한 실질적인 기반을 제공한다는 것을 보여줍니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="font-size:10pt;">The temporal dynamics of nitrogen (N) fractions and ammonia (NH3) volatilization were </span><span style="font-size:10pt;">investigated over a 56-day storage period using a laboratory-scale pig slurry pit simulator. </span><span style="font-size:10pt;">A detailed N mass balance, encompassing total N (TN), total ammonium N (TAN), organic </span><span style="font-size:10pt;">N, and nitrate N (NO3</span><span style="font-size:10pt;">−-N) fractions, yielded a N mass recovery of 96.5%, despite uncertainties </span><span style="font-size:10pt;">associated with discrete emission measurements, with a TN reduction of 28.3 g vessel−1 </span><span style="font-size:10pt;">closely matched by cumulative NH3-N emissions of 27.3 g. The NH3 emission profile exhibited </span><span style="font-size:10pt;">a distinct two-phase pattern. During Phase I (days 1–28), emissions remained stable </span><span style="font-size:10pt;">at 16.7–19.5 g m−2 d−1, accounting for approximately 58% of total cumulative NH3-N loss </span><span style="font-size:10pt;">(518.6 g m−2), consistent with zero-order kinetics. Phase II (days 29–56) was characterized </span><span style="font-size:10pt;">by first-order exponential decay (k = 0.0293 d−1, R2 = 0.982), coinciding with progressive </span><span style="font-size:10pt;">TAN depletion. Measured emission rates were strongly correlated with theoretical free </span><span style="font-size:10pt;">ammonia N (FAN) concentrations derived from pH and temperature (R2 = 0.74), confirming </span><span style="font-size:10pt;">that theoretical FAN provides a useful upper bound for emission potential, although </span><span style="font-size:10pt;">the actual gaseous flux is restricted by mass-transfer limitations at the slurry–air interface. </span><span style="font-size:10pt;">These results demonstrate that continuous pH and temperature monitoring provides a </span><span style="font-size:10pt;">practical basis for tracking emission dynamics and informing the timing of mitigation </span><span style="font-size:10pt;">interventions, particularly during the high-flux initial storage phase.</span></p>
@@ -713,7 +713,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -726,7 +726,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -740,12 +741,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

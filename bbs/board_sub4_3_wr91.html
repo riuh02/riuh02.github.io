@@ -534,7 +534,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">수분은 퇴비 및 기타 고체 발효 매트릭스의 물리적, 생물학적 특성에 영향을 미칩니다. 호기성 미생물 시스템은 수분 함량과 물질 유형에 따라 다양한 호흡률(산소 흡수 및 CO2 발생)을 경험합니다. 본 연구에서는 13가지 퇴비 벌크 재료의 미생물 호흡률을 6가지 다른 수분 수준에서 압력 센서 방법으로 측정했습니다. 실험적으로 결정된 호흡 지수(RQ) 값은 O2 소비량에서 CO2 호흡률을 계산하는 데 사용되었습니다. 약 1.5인 사일리지, 귀리 짚 및 잎을 제외하고 모든 재료의 RQ 값은 약 1.0이었습니다. 다양한 재료에 대해 다양한 호흡 및 열 생산 속도가 관찰되었으며, 알팔파 건초, 사일리지, 귀리 짚 및 칠면조 깔짚이 가장 높은 값을 나타냈습니다. 이들 4가지 퇴비 증량제는 질병 관련 치사 퇴비화를 위한 내부 온도 및 병원체 파괴율을 향상시키는 데 특히 적합할 수 있습니다. 최적의 수분 함량은 최대 호흡수 범위에 걸친 측정을 기반으로 결정되었습니다. 최적의 수분 수준을 예측하기 위해 수분 동역학의 기계적 모델도 사용되었습니다. 실험적 관찰과 모델링된 최적 수분 함량 사이에는 좋은 일치가 있었습니다. 각 물질의 최적 수분 함량은 WHC 근처에서 관찰되었으며, 이는 고도로 안정화된 정원 폐기물 퇴비(최적 약 30% w.b.)를 제외한 모든 물질에 대해 습식 기준으로 거의 65%에서 85% 이상 범위였습니다. 이 연구는 유기 물질의 생분해성과 각 물질의 특정 호흡률에 대한 수분 함량의 중요성을 보여줍니다. 결과는 퇴비와 덮개 재료를 허용 가능한 범위로 유지하기 위한 수분 관리 및 공정 제어 전략을 개발하는 데 사용될 수 있습니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(51,51,51);font-family:'Open Sans', sans-serif;background-color:rgb(255,255,255);">Moisture affects the physical and biological properties of compost and other solid state fermentation matrices. Aerobic microbial systems experience different respiration rates (oxygen uptake and CO2 evolution) as a function of moisture content and material type. In this study the microbial respiration rates of 13 compost-bulking materials were measured by a pressure sensor method at 6 different moisture levels. The experimentally determined respiration quotient (RQ) values were used to calculate CO2 respiration rates from O2 consumption. The RQ values of all materials were around 1.0 except for silage, oat straw and leaves which were about 1.5. A wide range of respiration and heat production rates were observed for different materials, with alfalfa hay, silage, oat straw, and turkey litter having the highest values. These four compost-bulking agents may be particularly suitable for improving internal temperature and pathogen destruction rates for disease-related mortality composting. Optimum moisture content was determined based on measurements across a range that spans the maximum respiration rate. A mechanistic model of moisture kinetics was also used to predict the optimum moisture levels. There was good agreement between experimental observations and modeled optimum moisture content. The optimum moisture content of each material was observed near WHC, which ranged from near 65 to over 85% on a wet basis for all materials except a highly stabilized yard waste compost (optimum around 30% w.b.). This study demonstrates the importance of moisture content on the biodegradability of organic materials and specific respiration rates of each material. The results can be used to develop moisture management and process control strategies to maintain compost and cover materials in an acceptable range.</span> </p>
@@ -712,7 +712,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -725,7 +725,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -739,12 +740,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

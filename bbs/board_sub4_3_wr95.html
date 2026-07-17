@@ -534,7 +534,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">구제역 발생 시 소 사체의 긴급 처리를 위해 퇴비를 사용하는 방식의 부패 성능, 대기 및 수질 환경 영향, 생물학적 보안을 테스트하기 위해 2002년 아이오와에서 2년 간의 프로젝트가 시작되었습니다. 현재까지 테스트된 세 가지 비상 덮개 재료 중에서 사일리지는 가장 높고 가장 지속적인 내부 열을 발생시켰으며, 가장 빠르고 철저한 도체 분해를 일으켰으며, 생물학적 보안 테스트를 위해 더미에 도입된 조류 백신 바이러스를 가장 빠르게 파괴했습니다. 비록 분쇄된 옥수수대 피복재의 내부 온도가 사일리지보다 훨씬 낮았지만, 도체 분해는 사일리지에서와 마찬가지로 거의 빠르게 일어나는 것으로 나타났습니다. 옥수수대 물질은 사일리지보다 오염물질 농도가 더 높고 수집 가능한 침출수를 더 많이 생성했습니다. 사일리지보다 공기 투과 계수가 훨씬 높은 옥수수대를 분쇄하여 건설한 테스트 유닛에서 풍하 방향 악취가 파일 건설 후 초기 2~3주 동안 가장 강하고 빈번한 것으로 나타났습니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(51,51,51);font-family:'Open Sans', sans-serif;background-color:rgb(255,255,255);">A two-year project was begun in Iowa in 2002 to test the decay performance, air and water environmental impacts, and bio-security of using composting for emergency disposal of cattle carcasses in the event of a foot-and-mouth disease outbreak. Of the three emergency cover materials tested to date, silage produced the highest and most sustained internal heat, the most rapid and thorough carcass decomposition, and the most rapid destruction of avian vaccine viruses introduced into the piles for bio-security testing. Although internal temperatures within ground cornstalk cover material were much lower than in the silage, carcass decomposition appeared to occur almost as rapidly as in the silage. The cornstalk material produced more collectable leachate with higher pollutant concentrations than the silage. Downwind odor from test units constructed with ground cornstalk, which has a much higher air permeability coefficient than silage, appeared to be strongest and more frequent during the initial 2 3 weeks following construction of the piles.</span> </p>
@@ -712,7 +712,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -725,7 +725,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -739,12 +740,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

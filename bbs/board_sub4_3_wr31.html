@@ -529,7 +529,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">본 연구는 수돗물을 세척액으로 사용하는 딥인젝션 습식 스크러버(DIWS)의 악취 저감 효능을 평가하기 위해 수행되었다. 7일 배치 작동 DIWS의 NH3 및 H 2 S 제거 효율은 총 14일의 실험에 걸쳐 두 번 평가되었습니다. NH 3 제거 효율은 26~37% 범위였습니다. H 2 S 제거 효율은 22~30%였습니다. 세정액의 pH는 8 이하로 유지되었으며, NH 4+ 농도는 세정액 교체 5일 후에도 350ppm 내외로 일정하게 유지되는 경향을 보였다. 따라서 7일 간격보다 5일 세척액 교체 간격이 더 바람직합니다. NH 4+ 농도와 전기전도도(EC)는 높은 상관관계를 보였다. EC 측정은 세척액 상태의 실시간 모니터링을 위한 기존 NH 4+ 농도 측정 방법의 대안으로 사용될 수 있습니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">This study was conducted to evaluate the odor reduction efficacy of the dip injection wet scrubber (DIWS) using tap water as washing fluid. The NH3 and H 2 S removal efficiency of 7 day batch operated DIWS was evaluated twice over a total of 14 days of experiment. The NH 3 removal efficiency ranged from 26 to 37%. The H 2 S removal efficiency was between 22 and 30%. The pH of the washing fluid maintained below 8 and theNH 4+ concentration tended to keep constant around 350 ppm after 5 days of washing-fluid replacement. Therefore, the 5-day washing fluid replacement interval is more preferable than the 7-day interval. The NH 4+ concentration and the electrical conductivity (EC) showed a high correlation. The EC measurement can be used as an alternative to conventional NH 4+ concentration measurement method for real time monitoring of washing fluid condition.</span> </p>
@@ -707,7 +707,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -720,7 +720,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -734,12 +735,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

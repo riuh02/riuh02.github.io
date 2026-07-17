@@ -526,7 +526,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">아이오와의 집중적인 돼지 생산(미국 생산량의 28.4%)은 필연적으로 동물 사체를 포함한 많은 양의 돼지 폐기물을 발생시킵니다. 퇴비화는 특히 질병에 걸린 돼지의 폐사체를 처리하는 환경적으로 건전하고 상대적으로 저렴한 방법입니다. VOC 배출량 측정은 테스트 진행 및 프로세스 완료에 대한 대안입니다. 본 연구에서는 아이오와 중부 지역의 여름 조건에서 병든 돼지 폐사체를 퇴비화했습니다. 옥수수 사일리지, 귀리짚, 옥수수 줄기는 봉투 재료로 사용됩니다. 일주일에 한 번 테스트 장치 중앙에서 공기 샘플을 수집하고 85μm Carboxen/폴리디메틸실록산(CAR/PDMS) 고체상 미세추출(SPME) 섬유로 샘플링합니다. 샘플은 가스 크로마토그래피(GC)-질량 분석법(MS)을 사용하여 분석되었습니다. 본 연구의 목적은 돼지 폐사율 저하의 지표로서 VOC의 잠재적인 용도를 조사하는 것입니다. 질소 및 황 함유 화합물이 퇴비화 공정의 지표로 사용될 수 있는 것으로 밝혀졌습니다. 모든 테스트 장치에서 황 함유 화합물이 검출됩니다. 질소 함유 화합물은 옥수수 사일리지 테스트 장치에서만 검출됩니다. 모든 테스트 단위에서 도체 분해가 불완전한 것으로 결론지었습니다. 옥수수 줄기와 귀리 짚 테스트 장치의 도체 분해는 옥수수 사일리지 테스트 장치보다 낫습니다. 이러한 결과는 호흡수 결과로 뒷받침됩니다. 남은 돼지 시체의 호흡률은 5-7 mg CO2-C g VS-1d-1 사이인 것으로 밝혀졌으며 돼지 시체는 적당히 불안정한 퇴비로 분류됩니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">The intensive production of swine in Iowa (28.4% of the USA production) inevitably results in high amounts of piggery waste including animal carcasses. Composting is an environmentally sound and relatively inexpensive method to dispose swine mortalities especially when the carcasses are diseased. Measurement of VOC emissions is an alternative to test progress and completion of the process. In this study, diseased swine mortalities are composted in summer conditions of Central Iowa. Corn silage, oat straw and corn stalks are used as envelope materials. Once a week, air samples are collected from the center of test units and sampled with 85 μm Carboxen/polydimethylsiloxane (CAR/PDMS) solid phase microextraction (SPME) fiber. Samples were analyzed using gas chromatography (GC)-mass spectrometry (MS). The objective of the study is to investigate the potential usage of VOCs as indicators of swine mortality degradation. It is found that nitrogen and sulfur containing compounds can be used as indicators of the composting process. Sulfur-containing compounds are detected from all test units. Nitrogen-containing compounds are detected from only corn silage test units. It is concluded that carcass degradation is incomplete in all of the test units. Carcass degradation in corn stalks and oat straw test units is better than corn silage test units. These results are supported with respiration rate results. Respiration rates of the remaining swine carcasses are found to be between 5-7 mg CO2-C g VS-1d-1 and swine carcasses are categorized as moderately unstable composts.</span> </p>
@@ -704,7 +704,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -717,7 +717,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -731,12 +732,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

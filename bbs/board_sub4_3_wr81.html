@@ -530,7 +530,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">이 프로젝트는 캐나다 식품 검사국(CFIA)과 캐나다 연구 기술 이니셔티브(CRTI-캐나다의 미국 국토 안보부)의 후원을 받았습니다. 목적은 생물학적으로 안전한 돼지 폐사 퇴비화 시스템의 설계와 성능을 평가하는 것이었습니다. 외부 플라스틱 차단막이 포함된 원래 설계는 2004년 브리티시 컬럼비아에서 발생한 조류 인플루엔자 발생 시 처음 사용되었습니다. 2006년 캐나다 정부는 퇴비화 시스템을 개선하고 돼지와 같은 대형 종의 처리에 사용을 확대하기 위해 ISU에 엔지니어링 지원을 요청했습니다. 특정 목표에는 퇴비화 매트릭스 내 수분 분포 및 손실에 대한 연구가 포함됩니다. 수동 폭기 장치의 기능 및 최적 간격; 온도, O2 및 분해 속도에 대한 봉투 재료 유형의 영향; 차단방역 막을 방해하지 않고 동물 조직 분해 완료를 안전하게 평가하는 데 사용할 수 있는 휘발성 유기 화합물(VOC) 식별.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">This project was sponsored by the Canadian Food Inspection Agency (CFIA) and the Canadian Research and Technology Initiative (CRTI–Canada’s equivalent of US Homeland Security Agency). The purpose was to evaluate the design and performance of a bio-secure swine mortality composting system. The original design, which includes an external plastic biosecurity membrane, was first used during an avian influenza outbreak in British Columbia in 2004. In 2006 the Canadian government requested engineering assistance from ISU to improve the composting system and extend its use to disposal of larger species such as swine. Specific objectives include studies of moisture distribution and loss within the composting matrix; the function and optimal spacing of passive aeration devices; effects of envelope material type on temperature, O2, and decomposition rates; and identification of volatile organic compounds (VOCs) that might be used to safely assess completion of animal tissue decomposition without disrupting the biosecurity membrane.</span> </p>
@@ -708,7 +708,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -721,7 +721,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -735,12 +736,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

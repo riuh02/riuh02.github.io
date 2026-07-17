@@ -529,7 +529,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">젖소거름(DCM)과 분해거름(DM), 톱밥(S) 등 수분조절물질의 부피배합비율에 따라 6개의 반응조(DCM만(R1), DCM:DM=1:1(R2), DCM:DM=1.5:0.5(R3), DCM:DM=0.5:1.5(R4), DCM:DM:S=1: 젖소분뇨의 퇴비화에는 0.5:0.5(R5) 및 DCM:S=1:1(R6))을 사용하였다. 퇴비화 반응기 중 R5의 퇴비화 반응기는 퇴비화 기간 동안 퇴비의 온도가 가장 높은 것으로 나타났다. 3주간 퇴비화한 후 R5와 R6의 수분함량은 각각 51%와 51.3%였다. 이는 우리나라 축산분뇨 퇴비의 수분함량 기준을 만족하는 수치이다. 우리는 분해된 분뇨를 톱밥과 혼합하여 사용할 경우 젖소 분뇨 퇴비화를 위한 우수한 수분 조절 재료가 될 수 있다는 결론을 내렸습니다. 젖소분뇨와 수분조절물질의 최적 부피배합비율은 가축분뇨 50%, 분해분뇨 25%, 톱밥 25%였다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">According to the volumetric mixing rate of dairy cow manure (DCM) and moisture control materials such as decomposed manure (DM) and sawdust (S), 6 reactors (DCM only (R1), DCM: DM= 1: 1 (R2), DCM: DM= 1.5: 0.5 (R3), DCM: DM= 0.5: 1.5 (R4), DCM: DM: S= 1: 0.5: 0.5 (R5) and DCM: S= 1: 1 (R6)) were used for composting of dairy cow manure. Among the composting reactors, composting reactor of R5 was shown the highest temperature of the compost as a </span><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);"> during composting period. After 3 weeks composting, moisture content of R5 and R6 were 51% and 51.3%, respectively. These values were satisfied with the moisture content standard of livestock manure compost of Korea. We concluded that decomposed manure may be a good moisture control material for dairy cow manure composting when it is used in mixture with sawdust. The optimum volumetric mixing ratio of dairy cow manure and moisture control materials was 50% of livestock manure, 25% of decomposed manure and 25% of sawdust.</span> </p>
@@ -707,7 +707,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -720,7 +720,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -734,12 +735,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

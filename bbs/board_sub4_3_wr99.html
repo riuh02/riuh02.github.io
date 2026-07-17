@@ -545,7 +545,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">Abstract : 본 연구에서는 실험실 규모의 슬러리 피트에 돼지 분뇨를 저장하는 동안 사료 첨가제 혼합물(벤조산, 사포닌, 프리바이오틱스 및 미네랄 0.5%로 구성)이 온실가스 배출에 미치는 영향을 평가했습니다. 대조군과 비교하여 첨가제를 먹인 그룹은 더 높은 평균 CO2 배출율(51.7±22.9 g/day/m3-슬러리 대 29.4±2.9 g/day/m3-슬러리)을 나타냈으나 이 차이는 통계적으로 유의하지 않았습니다(p&gt;0.05). 그러나 시간 경과에 따른 CO2 배출 감소율은 첨가제 사용 시 더욱 가파르게 나타났습니다. CH4의 평균 배출율은 첨가제 첨가 시 1.5±0.9 kg/day/m3-슬러리, 대조구에서는 1.0±0.4 kg/day/m3-슬러리로 유의미한 차이는 없었다(p&gt;0.05). 처음에는 첨가제 그룹이 더 많은 CH4를 생산했지만, 이 추세는 실험 후반에 반전되었습니다. 이러한 발견은 CO2 및 CH4 배출을 감소시키는 사료 첨가제의 잠재력이 더 긴 실험 기간에 걸쳐 더욱 분명해질 수 있음을 시사합니다. 대조적으로, N2O 배출량은 대조군(36.0±15.1 mg/day/m3-슬러리)에 비해 첨가제(6.2±2.5 mg/day/m3-슬러리)에서 상당히 낮아 약 81.7% 감소를 나타냅니다(p&lt;0.05). 이러한 효과는 분뇨 저장 초기 단계에서 가장 두드러졌습니다. 결과적으로 사료 첨가제는 저장 과정 초기에 N2O 배출을 효과적으로 완화합니다. 55일이라는 상대적으로 짧은 연구 기간을 고려할 때, 돼지 분뇨 저장 기간을 연장하여 온실가스 배출량을 평가하기 위한 추가 연구가 필요합니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="font-family:'Times New Roman';font-size:14pt;">Abstract : This study evaluated the impact of a feed additive mixture (comprising benzoic acid, 
@@ -740,7 +740,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -753,7 +753,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -767,12 +768,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

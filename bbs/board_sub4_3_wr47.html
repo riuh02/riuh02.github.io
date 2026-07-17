@@ -534,7 +534,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">질병으로 인한 소 사망에 대한 비상 처리 방법으로서 퇴비화의 생물학적 안전성은 세 가지 다른 계절에 시작된 본격적인 현장 시험을 실시하고 세 가지 다른 봉투 재료를 사용하여 평가되었습니다. 퇴비화 매트릭스를 구성하는 데 사용된 봉투 재료는 공정의 차단방역에 상당한 영향을 미쳤습니다. 내부 온도는 옥수수 사일리지, 짚/거름 또는 옥수수대를 갈아서 만든 계절 테스트 장치의 병원균 감소에 대한 USEPA 클래스 A 시간/온도 기준을 각각 89%, 67%, 22% 충족했습니다. 겨울에 시작된 시험에서, 조류 뇌척수염 및 뉴캐슬병 바이러스의 백신 균주의 생존 시간은 다른 두 재료에 비해 사일리지 시험 장치에서 눈에 띄게 짧았지만, 여름/봄 시험 동안 옥수수대 분쇄 및 짚/거름 시험 장치의 생존 시간은 사일리지로 구성된 시험 장치의 생존 시간과 유사했습니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">The biosecurity of composting as an emergency disposal method for cattle mortalities caused by disease was evaluated by conducting full-scale field trials begun during three different seasons and using three different envelope materials. Process biosecurity was significantly affected by the envelope material used to construct the composting matrix. Internal temperatures met USEPA Class A time/temperature criteria for pathogen reduction in 89%, 67%, and 22%, respectively of seasonal test units constructed with corn silage, straw/manure, or ground cornstalks. In trials begun in the winter, survival times of vaccine strains of avian encephalomyelitis and Newcastle disease virus were noticeably shorter in silage test units than in the other two materials, but during summer/spring trials survival times in ground cornstalk and straw/manure test units were similar to those in test units constructed with silage.</span> </p>
@@ -712,7 +712,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -725,7 +725,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -739,12 +740,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

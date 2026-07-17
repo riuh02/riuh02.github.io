@@ -529,7 +529,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">이 실험은 회분식 모드에서 중온(37℃)에서 22L 용량의 실험실 규모 소화기를 사용하여 낙농 분뇨의 고체상 혐기성 소화(SSAD)에 대한 침출수 교체 빈도의 영향을 평가하기 위해 수행되었습니다. 세 가지 다른 침출수 교체 전략(교체 없음, 3일에 한 번, 9일에 한 번)을 적용했으며 각 처리마다 3개의 소화조를 45일 동안 작동했습니다. 결과에 따르면 9일마다 침출수 교체 시험 장치에서는 3일마다 시험 장치(34.0 N․mL g-1․VS)에 비해 SSAD에서 메탄 생산량(53.8 N․mL g-1․VS)이 1.6배 더 많은 것으로 나타났습니다. 침출수 대체 전략을 적용하지 않은 그룹은 9일마다 교체한 그룹보다 약간 더 높은 메탄 생산량(56.3 N․ mL g-1․ VS)을 나타냈습니다. 소화조에서 생성된 메탄에 교체된 침출수 자체의 메탄 생성 가능성을 더하면 9일마다 침출수를 교체한 결과 침출수 교체를 하지 않은 그룹과 거의 비슷한 메탄 생산량(56.5 N․ mL g-1․ VS)이 나타났습니다. 소화조에서 생산된 메탄에 대체된 침출수 자체의 메탄 생산능력을 더하였음에도 불구하고 3일마다 대체된 메탄은 34 N․ 휘발성 고체 1g당 메탄 생산량(mL)입니다. 이러한 결과는 농부들이 메탄 생산을 극대화하기 위해 낙농 분뇨와 톱밥 혼합물의 SSAD 동안 침출수를 교체할 필요가 없음을 시사합니다. 소화조 내 저해물질 축적 우려가 있는 경우 9일 주기의 침출수 교체가 적합</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">This experiment was conducted to evaluate the effect of leachate replacement frequency on solid state anaerobic digestion (SSAD) of dairy manure using 22 L volume lab-scale digesters at mesophilic temperature (37 C) in batch mode. Three different leachate replacement strategies (no replacement, once every three days, and once every nine days) were applied and three digesters per each treatment were operated for 45 days. Results showed that leachate replacement test unit every nine days resulted in 1.6 times more methane production (53.8 N․ mL g-1․ VS) from SSAD compared to test unit every three days (34.0 N․ mL g-1․ VS). No leachate replacement strategy applied group showed slightly higher methane production (56.3 N․ mL g-1․ VS) than every nine days replaced one. When added the methane production potential of replaced leachate itself to the methane produced from digester, leachate replacement every nine days resulted in quite similar methane production (56.5 N․ mL g-1․ VS) to no leachate replacement group. Even though methane production potential of replaced leachate itself added to the methane produced from digester, every three days replacement showed only 34 N․ mL methane production per gram of volatile solids. These results suggest that farmers do not need to replace leachate during SSAD of dairy manure and sawdust mixture in order to maximize methane production. If there are any concerns with accumulation of inhibiting substances in the digester, the 9-day cycle leachate replacement is appropriate</span> </p>
@@ -707,7 +707,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -720,7 +720,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -734,12 +735,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

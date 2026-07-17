@@ -545,7 +545,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">폴리불화비닐(PVF) 필름 백은 내구성, 견고성 및 다양한 화합물에 대한 화학적 불활성으로 인해 분석 전 공기 샘플을 임시 보관하는 데 널리 사용됩니다. 그러나 온도 및 보관 시간과 같은 요소는 PVF 필름 백의 성능에 큰 영향을 미칠 수 있으며 이는 샘플 분석의 정확성에 중요한 영향을 미칩니다. 이 연구에서는 다양한 보관 온도(-20°C, 25°C, 38°C) 및 지속 시간(0~168시간)에서 Tedlar® PVF 필름 백에 들어 있는 합성가스의 안정성을 평가했으며, 이러한 조건의 영향을 평가하기 위해 Pearson 상관 분석을 수행했습니다. 결과는 저장 온도와 시간 모두 특히 수소와 이산화탄소의 경우 합성가스 안정성에 현저하게 영향을 미치는 것으로 나타났습니다. 이러한 가스의 농도와 온도 사이에는 강한 음의 상관관계가 관찰되었으며, 38°C에서 가장 두드러진 음의 상관관계가 관찰되었으며, 이는 수소와 이산화탄소에 대해 각각 -0.974 및 -0.977의 계수를 나타냅니다. 25°C와 38°C에서 수소와 이산화탄소는 상당한 농도 손실을 보였으며, 회수율은 수소의 경우 81.2±4.5%, 66.9±1.2%, 이산화탄소의 경우 각각 90.9±1.1%, 89.3±1.5%였습니다. 반면, -20°C에서 7일 동안 보관된 가스는 95%가 넘는 회수율을 유지했습니다. 본 연구에서는 PVF 필름 샘플링 백의 저온 저장이 합성가스 활용 및 응용 결정에 대한 데이터 정확성을 보장하는 합성가스 무결성을 유지하는 효과적인 방법임을 확인했습니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(31,31,31);font-family:ElsevierGulliver, Georgia, 'Times New Roman', Times, STIXGeneral, 'Cambria Math', 'Lucida Sans Unicode', 'Microsoft Sans Serif', 'Segoe UI Symbol', 'Arial Unicode MS', serif;font-size:16px;"><font style="vertical-align:inherit;"><font style="vertical-align:inherit;">Polyvinyl fluoride (PVF) film bags are widely used for the temporary storage of air samples prior to analysis due to their durability, toughness, and chemical inertness to a broad range of compounds. However, factors such as temperature and storage time can significantly affect the performance of PVF film bags, with important implications for the accuracy of sample analysis. This study evaluated the stability of syngas in Tedlar® PVF film bags under varying storage temperatures (−20 °C, 25 °C, and 38 °C) and durations (0–168 h), with Pearson correlation analysis conducted to assess the impact of these conditions. The results revealed that both storage temperature and time notably influence syngas stability, particularly for hydrogen and carbon dioxide. A strong negative correlation was observed between the concentrations of these gases and temperature, with the most pronounced negative correlations at 38 °C, showing coefficients of −0.974 and −0.977 for hydrogen and carbon dioxide, respectively. At 25 °C and 38 °C, hydrogen and carbon dioxide exhibited significant concentration losses, with recovery rates of 81.2 ± 4.5% and 66.9 ± 1.2% for hydrogen, and 90.9 ± 1.1% and 89.3 ± 1.5% for carbon dioxide, respectively. In contrast, gases stored at −20 °C for seven days maintained recovery rates exceeding 95%. This study identifies low-temperature storage in PVF film sampling bags as an effective method for preserving syngas integrity ensuring data accuracy for informed syngas utilization and application decisions.</font></font></span> </p>
@@ -723,7 +723,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -736,7 +736,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -750,12 +751,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

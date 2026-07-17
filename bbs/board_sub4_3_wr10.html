@@ -529,7 +529,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">돼지 비육사에 설치된 습식 세정기의 암모니아 제거 효율에 세정액 종류가 미치는 영향을 평가하였다. 습식 세정기 입구의 암모니아 농도는 18.0±2.9~21.8±3.4ppmv에서 물, 염기제, 미생물제를 첨가한 세정액 처리 결과 각각 17.3±2.7, 15.5±1.9, 13.0±1.5ppmv로 감소하였다. 일반적으로 습식 세정기의 암모니아 제거율은 45~72%로 알려져 있으나 본 연구에서는 18~25%로 낮은 제거율을 보였다. 일일 암모니아 제거효율에는 상당한 차이가 있음을 확인하였다. 암모니아 제거효율은 주간에 비해 야간에 1.8~26배 높은 것으로 나타났는데, 이는 주변온도 변화에 따른 것으로 나타났다. 낮 동안 주변 온도는 스크러빙액의 온도보다 약 2C 더 높았습니다. 주변 온도가 증가함에 따라 암모니아 휘발로 인해 암모니아 제거 효율이 감소하였다. 습식 스크러버의 처리효율을 적절하게 유지하기 위해서는 스크러빙액의 종류를 올바르게 선택하고 주변온도 변화에 따른 적절한 운전방법을 개발하는 것이 필수적이므로 향후 이와 관련된 추가 연구가 필요하다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">The influence of scrubbing liquid type on the ammonia removal efficiency of wet scrubber installed in pig fattening houses was evaluated. Ammonia concentrations, which were ranged from 18.0±2.9 to 21.8±3.4 ppmv at the inlet of the wet scrubber, were reduced to 17.3±2.7, 15.5±1.9, 13.0±1.5 ppmv, respectively as a result of treatment with scrubbing liquid with water, base agent, microbial agent. It is generally known that wet scrubbers have an ammonia removal of 45~ 72%, but they have a low removal rate of 18~ 25% in this study. It was confirmed that there is a significant difference in the daily ammonia removal efficiency. The ammonia removal efficiency was 1.8~ 26 times higher at nighttime than daytime, which is seen as a result of changes in ambient temperature. The ambient temperature was about 2 C higher than that of scrubbing liquid during the day. The ammonia removal efficiency was decreased due to the ammonia volatilization as the ambient temperature increased. In maintaining the wet scrubber treatment efficiency properly, it is essential to select the scrubbing liquid type correctly and develop appropriate operation methods according to ambient temperature changes, so further research related to this needs to be conducted in the future.</span> </p>
@@ -707,7 +707,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -720,7 +720,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -734,12 +735,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

@@ -529,7 +529,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">이 연구는 톱밥 쌓기 축사에서 수집한 낙농 분뇨의 고체 상태 혐기성 소화에 대한 기질 대 접종원 비율 및 접종원 유형의 영향을 평가하기 위해 수행되었습니다. 다양한 유형의 접종원인 낙농장 분뇨 접종원(DMI)과 도시 하수 접종원(MSI)을 접종한 낙농 분뇨는 중온성 조건(37C)에서 휘발성 고형물(VS) 기준으로 0.5, 1, 2, 4의 다양한 기질 대 접종원 비율(SIR)에서 56일 동안 소화되었습니다. DMI를 접종한 소화조는 MSI를 접종한 테스트 장치보다 더 높은 생분해성 휘발성 고체 제거율(BVS 제거율: 52~82%)과 메탄 생산 성능(P: 32~38mL g-VS-1)을 보여주었습니다. 그러나 최대 누적 CH4 생산량은 38.1 mL g-VS-1에 불과했는데, 이는 낙농 분뇨에 포함된 대량의 비생분해성 물질과 낙농 분뇨의 장기 저장 중 영양분 손실로 인해 발생했습니다. 메탄 생산 효율을 향상시키기 위해서는 메탄 생산 잠재력이 높은 신선한 낙농 분뇨를 혐기성 소화 기질로 사용하는 추가적인 연구가 필요합니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(34,34,34);font-family:Arial, sans-serif;font-size:13px;background-color:rgb(255,255,255);">This study was conducted to evaluate the effect of substrate to inoculum ratio and inoculum type on solid state anaerobic digestion of dairy manure collected from sawdust bedded pack barn. Dairy manure inoculated with different type of inoculum, dairy manure inoculum (DMI) and municipal sewage inoculum (MSI), was digested for 56 days at different substrate to inoculum ratios (SIR) of 0.5, 1, 2, and 4 on volatile solids (VS) basis under mesophilic condition (37 C). Digesters inoculated with DMI showed higher biodegradable volatile solid removal (BVS removal: 52-82%) and methane production performance (P: 32-38 mL g-VS-1) than MSI inoculated test units. However, the maximum cumulative CH4 production was only 38.1 mL g-VS-1, in consequence of a large quantity of non-biodegradable materials included in dairy manure and nutrient losses during long-term storage of dairy manure. To improve the efficiency of methane production, additional studies need to be carried out using fresh dairy manure which has high methane production potential as anaerobic digestion substrate.</span> </p>
@@ -707,7 +707,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -720,7 +720,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -734,12 +735,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

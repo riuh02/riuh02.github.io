@@ -525,7 +525,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">퇴비 더미에서 발생하는 온실가스(GHG) 배출에 대한 우려가 증가함에 따라 정확한 정량 방법의 필요성이 강조되었습니다. 이 검토에서는 퇴비화 과정에서 GHG 배출을 측정하기 위한 신뢰할 수 있는 도구로서 플럭스 챔버 기술의 적용 가능성을 평가합니다. 플럭스 챔버는 실용성, 비용 효율성 및 간단한 디자인으로 인해 널리 사용됩니다. 그러나 정확도는 챔버 크기, 공기 흐름 속도, 회수 효율, 가스 특성, 습기 및 온도와 같은 환경 조건을 포함한 여러 요소에 따라 달라집니다. 두 가지 주요 유형(정적 및 동적 챔버)과 각각의 강점 및 한계에 대해 논의합니다. 보고된 연구에 따르면 플럭스 챔버는 공기 흐름 속도가 2~5L/min 사이로 유지될 때 97~100%의 복구 효율성으로 높은 정확도를 달성할 수 있는 것으로 나타났습니다. 그럼에도 불구하고 공간적, 시간적 변동성을 포착하는 데에는 과제가 남아 있어 과소평가 또는 과대평가로 이어질 수 있습니다. 이러한 문제를 해결하기 위해 향후 연구에서는 프로토콜 표준화, 교정 및 신중한 챔버 배치가 권장됩니다. 수동 확산 플럭스 챔버와 같은 새로운 대안은 기존 설계의 한계를 극복하는 데 도움이 될 수 있습니다. 전반적으로, 미세기상학 또는 와상 공분산 기술과 같은 보완적인 방법과 플럭스 챔버의 조합은 신뢰성을 향상시킬 수 있습니다. 이러한 개선은 보다 정확한 배출 평가를 촉진하고 지속 가능한 폐기물 관리 및 기후 변화 완화 전략에 기여할 수 있습니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(34,34,34);font-family:'Open Sans', Helvetica, Arial, sans-serif, NanumBarunGothic;font-size:15px;text-align:justify;background-color:rgb(255,255,255);">The increasing concern over greenhouse gas (GHG) emissions from composting piles has underscored the need for accurate quantification methods. This review assesses the applicability of flux chamber techniques as reliable tools for measuring GHG emissions during composting. Flux chambers are widely used because of their practicality, cost-effectiveness, and straightforward design; however, their accuracy depends on several factors, including chamber dimensions, airflow rate, recovery efficiency, gas properties, and environmental conditions, such as moisture and temperature. Two main types (static and dynamic chambers) are discussed, along with their respective strengths and limitations. Reported studies show that flux chambers can achieve high accuracy, with recovery efficiencies of 97-100% when airflow rates are maintained between 2 and 5 L/min. Nevertheless, challenges remain in capturing spatial and temporal variability, which can lead to underestimations or overestimations. To address these issues, protocol standardization, calibration, and careful chamber placement are recommended in future studies. Emerging alternatives, such as passive diffusion flux chambers, may help overcome the limitations of traditional designs. Overall, the combination of flux chambers with complementary methods, such as micrometeorological or eddy covariance techniques, can enhance their reliability. These improvements can facilitate more accurate emission assessments and contribute to sustainable waste management and climate change mitigation strategies.</span></p>
@@ -703,7 +703,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -716,7 +716,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -730,12 +731,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}

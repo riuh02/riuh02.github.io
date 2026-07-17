@@ -530,7 +530,7 @@ $(document).ready(function (){
             </section>
     <!-- } 관련링크 끝 -->
     
-	<div class="conWr">
+	<div class="conWr"><!-- gsle-ko-abstract --><div class="gsle-ko-abstract" style="background:#f0f7f2;border-left:4px solid #1c7a45;padding:14px 18px;margin:12px 0 20px;border-radius:8px"><b style="color:#14532d">국문 초록 (자동 번역)</b><p style="margin:8px 0 0;line-height:1.7;font-size:15px">퇴비화는 농장 내 전염병의 긴급 봉쇄에 적합한 동물 폐사 처리의 대체 방법입니다. 사망 퇴비화는 복잡하고 다양한 가스를 생성할 수 있으며 그 중 일부는 냄새가 나는 것으로 알려져 있습니다. 현재까지 퇴비화 과정에서 생성되고 배출되는 유기 가스와 악취의 구성 및 시간적 추세에 대해 알려진 바가 상대적으로 거의 없습니다. 본 연구에서는 퇴비화 과정의 모니터링을 위해 가스 특성화를 활용하는 방법을 조사했습니다. 세 가지 도체 덮개 재료(옥수수 줄기, 귀리 짚 및 옥수수 사일리지)를 퇴비화하는 동안 발생하는 휘발성 유기 화합물(VOC) 및 악취의 배출을 실험실 규모 설정에서 정성적으로 연구했습니다. 헤드스페이스 샘플은 다차원 가스 크로마토그래피 - 질량 분석 후각측정법(MDGC-MS-O)으로 분석되었습니다. 부패하는 식물 재료의 헤드스페이스는 85m 카르복센/폴리디메틸실록산(CAR/PDMS) SPME 섬유를 사용하여 테스트되었습니다. 극한의 퇴비화 조건을 나타내는 호기성 및 혐기성 조건을 시뮬레이션하여 기체 부산물의 조성을 사용하여 통기 효율성을 평가할 수 있는지 확인했습니다. 휘발성 지방산(아세트산, 프로판산, 이소부티산, 부티르산, 이소발레르산, 발레르산, 헥산산 및 헵탄산)이 옥수수 줄기와 귀리 짚의 혐기성 분해 지표로 발견되었습니다. 가스 및 악취 배출의 화학적 구성은 퇴비 연령에 따라 감소하는 것으로 관찰되었으며 호기성 및 혐기성 조건에 따라 다릅니다. 특정 VOC의 화학적 구성과 시간적 추세는 폭기 상태와 차단방역 용기 내부의 퇴비화 과정 완료를 비침습적이고 간접적으로 결정하는 데 유용할 수 있습니다.</p></div><!-- /gsle-ko-abstract -->
 		<div id="bo_v_img">
 </div>
 <p><span style="color:rgb(51,51,51);font-family:'Open Sans', sans-serif;background-color:rgb(255,255,255);">Composting is an alternative method of animal mortality disposal suitable for on-farm emergency containment of infectious diseases. Mortality composting can produce a complex variety of gases and some of them are known to be odorous. To date, relatively little is known about the makeup and temporal trends of organic gases and odors produced and emitted during composting processes. In this research, utilizing gas characterization for monitoring of the composting process was investigated. Emissions of volatile organic compounds (VOCs) and odors produced during composting of three carcass cover materials (corn stalks, oat straw and corn silage) were qualitatively studied at a laboratory scale set-up. Headspace samples were analyzed with multidimensional gas chromatography - mass spectrometry olfactometry (MDGC-MS-O). Headspaces of decaying plant materials were tested using 85 m Carboxen/polydimethylsiloxane (CAR/PDMS) SPME fiber. Aerobic and anaerobic conditions representing extremes of composting conditions were simulated to determine if composition of the gaseous byproducts can be used to evaluate aeration effectiveness. Volatile fatty acids (acetic, propanoic, isobutyic, butyric, isovaleric, valeric, hexanoic and heptanoic) were found as indicators of anaerobic decomposition of corn stalks and oat straw. The chemical makeup of gas and odor emissions was observed to decrease with compost age and was different for aerobic and anaerobic conditions. Chemical makeup and temporal trends in specific VOCs can be useful in non-invasive and indirect determination of the aeration status and completion of the composting process inside the biosecurity containment.</span> </p>
@@ -708,7 +708,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v6 -->
 <style>
 .lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
 .lan .gsle-lan-pill i{font-size:15px}
@@ -721,7 +721,8 @@ body{top:0 !important}
 </style>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
 if(!sel)return;
@@ -735,12 +736,13 @@ var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
 var p=decodeURIComponent(m[1]).split('/');
 var src=p[1],tgt=p[2];
-if(!tgt||langs.indexOf(tgt)<0){clearC();}
+if(!tgt||langs.indexOf(tgt)<0){clearC();m=null;}
 else{
 sel.value=tgt;
 if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
 }
 }
+if(!m){sel.value=gslePageLang;}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v){clearC();}else{setC('/auto/'+v);}
