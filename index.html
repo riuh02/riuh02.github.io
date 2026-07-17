@@ -869,6 +869,21 @@ $(function(){
 				</div>
 			</div>
 			<p class="copy">Copyright ⓒ 2023. <b> Graduate school of livestock environment.</b> | All rights reserved | Designed by <a href="http://dsso.kr" class="dsso" target="blank">dsso.kr</a></p>
+<!-- gsle-totalvisits -->
+<p class="copy" id="gsle_total" style="display:none">Total visitors: <b><span id="gsle_total_n"></span></b></p>
+<script>
+(function(){
+if(!window.fetch)return;
+fetch('https://gsle.goatcounter.com/counter/TOTAL.json')
+.then(function(r){if(!r.ok)throw 0;return r.json();})
+.then(function(d){var n=(d.count||'').replace(/[\s\u2009]/g,'');
+if(n){document.getElementById('gsle_total_n').textContent=n;
+document.getElementById('gsle_total').style.display='';}})
+.catch(function(){});
+})();
+</script>
+<!-- /gsle-totalvisits -->
+
 		</div>
 	</article>											
 </footer>												
@@ -1000,5 +1015,8 @@ location.reload();
 </script>
 <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 <!-- /gsle-translate-widget -->
+<!-- gsle-goatcounter -->
+<script data-goatcounter="https://gsle.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<!-- /gsle-goatcounter -->
 </body>
 </html>

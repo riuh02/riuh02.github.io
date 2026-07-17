@@ -543,6 +543,21 @@ var char_max = parseInt(0); // 최대
 <!-- } 댓글 끝 -->
 
 <!-- } 댓글 쓰기 끝 --><script src="../js/md5.js"></script>
+
+<!-- gsle-comments -->
+<style>#bo_vc,.cmt_btn{display:none}</style>
+<section id="gsle_comments" style="margin:35px 10px 25px;padding-top:25px;border-top:1px solid #e2e8f0">
+<h2 style="font-size:17px;margin:0 0 12px;color:#334155">댓글 (Comments)</h2>
+<div id="cusdis_thread"
+  data-host="https://cusdis.com"
+  data-app-id="a8586b9d-0c88-4c27-9945-5215c9b2c960"
+  data-page-id="board_sub5_3_b_wr67_p6"
+  data-page-url="https://riuh02.github.io/bbs/board_sub5_3_b_wr67_p6.html"
+  data-page-title="축산현장 온실가스 메탄, 제주 '바다고리풀'로 해결한다 > 신문 기사 | 충남대학교 축산환경특성화대학원"
+></div>
+<script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
+</section>
+<!-- /gsle-comments -->
 </article>
 <!-- } 게시판 읽기 끝 -->
 
@@ -735,6 +750,22 @@ location.reload();
 </script>
 <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 <!-- /gsle-translate-widget -->
+<!-- gsle-goatcounter -->
+<script data-goatcounter="https://gsle.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<!-- /gsle-goatcounter -->
+<!-- gsle-viewcount -->
+<script>
+(function(){
+var el=document.querySelector('#bo_v_info .hit');
+if(!el||!window.fetch)return;
+fetch('https://gsle.goatcounter.com/counter/'+encodeURI(location.pathname)+'.json')
+.then(function(r){if(!r.ok)throw 0;return r.json();})
+.then(function(d){var n=(d.count||'').replace(/[\s\u2009]/g,'');
+if(n){el.innerHTML='<i class="fa fa-eye" aria-hidden="true"></i> '+n+'회';}})
+.catch(function(){});
+})();
+</script>
+<!-- /gsle-viewcount -->
 </body>
 </html>
 
