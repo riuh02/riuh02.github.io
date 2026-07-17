@@ -143,7 +143,12 @@ $(function(){
 			  <a href="https://plus.cnu.ac.kr/html/kr/" class="link1" target="_blank"><span>충남대학교 바로가기</span></a>
 			</div>
 			<div class="lan">
-				<a href="../eng/index.html" class="tit"><i class="xi-globus"></i>EN</a>
+				<span class="gsle-lan-pill"><i class="xi-globus"></i><select id="gsle_lang" aria-label="언어 / Language">
+<option value="">언어/Lang</option>
+<option value="ko">한국어</option>
+<option value="en">English</option>
+<option value="zh-CN">中文</option>
+</select></span>
 				<!-- 				<a href="#" class="tit"><em>LO</em>GIN</a>
 				 -->
 			</div>
@@ -363,8 +368,8 @@ $(function(){
 #location .lodepth > a i{position: absolute; top: 50%; right: 30px; transform: translateY(-50%); font-size: 22px; color: #ccc;}
 #location .lodepth ul{display: none; position: absolute; left: 0; top: 72px; width: 100%; padding: 10px 30px 15px; background: #fff; border: 1px solid #e8e8e8; border-top: 0; z-index:1;}
 #location .lodepth ul li a{display: block; padding: 8px 0; font-family: 'Pretendard'; font-weight: 400; font-size: 16px; color: #666; word-break: keep-all;}
-#location .lodepth ul li a:hover{font-weight: 500; color: #1c57a9; transition: all 0.5s ease;}
-#location .lodepth ul li a.active{font-weight: 500; color: #1c57a9;}
+#location .lodepth ul li a:hover{font-weight: 500; color: #1ca94b; transition: all 0.5s ease;}
+#location .lodepth ul li a.active{font-weight: 500; color: #1ca94b;}
 
 @media (max-width: 640px){
 	#location .loinn > div > a{line-height: 55px;}
@@ -474,7 +479,7 @@ $(document).ready(function (){
 </div>
 
         <!-- 본문 내용 시작 { -->
-        <div id="bo_v_con"><p><img src="https://newsimg-hams.hankookilbo.com/2023/12/26/fe997b53-358f-485e-929b-230224c2ad74.jpg" alt="강명수 대한한돈협회 제주도협의회 사무국장이 9월 12일 제주 제주시 노형동 협회 사무실에서 양돈농장이 몰려 있는 제주 북서부 지역을 손으로 가리키고 있다. 제주=이현주 기자" /> </p><p class="editor-p read" style="margin-top:32px;margin-bottom:32px;font-size:18px;line-height:32px;color:rgb(17,17,17);font-family:'Pretendard Variable', 'Malgun Gothic', '맑은 고딕', Helvetica, Arial, sans-serif;letter-spacing:-0.14px;word-spacing:0.28px;background-color:rgb(255,255,255);">제주 서귀포시 대정읍에서 돼지 1,300여 마리 규모의 양돈농장을 운영하는 윤종일(33)씨는 올해 가장 큰 골칫거리였던 '악취' 문제를 해결했다. 윤씨 농장은 지난봄 제주도가 도내 양돈농가 전체를 대상으로 실시한 악취관리 수준 진단에서 A~D등급 중 '미흡'에 해당하는 D등급을 받았지만, 수개월 동안 개선 작업을 벌여 이달 12일 농림축산식품부가 지정하는 '깨끗한 축산농장' 인증까지 따냈다.</p><p class="editor-p read" style="margin-top:21px;margin-bottom:32px;font-size:18px;line-height:32px;color:rgb(17,17,17);font-family:'Pretendard Variable', 'Malgun Gothic', '맑은 고딕', Helvetica, Arial, sans-serif;letter-spacing:-0.14px;word-spacing:0.28px;background-color:rgb(255,255,255);">윤씨는 제주도와 제주악취관리센터의 컨설팅이 큰 도움이 됐다고 여긴다. 그는 "농장마다 악취 개선 방법과 여건이 다양한데, 이를 자체적으로 파악하기는 쉽지 않다"면서 "컨설팅을 통해 우리 농장에 바로 적용할 수 있으면서도 경제적, 효과적인 맞춤형 방법을 찾을 수 있었다"고 말했다.</p><p class="editor-p read" style="margin-top:21px;margin-bottom:32px;font-size:18px;line-height:32px;color:rgb(17,17,17);font-family:'Pretendard Variable', 'Malgun Gothic', '맑은 고딕', Helvetica, Arial, sans-serif;letter-spacing:-0.14px;word-spacing:0.28px;background-color:rgb(255,255,255);"><br /></p><h3 class="editor-tit" style="margin:20px 0px 32px;padding:0px;font-size:20px;line-height:20px;color:rgb(17,17,17);font-family:'Pretendard Variable', 'Malgun Gothic', '맑은 고딕', Helvetica, Arial, sans-serif;letter-spacing:-0.14px;word-spacing:0.28px;background-color:rgb(255,255,255);">A등급엔 증축 허용, D등급은 집중 관리</h3><p class="editor-p read" style="margin-top:32px;margin-bottom:32px;font-size:18px;line-height:32px;color:rgb(17,17,17);font-family:'Pretendard Variable', 'Malgun Gothic', '맑은 고딕', Helvetica, Arial, sans-serif;letter-spacing:-0.14px;word-spacing:0.28px;background-color:rgb(255,255,255);">제주도는 지난 3월 올해를 '양돈농장 악취 해결 원년'으로 선포하고 도내 257개 농가를 4개 등급(A~D)으로 나눠 집중 관리하는 악취관리 등급제를 도입했다. 도내 악취 민원이 지속적으로 증가하는 문제를 해결하기 위해 내린 결단이다. 제주도는 양돈농장이 대규모로 단지화해 있는 데다 관광객이나 외지인의 유입이 늘면서 악취 민원이 증가 추세를 보이는 지역이다(☞관련 기사 <a href="https://m.hankookilbo.com/News/Read/A2023100215240004465" target="_blank" style="background-color:transparent;margin:0px;padding:0px;color:rgb(79,149,238);" rel="nofollow noreferrer noopener"><u>악취관리 6년째인데 민원 최다... 제주 양돈업계 향한 뿌리 깊은 불신</u></a>).</p><div class="editor-img-box" style="margin:64px 0px 60px;padding:0px;color:rgb(0,0,0);letter-spacing:-0.14px;word-spacing:0.28px;"><div class="img-box" style="margin:0px;padding:0px;background-color:rgb(222,222,222);text-align:center;"></div></div><p class="editor-p read" style="margin:21px 0px 32px;padding:0px;font-size:18px;line-height:32px;font-weight:400;color:rgb(17,17,17);font-family:'Pretendard Variable', 'Malgun Gothic', '맑은 고딕', Helvetica, Arial, sans-serif;font-style:normal;letter-spacing:-0.14px;text-indent:0px;text-transform:none;word-spacing:0.28px;white-space:normal;background-color:rgb(255,255,255);">진단 결과 A등급을 받은 농가에는 농장 증축을 허용하는 등 혜택을 부여하고, D등급 농가는 전문가 컨설팅 및 집중 관리를 진행하는 게 등급제의 골자다. 올해 전체 농가의 약 10%인 27개 농가가 D등급을 받았지만, 수차례 컨설팅을 받은 결과 윤씨 농장을 포함한 8개 농가는 단계가 상향될 예정이다. D등급 농가의 30% 수준이나, 제도 도입 효과가 확인되기 시작했다는 데 의미가 있다.</p><p class="editor-p read" style="margin-top:32px;margin-bottom:32px;font-size:18px;line-height:32px;color:rgb(17,17,17);font-family:'Pretendard Variable', 'Malgun Gothic', '맑은 고딕', Helvetica, Arial, sans-serif;letter-spacing:-0.14px;word-spacing:0.28px;background-color:rgb(255,255,255);">제주도는 악취관리 등급제를 지난 14일 제주시 메종글래드호텔에서 농식품부 주최로 열린 '축산환경연찬회'를 통해 공유했다. 연찬회에서는 지방자치단체 환경 담당 공무원과 학계 전문가 등 169명이 모여 효과적인 악취 저감 방법 및 친환경 축산 정책 방향을 논의했다.</p><div class="div-line" style="margin:60px 0px 0px;padding:0px;border-top:1px solid rgb(17,17,17);font-family:'Pretendard Variable', 'Malgun Gothic', '맑은 고딕', Helvetica, Arial, sans-serif;font-size:18px;letter-spacing:-0.14px;word-spacing:0.28px;background-color:rgb(255,255,255);"></div><h3 class="editor-tit" style="margin:20px 0px 32px;padding:0px;font-size:20px;line-height:20px;color:rgb(17,17,17);font-family:'Pretendard Variable', 'Malgun Gothic', '맑은 고딕', Helvetica, Arial, sans-serif;letter-spacing:-0.14px;word-spacing:0.28px;background-color:rgb(255,255,255);">"농가 현황과 개선 의지 파악이 중요"</h3><p class="editor-p read" style="margin-top:32px;margin-bottom:32px;font-size:18px;line-height:32px;color:rgb(17,17,17);font-family:'Pretendard Variable', 'Malgun Gothic', '맑은 고딕', Helvetica, Arial, sans-serif;letter-spacing:-0.14px;word-spacing:0.28px;background-color:rgb(255,255,255);">제주도가 도입한 등급제는 참석자들의 관심을 모았다. 세종시 관계자는 "제주도와 유사한 양돈농가 악취관리 등급제 도입을 준비하고 있다"면서 농가의 반발을 최소화하는 방법과 평가 기준 등을 궁금해했다. 이에 조영덕 성균관대 선임연구원은 "악취등급제를 적용하기 위해선 농가 현황 파악이 가장 중요하다"면서 "악취를 개선할 의지가 있는지 판단할 수 있는 평가 기준이 마련돼야 하고, 불이익을 주는 것보다는 효과적인 유인책을 만들어야 한다"고 강조했다. 안희권 충남대 동물자원과학부 교수는 "농식품부와 축산환경관리원에서 우리나라 실정에 맞는 객관적이고 과학적인 등급제 기준이나 기초 자료를 마련할 필요가 있다"고 제언했다. <span style="letter-spacing:-0.14px;word-spacing:0.28px;">이 외에 지역주민과 축산단체, 전문가로 구성된 협의체를 만들어 악취를 효과적으로 개선한 충남 당진시 사례, 양돈농장에 인공지능(AI) 기술을 적용한 자율운전 액비순환 시스템을 개발한 강원대 사례 등도 발표돼 주목을 끌었다. 농식품부 관계자는 "지자체와 농가가 축산 악취를 효과적으로 개선할 수 있도록 우수 사례를 발굴해 전파하고, 현장에 적용할 수 있는 기술을 적극 확대할 예정"이라고 밝혔다. </span></p><p class="editor-p read" style="margin-top:32px;margin-bottom:32px;font-size:18px;line-height:32px;color:rgb(17,17,17);font-family:'Pretendard Variable', 'Malgun Gothic', '맑은 고딕', Helvetica, Arial, sans-serif;letter-spacing:-0.14px;word-spacing:0.28px;background-color:rgb(255,255,255);"><img src="https://newsimg-hams.hankookilbo.com/2023/12/26/8aa7eb15-e4a8-43fb-bdcd-e3d10b98b841.png" alt="제주도 친환경축산정책과가 도내 농장에 배포하는 '2024 축산환경개선 달력'에 담긴 내용. 제주도는 매월 농장에 적용할 수 있는 악취 관리 방법을 담은 달력을 농가에 배포하고 있다. 제주도 제공" /><span style="letter-spacing:-0.14px;word-spacing:0.28px;"> </span></p></div>
+        <div id="bo_v_con"><p><img src="https://newsimg-hams.hankookilbo.com/2023/12/26/fe997b53-358f-485e-929b-230224c2ad74.jpg" alt="강명수 대한한돈협회 제주도협의회 사무국장이 9월 12일 제주 제주시 노형동 협회 사무실에서 양돈농장이 몰려 있는 제주 북서부 지역을 손으로 가리키고 있다. 제주=이현주 기자" /> </p><p class="editor-p read" style="margin-top:32px;margin-bottom:32px;font-size:18px;line-height:32px;color:rgb(17,17,17);font-family:'Pretendard Variable', 'Malgun Gothic', '맑은 고딕', Helvetica, Arial, sans-serif;letter-spacing:-0.14px;word-spacing:0.28px;background-color:rgb(255,255,255);">제주 서귀포시 대정읍에서 돼지 1,300여 마리 규모의 양돈농장을 운영하는 윤종일(33)씨는 올해 가장 큰 골칫거리였던 '악취' 문제를 해결했다. 윤씨 농장은 지난봄 제주도가 도내 양돈농가 전체를 대상으로 실시한 악취관리 수준 진단에서 A~D등급 중 '미흡'에 해당하는 D등급을 받았지만, 수개월 동안 개선 작업을 벌여 이달 12일 농림축산식품부가 지정하는 '깨끗한 축산농장' 인증까지 따냈다.</p><p class="editor-p read" style="margin-top:21px;margin-bottom:32px;font-size:18px;line-height:32px;color:rgb(17,17,17);font-family:'Pretendard Variable', 'Malgun Gothic', '맑은 고딕', Helvetica, Arial, sans-serif;letter-spacing:-0.14px;word-spacing:0.28px;background-color:rgb(255,255,255);">윤씨는 제주도와 제주악취관리센터의 컨설팅이 큰 도움이 됐다고 여긴다. 그는 "농장마다 악취 개선 방법과 여건이 다양한데, 이를 자체적으로 파악하기는 쉽지 않다"면서 "컨설팅을 통해 우리 농장에 바로 적용할 수 있으면서도 경제적, 효과적인 맞춤형 방법을 찾을 수 있었다"고 말했다.</p><p class="editor-p read" style="margin-top:21px;margin-bottom:32px;font-size:18px;line-height:32px;color:rgb(17,17,17);font-family:'Pretendard Variable', 'Malgun Gothic', '맑은 고딕', Helvetica, Arial, sans-serif;letter-spacing:-0.14px;word-spacing:0.28px;background-color:rgb(255,255,255);"><br /></p><h3 class="editor-tit" style="margin:20px 0px 32px;padding:0px;font-size:20px;line-height:20px;color:rgb(17,17,17);font-family:'Pretendard Variable', 'Malgun Gothic', '맑은 고딕', Helvetica, Arial, sans-serif;letter-spacing:-0.14px;word-spacing:0.28px;background-color:rgb(255,255,255);">A등급엔 증축 허용, D등급은 집중 관리</h3><p class="editor-p read" style="margin-top:32px;margin-bottom:32px;font-size:18px;line-height:32px;color:rgb(17,17,17);font-family:'Pretendard Variable', 'Malgun Gothic', '맑은 고딕', Helvetica, Arial, sans-serif;letter-spacing:-0.14px;word-spacing:0.28px;background-color:rgb(255,255,255);">제주도는 지난 3월 올해를 '양돈농장 악취 해결 원년'으로 선포하고 도내 257개 농가를 4개 등급(A~D)으로 나눠 집중 관리하는 악취관리 등급제를 도입했다. 도내 악취 민원이 지속적으로 증가하는 문제를 해결하기 위해 내린 결단이다. 제주도는 양돈농장이 대규모로 단지화해 있는 데다 관광객이나 외지인의 유입이 늘면서 악취 민원이 증가 추세를 보이는 지역이다(☞관련 기사 <a href="https://m.hankookilbo.com/News/Read/A2023100215240004465" target="_blank" style="background-color:transparent;margin:0px;padding:0px;color:rgb(79, 238, 130);" rel="nofollow noreferrer noopener"><u>악취관리 6년째인데 민원 최다... 제주 양돈업계 향한 뿌리 깊은 불신</u></a>).</p><div class="editor-img-box" style="margin:64px 0px 60px;padding:0px;color:rgb(0,0,0);letter-spacing:-0.14px;word-spacing:0.28px;"><div class="img-box" style="margin:0px;padding:0px;background-color:rgb(222,222,222);text-align:center;"></div></div><p class="editor-p read" style="margin:21px 0px 32px;padding:0px;font-size:18px;line-height:32px;font-weight:400;color:rgb(17,17,17);font-family:'Pretendard Variable', 'Malgun Gothic', '맑은 고딕', Helvetica, Arial, sans-serif;font-style:normal;letter-spacing:-0.14px;text-indent:0px;text-transform:none;word-spacing:0.28px;white-space:normal;background-color:rgb(255,255,255);">진단 결과 A등급을 받은 농가에는 농장 증축을 허용하는 등 혜택을 부여하고, D등급 농가는 전문가 컨설팅 및 집중 관리를 진행하는 게 등급제의 골자다. 올해 전체 농가의 약 10%인 27개 농가가 D등급을 받았지만, 수차례 컨설팅을 받은 결과 윤씨 농장을 포함한 8개 농가는 단계가 상향될 예정이다. D등급 농가의 30% 수준이나, 제도 도입 효과가 확인되기 시작했다는 데 의미가 있다.</p><p class="editor-p read" style="margin-top:32px;margin-bottom:32px;font-size:18px;line-height:32px;color:rgb(17,17,17);font-family:'Pretendard Variable', 'Malgun Gothic', '맑은 고딕', Helvetica, Arial, sans-serif;letter-spacing:-0.14px;word-spacing:0.28px;background-color:rgb(255,255,255);">제주도는 악취관리 등급제를 지난 14일 제주시 메종글래드호텔에서 농식품부 주최로 열린 '축산환경연찬회'를 통해 공유했다. 연찬회에서는 지방자치단체 환경 담당 공무원과 학계 전문가 등 169명이 모여 효과적인 악취 저감 방법 및 친환경 축산 정책 방향을 논의했다.</p><div class="div-line" style="margin:60px 0px 0px;padding:0px;border-top:1px solid rgb(17,17,17);font-family:'Pretendard Variable', 'Malgun Gothic', '맑은 고딕', Helvetica, Arial, sans-serif;font-size:18px;letter-spacing:-0.14px;word-spacing:0.28px;background-color:rgb(255,255,255);"></div><h3 class="editor-tit" style="margin:20px 0px 32px;padding:0px;font-size:20px;line-height:20px;color:rgb(17,17,17);font-family:'Pretendard Variable', 'Malgun Gothic', '맑은 고딕', Helvetica, Arial, sans-serif;letter-spacing:-0.14px;word-spacing:0.28px;background-color:rgb(255,255,255);">"농가 현황과 개선 의지 파악이 중요"</h3><p class="editor-p read" style="margin-top:32px;margin-bottom:32px;font-size:18px;line-height:32px;color:rgb(17,17,17);font-family:'Pretendard Variable', 'Malgun Gothic', '맑은 고딕', Helvetica, Arial, sans-serif;letter-spacing:-0.14px;word-spacing:0.28px;background-color:rgb(255,255,255);">제주도가 도입한 등급제는 참석자들의 관심을 모았다. 세종시 관계자는 "제주도와 유사한 양돈농가 악취관리 등급제 도입을 준비하고 있다"면서 농가의 반발을 최소화하는 방법과 평가 기준 등을 궁금해했다. 이에 조영덕 성균관대 선임연구원은 "악취등급제를 적용하기 위해선 농가 현황 파악이 가장 중요하다"면서 "악취를 개선할 의지가 있는지 판단할 수 있는 평가 기준이 마련돼야 하고, 불이익을 주는 것보다는 효과적인 유인책을 만들어야 한다"고 강조했다. 안희권 충남대 동물자원과학부 교수는 "농식품부와 축산환경관리원에서 우리나라 실정에 맞는 객관적이고 과학적인 등급제 기준이나 기초 자료를 마련할 필요가 있다"고 제언했다. <span style="letter-spacing:-0.14px;word-spacing:0.28px;">이 외에 지역주민과 축산단체, 전문가로 구성된 협의체를 만들어 악취를 효과적으로 개선한 충남 당진시 사례, 양돈농장에 인공지능(AI) 기술을 적용한 자율운전 액비순환 시스템을 개발한 강원대 사례 등도 발표돼 주목을 끌었다. 농식품부 관계자는 "지자체와 농가가 축산 악취를 효과적으로 개선할 수 있도록 우수 사례를 발굴해 전파하고, 현장에 적용할 수 있는 기술을 적극 확대할 예정"이라고 밝혔다. </span></p><p class="editor-p read" style="margin-top:32px;margin-bottom:32px;font-size:18px;line-height:32px;color:rgb(17,17,17);font-family:'Pretendard Variable', 'Malgun Gothic', '맑은 고딕', Helvetica, Arial, sans-serif;letter-spacing:-0.14px;word-spacing:0.28px;background-color:rgb(255,255,255);"><img src="https://newsimg-hams.hankookilbo.com/2023/12/26/8aa7eb15-e4a8-43fb-bdcd-e3d10b98b841.png" alt="제주도 친환경축산정책과가 도내 농장에 배포하는 '2024 축산환경개선 달력'에 담긴 내용. 제주도는 매월 농장에 적용할 수 있는 악취 관리 방법을 담은 달력을 농가에 배포하고 있다. 제주도 제공" /><span style="letter-spacing:-0.14px;word-spacing:0.28px;"> </span></p></div>
                 <!-- } 본문 내용 끝 -->
 
         
@@ -546,8 +551,8 @@ var char_max = parseInt(0); // 최대
 
 <!-- gsle-comments -->
 <style>#bo_vc,.cmt_btn{display:none}</style>
-<section id="gsle_comments" style="margin:35px 10px 25px;padding-top:25px;border-top:1px solid #e2e8f0">
-<h2 style="font-size:17px;margin:0 0 12px;color:#334155">댓글 (Comments)</h2>
+<section id="gsle_comments" style="margin:35px 10px 25px;padding-top:25px;border-top:1px solid #e2f0e7">
+<h2 style="font-size:17px;margin:0 0 12px;color:#33553e">댓글 (Comments)</h2>
 <div id="cusdis_thread"
   data-host="https://cusdis.com"
   data-app-id="a8586b9d-0c88-4c27-9945-5215c9b2c960"
@@ -707,47 +712,42 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v3 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
 <style>
-#gsle_translate{position:fixed;bottom:18px;right:18px;z-index:99999;background:#fff;padding:7px 12px;border-radius:24px;box-shadow:0 2px 12px rgba(0,0,0,.25);display:flex;align-items:center;gap:6px}
-#gsle_translate .gsle-globe{font-size:16px;line-height:1}
-#gsle_translate select{font-size:13px;padding:3px 6px;border:1px solid #cbd5e1;border-radius:6px;color:#334155;background:#fff;cursor:pointer}
+.lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
+.lan .gsle-lan-pill i{font-size:15px}
+.lan .gsle-lan-pill select{background:transparent;border:0;color:#fff;font-size:14px;cursor:pointer;outline:0}
+.lan .gsle-lan-pill select option{color:#333}
 #google_translate_element{display:none}
-iframe.skiptranslate,.goog-te-banner-frame,.VIpgJd-ZVi9od-ORHb-OEVmcd{display:none !important}html{margin-top:0 !important}
+iframe.skiptranslate,.goog-te-banner-frame,.VIpgJd-ZVi9od-ORHb-OEVmcd{display:none !important}
+html{margin-top:0 !important}
 body{top:0 !important}
-@media print{#gsle_translate{display:none}}
 </style>
-<div id="gsle_translate"><span class="gsle-globe">&#127760;</span><select id="gsle_lang" aria-label="Language / 언어">
-<option value="">Language</option>
-<option value="ko">한국어</option>
-<option value="en">English</option>
-<option value="zh-CN">中文</option>
-<option value="ja">日本語</option>
-<option value="vi">Tiếng Việt</option>
-<option value="id">Bahasa Indonesia</option>
-</select></div>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-var gslePageLang='ko';
-function gsleClearTrans(){
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+(function(){
+var sel=document.getElementById('gsle_lang');
+if(!sel)return;
+var langs=['ko','en','zh-CN'];
+function setC(v){document.cookie='googtrans='+v+';path=/';}
+function clearC(){
 document.cookie='googtrans=;path=/;expires=Thu, 01 Jan 1970 00:00:00 UTC';
 document.cookie='googtrans=;path=/;domain=.'+location.hostname+';expires=Thu, 01 Jan 1970 00:00:00 UTC';
 }
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN,ja,vi,id',autoDisplay:false},'google_translate_element');}
-(function(){
-var sel=document.getElementById('gsle_lang');
-sel.value=gslePageLang;
 var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
-var tgt=decodeURIComponent(m[1]).split('/')[2];
-if(!tgt||tgt===gslePageLang){gsleClearTrans();}
-else{sel.value=tgt;}
+var p=decodeURIComponent(m[1]).split('/');
+var src=p[1],tgt=p[2];
+if(!tgt||langs.indexOf(tgt)<0){clearC();}
+else{
+sel.value=tgt;
+if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
+}
 }
 sel.addEventListener('change',function(){
 var v=sel.value;
-if(!v)return;
-if(v===gslePageLang){gsleClearTrans();}
-else{document.cookie='googtrans=/'+gslePageLang+'/'+v+';path=/';}
+if(!v){clearC();}else{setC('/auto/'+v);}
 location.reload();
 });
 })();

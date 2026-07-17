@@ -55,8 +55,8 @@
     font-style: normal;
 }
 
-::-moz-selection {background: #1c57a9;color: #fff;}
-::selection {background: #1c57a9;color: #fff;}
+::-moz-selection {background: #1ca94b;color: #fff;}
+::selection {background: #1ca94b;color: #fff;}
 .mt10{margin-top: 10px;}
 .mt15{margin-top: 15px;}
 .mt20{margin-top: 20px;}
@@ -98,7 +98,7 @@
 #bo_cate li{padding: 0!important;}
 #bo_cate #bo_cate_on{border: 1px solid #3a3a3a!important;background: #3a3a3a!important;color: #fff!important;}
 #bo_cate a{background: #fff;padding: 5px 20px!important;box-shadow: none!important; border-radius: 0!important; border: 1px solid #eee!important; line-height: 25px!important; font-size: 14px;color: #888!important; margin-left: 4px; transition:all 0.4s ease;} 
-#bo_cate a:focus, #bo_cate a:hover, #bo_cate a:active{border-color: #0160e7!important}
+#bo_cate a:focus, #bo_cate a:hover, #bo_cate a:active{border-color: #01e74e!important}
 #bo_cate li:first-child a {margin-left:0;}
 #bo_cate a:focus, #bo_cate a:hover, #bo_cate a:active{border: 1px solid #545454!important;background: #ffffff!important;color: #3e3e3e!important;}
 
@@ -115,13 +115,13 @@
 
 
 /* 게시판 리스트 */
-#bo_list .cnt_cmt{background: #dde6f3!important;color: #0160e7!important;} /* 코멘트*/
-#bo_gall .bo_tit .cnt_cmt{background: #dde6f3!important;color: #0160e7!important;} /* 코멘트*/
+#bo_list .cnt_cmt{background: #ddf3e4!important;color: #01e74e!important;} /* 코멘트*/
+#bo_gall .bo_tit .cnt_cmt{background: #ddf3e4!important;color: #01e74e!important;} /* 코멘트*/
 
 /* 게시판 리스트 하단 page*/
 .pg_page{font-size: 1em!important;color: #959599 !important; height: 36px!important;line-height: 34px!important; min-width: 36px!important; background: #eee !important;border: 1px solid #eee!important;}
-.pg_page:hover{color:#1c57a9!important;background: #fff !important;border: 1px solid #ddd !important;}
-.pg_current{background:#1c57a9!important;border-color:#1c57a9!important; height: 36px!important;line-height: 34px!important; min-width: 36px!important;}
+.pg_page:hover{color:#1ca94b!important;background: #fff !important;border: 1px solid #ddd !important;}
+.pg_current{background:#1ca94b!important;border-color:#1ca94b!important; height: 36px!important;line-height: 34px!important; min-width: 36px!important;}
 .pg_end {background: url(../img/btn_end.gif) no-repeat 50% 50% #eee!important;}
 .pg_start {background: url(../img/btn_first.gif) no-repeat 50% 50% #eee!important;}
 .pg_end:hover {background: url(../img/btn_end.gif) no-repeat 50% 50% #fff!important;}
@@ -129,23 +129,23 @@
 
 
 /* 게시판 보기 */
-.cmt_btn span.total{color:#1c57a9!important}
-.cmt_btn span.total:after{background:#1c57a9!important}
+.cmt_btn span.total{color:#1ca94b!important}
+.cmt_btn span.total:after{background:#1ca94b!important}
 #bo_v_file a:focus, #bo_v_file li:hover a, #bo_v_file a:active,
 #bo_v_link a:focus, #bo_v_link li:hover a, #bo_v_link a:active
-{color: #1c57a9!important;}
-#bo_v_file li:hover i, #bo_v_link li:hover i{color: #1c57a9!important;}
-#bo_v_file li:hover, #bo_v_link li:hover{/* color: #dde6f3!important; */background: rgba(63,81,237,.1)!important;}
-.bo_v_nb li .nb_tit{color:#1c57a9!important}
+{color: #1ca94b!important;}
+#bo_v_file li:hover i, #bo_v_link li:hover i{color: #1ca94b!important;}
+#bo_v_file li:hover, #bo_v_link li:hover{/* color: #ddf3e4!important; */background: rgba(63, 237, 148,.1)!important;}
+.bo_v_nb li .nb_tit{color:#1ca94b!important}
 
 /* 버튼 */
-.btn_submit{background:#1c57a9!important;transition: .2s}
-.btn_submit:hover{background:#1c57a9!important;}
+.btn_submit{background:#1ca94b!important;transition: .2s}
+.btn_submit:hover{background:#1ca94b!important;}
 .btn_b01:hover, .btn_b01:hover{opacity:0.7;}
 #bo_w .btn_submit{font-size: 1em!important;}
 #bo_w .btn_cancel{font-size: 1em!important;}
-a.btn_b02, .btn_b02{background:#1c57a9!important;}
-a.btn_b02:hover, .btn_b02:hover{background:#87bef5!important;}
+a.btn_b02, .btn_b02{background:#1ca94b!important;}
+a.btn_b02:hover, .btn_b02:hover{background:#87f5a7!important;}
 #bo_v .btn{font-size: 14px!important;}
 .more_opt li button, .more_opt li a{font-size: 14px!important;}
 

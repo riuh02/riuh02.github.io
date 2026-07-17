@@ -143,7 +143,12 @@ $(function(){
 			  <a href="https://plus.cnu.ac.kr/html/kr/" class="link1" target="_blank"><span>충남대학교 바로가기</span></a>
 			</div>
 			<div class="lan">
-				<a href="../eng/index.html" class="tit"><i class="xi-globus"></i>EN</a>
+				<span class="gsle-lan-pill"><i class="xi-globus"></i><select id="gsle_lang" aria-label="언어 / Language">
+<option value="">언어/Lang</option>
+<option value="ko">한국어</option>
+<option value="en">English</option>
+<option value="zh-CN">中文</option>
+</select></span>
 				<!-- 				<a href="#" class="tit"><em>LO</em>GIN</a>
 				 -->
 			</div>
@@ -363,8 +368,8 @@ $(function(){
 #location .lodepth > a i{position: absolute; top: 50%; right: 30px; transform: translateY(-50%); font-size: 22px; color: #ccc;}
 #location .lodepth ul{display: none; position: absolute; left: 0; top: 72px; width: 100%; padding: 10px 30px 15px; background: #fff; border: 1px solid #e8e8e8; border-top: 0; z-index:1;}
 #location .lodepth ul li a{display: block; padding: 8px 0; font-family: 'Pretendard'; font-weight: 400; font-size: 16px; color: #666; word-break: keep-all;}
-#location .lodepth ul li a:hover{font-weight: 500; color: #1c57a9; transition: all 0.5s ease;}
-#location .lodepth ul li a.active{font-weight: 500; color: #1c57a9;}
+#location .lodepth ul li a:hover{font-weight: 500; color: #1ca94b; transition: all 0.5s ease;}
+#location .lodepth ul li a.active{font-weight: 500; color: #1ca94b;}
 
 @media (max-width: 640px){
 	#location .loinn > div > a{line-height: 55px;}
@@ -474,7 +479,7 @@ $(document).ready(function (){
 </div>
 
         <!-- 본문 내용 시작 { -->
-        <div id="bo_v_con"><h4 class="subheading" style="margin:0px 0px 1.875rem;padding:0px 0px 0px 0.75rem;font-family:'Malgun Gothic', '돋움', dotum, Helvetica, 'Apple SD Gothic Neo', sans-serif;font-weight:bolder;color:rgb(34,34,34);line-height:1.25;font-size:1.25rem;letter-spacing:-0.075em;border-left:3px solid rgb(174,174,174);background-color:rgb(255,255,255);">축사 관리·농장주 요청사항 등 소통시간 가져</h4><p style="margin-bottom:1em;font-size:inherit;line-height:1.8;color:rgb(60,62,64);text-align:justify;"><span style="font-family:'malgun gothic';"><span style="font-size:16px;">[농수축산신문=박나라 기자]</span></span></p><p style="margin-bottom:1em;font-size:inherit;line-height:1.8;color:rgb(60,62,64);text-align:justify;"><span style="font-family:'malgun gothic';"><span style="font-size:16px;">세종시(시장 최민호)는 21일 부강면 복지관에서 충광농원 농장주와 함께 ‘가축분뇨 악취 개선 교육 간담회’를 진행했다.</span></span></p><div style="margin:0px;padding:0px;text-align:center;"><img alt="" src="https://cdn.aflnews.co.kr/news/photo/202304/245407_85095_425.jpg" style="border-style:none;vertical-align:middle;height:auto;" /></div><p style="margin-top:1.25em;margin-bottom:1em;font-size:inherit;line-height:1.8;color:rgb(60,62,64);text-align:justify;"><span style="font-family:'malgun gothic';"><span style="font-size:16px;">부강면에 위치한 ‘충광농원’은 축산농가가 대규모로 밀집해 있어 가축분뇨에서 발생하는 악취가 인근 마을까지 전해져 주민들의 생활 불편 민원이 지속 발생하고 있다.<br /><br />최민호 시장은 지난 2월 ‘1박2일 현장형 소통 프로젝트’ 첫 출발지로 이 곳을 찾아 주민들과 대화하며 악취 개선 필요성을 공감했으며, 이에 따라 이번 교육 간담회를 마련했다.<br /><br />이날 간담회는 축산환경 전문가인 <span style="color:rgb(58,50,195);">안희권 충남대학교 동물자원과학부 교수</span>를 초빙해 ‘가축분뇨 관리 및 효율적인 악취 저감 방안’을 주제로 진행했다.</span></span></p><p style="margin-bottom:1em;font-size:inherit;line-height:1.8;color:rgb(60,62,64);text-align:justify;"><span style="font-family:'malgun gothic';"><span style="font-size:16px;">교육 이후에는 농장주들의 축사 운영관리 어려움, 요청사항 등에 대한 소통의 시간을 가졌으며, 가축분뇨 관리방안의 중요성을 다시 한번 언급하며 마무리했다.</span></span></p><div style="margin:0px;padding:0px;text-align:center;"><img alt="김회산 환경정책과장" src="https://cdn.aflnews.co.kr/news/photo/202304/245407_85159_1940.jpg" style="border-style:none;vertical-align:middle;height:auto;" />김회산 환경정책과장</div><p style="margin-top:1.25em;margin-bottom:1em;font-size:inherit;line-height:1.8;color:rgb(60,62,64);text-align:justify;"><span style="font-family:'malgun gothic';"><span style="font-size:16px;">김회산 환경정책과장은 “이번 교육 간담회가 충광농원의 가축분뇨 악취 저감과 더불어 인근 마을 주민의 쾌적한 생활환경까지 제공하는 자리가 되길 기대한다”라며 “향후 충광농원 외 농가에 대하여도 가축분뇨 관리 교육을 하여 악취 개선에 힘쓰겠다”라고 밝혔다.</span></span></p></div>
+        <div id="bo_v_con"><h4 class="subheading" style="margin:0px 0px 1.875rem;padding:0px 0px 0px 0.75rem;font-family:'Malgun Gothic', '돋움', dotum, Helvetica, 'Apple SD Gothic Neo', sans-serif;font-weight:bolder;color:rgb(34,34,34);line-height:1.25;font-size:1.25rem;letter-spacing:-0.075em;border-left:3px solid rgb(174,174,174);background-color:rgb(255,255,255);">축사 관리·농장주 요청사항 등 소통시간 가져</h4><p style="margin-bottom:1em;font-size:inherit;line-height:1.8;color:rgb(60,62,64);text-align:justify;"><span style="font-family:'malgun gothic';"><span style="font-size:16px;">[농수축산신문=박나라 기자]</span></span></p><p style="margin-bottom:1em;font-size:inherit;line-height:1.8;color:rgb(60,62,64);text-align:justify;"><span style="font-family:'malgun gothic';"><span style="font-size:16px;">세종시(시장 최민호)는 21일 부강면 복지관에서 충광농원 농장주와 함께 ‘가축분뇨 악취 개선 교육 간담회’를 진행했다.</span></span></p><div style="margin:0px;padding:0px;text-align:center;"><img alt="" src="https://cdn.aflnews.co.kr/news/photo/202304/245407_85095_425.jpg" style="border-style:none;vertical-align:middle;height:auto;" /></div><p style="margin-top:1.25em;margin-bottom:1em;font-size:inherit;line-height:1.8;color:rgb(60,62,64);text-align:justify;"><span style="font-family:'malgun gothic';"><span style="font-size:16px;">부강면에 위치한 ‘충광농원’은 축산농가가 대규모로 밀집해 있어 가축분뇨에서 발생하는 악취가 인근 마을까지 전해져 주민들의 생활 불편 민원이 지속 발생하고 있다.<br /><br />최민호 시장은 지난 2월 ‘1박2일 현장형 소통 프로젝트’ 첫 출발지로 이 곳을 찾아 주민들과 대화하며 악취 개선 필요성을 공감했으며, 이에 따라 이번 교육 간담회를 마련했다.<br /><br />이날 간담회는 축산환경 전문가인 <span style="color:rgb(50, 195, 133);">안희권 충남대학교 동물자원과학부 교수</span>를 초빙해 ‘가축분뇨 관리 및 효율적인 악취 저감 방안’을 주제로 진행했다.</span></span></p><p style="margin-bottom:1em;font-size:inherit;line-height:1.8;color:rgb(60,62,64);text-align:justify;"><span style="font-family:'malgun gothic';"><span style="font-size:16px;">교육 이후에는 농장주들의 축사 운영관리 어려움, 요청사항 등에 대한 소통의 시간을 가졌으며, 가축분뇨 관리방안의 중요성을 다시 한번 언급하며 마무리했다.</span></span></p><div style="margin:0px;padding:0px;text-align:center;"><img alt="김회산 환경정책과장" src="https://cdn.aflnews.co.kr/news/photo/202304/245407_85159_1940.jpg" style="border-style:none;vertical-align:middle;height:auto;" />김회산 환경정책과장</div><p style="margin-top:1.25em;margin-bottom:1em;font-size:inherit;line-height:1.8;color:rgb(60,62,64);text-align:justify;"><span style="font-family:'malgun gothic';"><span style="font-size:16px;">김회산 환경정책과장은 “이번 교육 간담회가 충광농원의 가축분뇨 악취 저감과 더불어 인근 마을 주민의 쾌적한 생활환경까지 제공하는 자리가 되길 기대한다”라며 “향후 충광농원 외 농가에 대하여도 가축분뇨 관리 교육을 하여 악취 개선에 힘쓰겠다”라고 밝혔다.</span></span></p></div>
                 <!-- } 본문 내용 끝 -->
 
         
@@ -526,7 +531,7 @@ $(document).ready(function (){
 	    <!-- } 게시물 상단 버튼 끝 -->
     
         <ul class="bo_v_nb">
-        <li class="btn_prv"><span class="nb_tit"><i class="fa fa-chevron-up" aria-hidden="true"></i> 이전글</span><a href="board_sub5_3_b_wr15_p4.html">축산분야 온실가스 배출량, 더 정확하게 산정한다</a> <span class="nb_date">23.02.05</span></li>        <li class="btn_next"><span class="nb_tit"><i class="fa fa-chevron-down" aria-hidden="true"></i> 다음글</span><a href="board_sub5_3_b_wr13_p4.html">&#034;대통령이 이 냄새 맡으면 고쳐질까... '악취고통' 때문인데, 허위민원이라니&#034;</a>  <span class="nb_date">23.10.31</span></li>    </ul>
+        <li class="btn_prv"><span class="nb_tit"><i class="fa fa-chevron-up" aria-hidden="true"></i> 이전글</span><a href="board_sub5_3_b_wr15_p4.html">축산분야 온실가스 배출량, 더 정확하게 산정한다</a> <span class="nb_date">23.02.05</span></li>        <li class="btn_next"><span class="nb_tit"><i class="fa fa-chevron-down" aria-hidden="true"></i> 다음글</span><a href="board_sub5_3_b_wr13_p4.html">&#00440b;대통령이 이 냄새 맡으면 고쳐질까... '악취고통' 때문인데, 허위민원이라니&#00440b;</a>  <span class="nb_date">23.10.31</span></li>    </ul>
     
     
 <script>
@@ -546,8 +551,8 @@ var char_max = parseInt(0); // 최대
 
 <!-- gsle-comments -->
 <style>#bo_vc,.cmt_btn{display:none}</style>
-<section id="gsle_comments" style="margin:35px 10px 25px;padding-top:25px;border-top:1px solid #e2e8f0">
-<h2 style="font-size:17px;margin:0 0 12px;color:#334155">댓글 (Comments)</h2>
+<section id="gsle_comments" style="margin:35px 10px 25px;padding-top:25px;border-top:1px solid #e2f0e7">
+<h2 style="font-size:17px;margin:0 0 12px;color:#33553e">댓글 (Comments)</h2>
 <div id="cusdis_thread"
   data-host="https://cusdis.com"
   data-app-id="a8586b9d-0c88-4c27-9945-5215c9b2c960"
@@ -707,47 +712,42 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v3 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
 <style>
-#gsle_translate{position:fixed;bottom:18px;right:18px;z-index:99999;background:#fff;padding:7px 12px;border-radius:24px;box-shadow:0 2px 12px rgba(0,0,0,.25);display:flex;align-items:center;gap:6px}
-#gsle_translate .gsle-globe{font-size:16px;line-height:1}
-#gsle_translate select{font-size:13px;padding:3px 6px;border:1px solid #cbd5e1;border-radius:6px;color:#334155;background:#fff;cursor:pointer}
+.lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
+.lan .gsle-lan-pill i{font-size:15px}
+.lan .gsle-lan-pill select{background:transparent;border:0;color:#fff;font-size:14px;cursor:pointer;outline:0}
+.lan .gsle-lan-pill select option{color:#333}
 #google_translate_element{display:none}
-iframe.skiptranslate,.goog-te-banner-frame,.VIpgJd-ZVi9od-ORHb-OEVmcd{display:none !important}html{margin-top:0 !important}
+iframe.skiptranslate,.goog-te-banner-frame,.VIpgJd-ZVi9od-ORHb-OEVmcd{display:none !important}
+html{margin-top:0 !important}
 body{top:0 !important}
-@media print{#gsle_translate{display:none}}
 </style>
-<div id="gsle_translate"><span class="gsle-globe">&#127760;</span><select id="gsle_lang" aria-label="Language / 언어">
-<option value="">Language</option>
-<option value="ko">한국어</option>
-<option value="en">English</option>
-<option value="zh-CN">中文</option>
-<option value="ja">日本語</option>
-<option value="vi">Tiếng Việt</option>
-<option value="id">Bahasa Indonesia</option>
-</select></div>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-var gslePageLang='ko';
-function gsleClearTrans(){
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+(function(){
+var sel=document.getElementById('gsle_lang');
+if(!sel)return;
+var langs=['ko','en','zh-CN'];
+function setC(v){document.cookie='googtrans='+v+';path=/';}
+function clearC(){
 document.cookie='googtrans=;path=/;expires=Thu, 01 Jan 1970 00:00:00 UTC';
 document.cookie='googtrans=;path=/;domain=.'+location.hostname+';expires=Thu, 01 Jan 1970 00:00:00 UTC';
 }
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN,ja,vi,id',autoDisplay:false},'google_translate_element');}
-(function(){
-var sel=document.getElementById('gsle_lang');
-sel.value=gslePageLang;
 var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
-var tgt=decodeURIComponent(m[1]).split('/')[2];
-if(!tgt||tgt===gslePageLang){gsleClearTrans();}
-else{sel.value=tgt;}
+var p=decodeURIComponent(m[1]).split('/');
+var src=p[1],tgt=p[2];
+if(!tgt||langs.indexOf(tgt)<0){clearC();}
+else{
+sel.value=tgt;
+if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
+}
 }
 sel.addEventListener('change',function(){
 var v=sel.value;
-if(!v)return;
-if(v===gslePageLang){gsleClearTrans();}
-else{document.cookie='googtrans=/'+gslePageLang+'/'+v+';path=/';}
+if(!v){clearC();}else{setC('/auto/'+v);}
 location.reload();
 });
 })();

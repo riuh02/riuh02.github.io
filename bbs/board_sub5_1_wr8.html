@@ -143,7 +143,12 @@ $(function(){
 			  <a href="https://plus.cnu.ac.kr/html/kr/" class="link1" target="_blank"><span>충남대학교 바로가기</span></a>
 			</div>
 			<div class="lan">
-				<a href="../eng/index.html" class="tit"><i class="xi-globus"></i>EN</a>
+				<span class="gsle-lan-pill"><i class="xi-globus"></i><select id="gsle_lang" aria-label="언어 / Language">
+<option value="">언어/Lang</option>
+<option value="ko">한국어</option>
+<option value="en">English</option>
+<option value="zh-CN">中文</option>
+</select></span>
 				<!-- 				<a href="#" class="tit"><em>LO</em>GIN</a>
 				 -->
 			</div>
@@ -361,8 +366,8 @@ $(function(){
 #location .lodepth > a i{position: absolute; top: 50%; right: 30px; transform: translateY(-50%); font-size: 22px; color: #ccc;}
 #location .lodepth ul{display: none; position: absolute; left: 0; top: 72px; width: 100%; padding: 10px 30px 15px; background: #fff; border: 1px solid #e8e8e8; border-top: 0; z-index:1;}
 #location .lodepth ul li a{display: block; padding: 8px 0; font-family: 'Pretendard'; font-weight: 400; font-size: 16px; color: #666; word-break: keep-all;}
-#location .lodepth ul li a:hover{font-weight: 500; color: #1c57a9; transition: all 0.5s ease;}
-#location .lodepth ul li a.active{font-weight: 500; color: #1c57a9;}
+#location .lodepth ul li a:hover{font-weight: 500; color: #1ca94b; transition: all 0.5s ease;}
+#location .lodepth ul li a.active{font-weight: 500; color: #1ca94b;}
 
 @media (max-width: 640px){
 	#location .loinn > div > a{line-height: 55px;}
@@ -561,8 +566,8 @@ var char_max = parseInt(0); // 최대
 
 <!-- gsle-comments -->
 <style>#bo_vc,.cmt_btn{display:none}</style>
-<section id="gsle_comments" style="margin:35px 10px 25px;padding-top:25px;border-top:1px solid #e2e8f0">
-<h2 style="font-size:17px;margin:0 0 12px;color:#334155">댓글 (Comments)</h2>
+<section id="gsle_comments" style="margin:35px 10px 25px;padding-top:25px;border-top:1px solid #e2f0e7">
+<h2 style="font-size:17px;margin:0 0 12px;color:#33553e">댓글 (Comments)</h2>
 <div id="cusdis_thread"
   data-host="https://cusdis.com"
   data-app-id="a8586b9d-0c88-4c27-9945-5215c9b2c960"
@@ -722,47 +727,42 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v3 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v4 -->
 <style>
-#gsle_translate{position:fixed;bottom:18px;right:18px;z-index:99999;background:#fff;padding:7px 12px;border-radius:24px;box-shadow:0 2px 12px rgba(0,0,0,.25);display:flex;align-items:center;gap:6px}
-#gsle_translate .gsle-globe{font-size:16px;line-height:1}
-#gsle_translate select{font-size:13px;padding:3px 6px;border:1px solid #cbd5e1;border-radius:6px;color:#334155;background:#fff;cursor:pointer}
+.lan .gsle-lan-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:7px 13px;color:#fff}
+.lan .gsle-lan-pill i{font-size:15px}
+.lan .gsle-lan-pill select{background:transparent;border:0;color:#fff;font-size:14px;cursor:pointer;outline:0}
+.lan .gsle-lan-pill select option{color:#333}
 #google_translate_element{display:none}
-iframe.skiptranslate,.goog-te-banner-frame,.VIpgJd-ZVi9od-ORHb-OEVmcd{display:none !important}html{margin-top:0 !important}
+iframe.skiptranslate,.goog-te-banner-frame,.VIpgJd-ZVi9od-ORHb-OEVmcd{display:none !important}
+html{margin-top:0 !important}
 body{top:0 !important}
-@media print{#gsle_translate{display:none}}
 </style>
-<div id="gsle_translate"><span class="gsle-globe">&#127760;</span><select id="gsle_lang" aria-label="Language / 언어">
-<option value="">Language</option>
-<option value="ko">한국어</option>
-<option value="en">English</option>
-<option value="zh-CN">中文</option>
-<option value="ja">日本語</option>
-<option value="vi">Tiếng Việt</option>
-<option value="id">Bahasa Indonesia</option>
-</select></div>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
-var gslePageLang='ko';
-function gsleClearTrans(){
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'ko',includedLanguages:'ko,en,zh-CN',autoDisplay:false},'google_translate_element');}
+(function(){
+var sel=document.getElementById('gsle_lang');
+if(!sel)return;
+var langs=['ko','en','zh-CN'];
+function setC(v){document.cookie='googtrans='+v+';path=/';}
+function clearC(){
 document.cookie='googtrans=;path=/;expires=Thu, 01 Jan 1970 00:00:00 UTC';
 document.cookie='googtrans=;path=/;domain=.'+location.hostname+';expires=Thu, 01 Jan 1970 00:00:00 UTC';
 }
-function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN,ja,vi,id',autoDisplay:false},'google_translate_element');}
-(function(){
-var sel=document.getElementById('gsle_lang');
-sel.value=gslePageLang;
 var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
 if(m){
-var tgt=decodeURIComponent(m[1]).split('/')[2];
-if(!tgt||tgt===gslePageLang){gsleClearTrans();}
-else{sel.value=tgt;}
+var p=decodeURIComponent(m[1]).split('/');
+var src=p[1],tgt=p[2];
+if(!tgt||langs.indexOf(tgt)<0){clearC();}
+else{
+sel.value=tgt;
+if(src!=='auto'){setC('/auto/'+tgt);location.reload();return;}
+}
 }
 sel.addEventListener('change',function(){
 var v=sel.value;
-if(!v)return;
-if(v===gslePageLang){gsleClearTrans();}
-else{document.cookie='googtrans=/'+gslePageLang+'/'+v+';path=/';}
+if(!v){clearC();}else{setC('/auto/'+v);}
 location.reload();
 });
 })();
