@@ -670,6 +670,49 @@ $(function() {
 
 
 
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v2 -->
+<style>
+#gsle_translate{position:fixed;bottom:18px;right:18px;z-index:99999;background:#fff;padding:7px 12px;border-radius:24px;box-shadow:0 2px 12px rgba(0,0,0,.25);display:flex;align-items:center;gap:6px}
+#gsle_translate .gsle-globe{font-size:16px;line-height:1}
+#gsle_translate select{font-size:13px;padding:3px 6px;border:1px solid #cbd5e1;border-radius:6px;color:#334155;background:#fff;cursor:pointer}
+#google_translate_element{display:none}
+iframe.skiptranslate,.goog-te-banner-frame,.VIpgJd-ZVi9od-ORHb-OEVmcd{display:none !important}html{margin-top:0 !important}
+body{top:0 !important}
+@media print{#gsle_translate{display:none}}
+</style>
+<div id="gsle_translate"><span class="gsle-globe">&#127760;</span><select id="gsle_lang" aria-label="Language / 언어">
+<option value="">Language</option>
+<option value="ko">한국어</option>
+<option value="en">English</option>
+<option value="zh-CN">中文</option>
+<option value="ja">日本語</option>
+<option value="vi">Tiếng Việt</option>
+<option value="id">Bahasa Indonesia</option>
+</select></div>
+<div id="google_translate_element"></div>
+<script type="text/javascript">
+var gslePageLang='ko';
+function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN,ja,vi,id',autoDisplay:false},'google_translate_element');}
+(function(){
+var sel=document.getElementById('gsle_lang');
+var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
+if(m){var cur=decodeURIComponent(m[1]).split('/')[2];if(cur){sel.value=cur;}}
+else{sel.value=gslePageLang;}
+sel.addEventListener('change',function(){
+var v=sel.value;
+if(!v)return;
+if(v===gslePageLang){
+document.cookie='googtrans=;path=/;expires=Thu, 01 Jan 1970 00:00:00 UTC';
+document.cookie='googtrans=;path=/;domain=.'+location.hostname+';expires=Thu, 01 Jan 1970 00:00:00 UTC';
+}else{
+document.cookie='googtrans=/'+gslePageLang+'/'+v+';path=/';
+}
+location.reload();
+});
+})();
+</script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<!-- /gsle-translate-widget -->
 </body>
 </html>
 
