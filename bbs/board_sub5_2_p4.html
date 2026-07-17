@@ -861,7 +861,7 @@ $(function() {
 
 
 
-<!-- gsle-translate-widget --><!-- gsle-translate-widget-v2 -->
+<!-- gsle-translate-widget --><!-- gsle-translate-widget-v3 -->
 <style>
 #gsle_translate{position:fixed;bottom:18px;right:18px;z-index:99999;background:#fff;padding:7px 12px;border-radius:24px;box-shadow:0 2px 12px rgba(0,0,0,.25);display:flex;align-items:center;gap:6px}
 #gsle_translate .gsle-globe{font-size:16px;line-height:1}
@@ -883,21 +883,25 @@ body{top:0 !important}
 <div id="google_translate_element"></div>
 <script type="text/javascript">
 var gslePageLang='ko';
+function gsleClearTrans(){
+document.cookie='googtrans=;path=/;expires=Thu, 01 Jan 1970 00:00:00 UTC';
+document.cookie='googtrans=;path=/;domain=.'+location.hostname+';expires=Thu, 01 Jan 1970 00:00:00 UTC';
+}
 function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:gslePageLang,includedLanguages:'ko,en,zh-CN,ja,vi,id',autoDisplay:false},'google_translate_element');}
 (function(){
 var sel=document.getElementById('gsle_lang');
+sel.value=gslePageLang;
 var m=document.cookie.match(/(?:^|; )googtrans=([^;]+)/);
-if(m){var cur=decodeURIComponent(m[1]).split('/')[2];if(cur){sel.value=cur;}}
-else{sel.value=gslePageLang;}
+if(m){
+var tgt=decodeURIComponent(m[1]).split('/')[2];
+if(!tgt||tgt===gslePageLang){gsleClearTrans();}
+else{sel.value=tgt;}
+}
 sel.addEventListener('change',function(){
 var v=sel.value;
 if(!v)return;
-if(v===gslePageLang){
-document.cookie='googtrans=;path=/;expires=Thu, 01 Jan 1970 00:00:00 UTC';
-document.cookie='googtrans=;path=/;domain=.'+location.hostname+';expires=Thu, 01 Jan 1970 00:00:00 UTC';
-}else{
-document.cookie='googtrans=/'+gslePageLang+'/'+v+';path=/';
-}
+if(v===gslePageLang){gsleClearTrans();}
+else{document.cookie='googtrans=/'+gslePageLang+'/'+v+';path=/';}
 location.reload();
 });
 })();
