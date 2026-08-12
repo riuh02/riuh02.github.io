@@ -1,0 +1,357 @@
+@charset "utf-8";
+/* ==========================================================================
+   GSLE 2026 — content layer.
+   The page bodies are the original GnuBoard markup lifted out of the old
+   shell, so this file re-dresses those legacy classes in the new design
+   instead of shipping the vendor's stylesheets. Everything is scoped under
+   .page-body so it can never collide with the new components in gsle.css.
+   ========================================================================== */
+
+/* ---------- page shell ---------- */
+.page-hero{
+  position:relative;
+  overflow:hidden;                 /* contains the dashed accent ring */
+  background:
+    radial-gradient(110% 130% at 88% 0%,rgba(93,201,143,.30),transparent 60%),
+    linear-gradient(158deg,#16603F 0%,#114A31 55%,#0C3724 100%);
+  color:#fff;
+  padding-block:clamp(42px,5.5vw,72px) clamp(46px,6vw,80px);
+}
+.page-hero .wrap{position:relative;z-index:2}
+.page-hero h1{
+  font-size:clamp(28px,3.8vw,46px);
+  font-weight:700;letter-spacing:-.008em;line-height:1.28;
+}
+.crumb{display:flex;flex-wrap:wrap;align-items:center;gap:9px;
+  font-size:13.5px;color:rgba(255,255,255,.62);margin-bottom:16px}
+.crumb a{transition:color .25s}
+.crumb a:hover{color:var(--lime)}
+.crumb span[aria-hidden]{opacity:.45}
+.crumb .here{color:var(--lime);font-weight:600}
+
+.page-body{padding-block:clamp(46px,6vw,80px);background:var(--paper)}
+.page-body .wrap > *:first-child{margin-top:0}
+
+/* generic content typography */
+.page-body p{margin:0 0 1.05em;line-height:1.75}
+.page-body img{max-width:100%;height:auto}
+.page-body h2,.page-body h3,.page-body h4{
+  font-weight:700;letter-spacing:-.008em;line-height:1.35;margin:2em 0 .7em}
+.page-body h2{font-size:clamp(22px,2.4vw,30px)}
+.page-body h3{font-size:clamp(19px,2vw,24px)}
+.page-body h4{font-size:17px}
+/* Underline links in prose only — list/board markup gets its own treatment,
+   otherwise every row in a board turns into a wall of underlines. */
+.page-body a{color:var(--green-600);text-decoration:none}
+.page-body a:hover{color:var(--green-500)}
+.page-body #bo_v_con a,.page-body .conWr a,.page-body p > a{
+  text-decoration:underline;text-underline-offset:3px}
+.page-body hr{border:0;border-top:1px solid var(--line);margin:2.4em 0}
+
+/* dead server-only UI: search, share, write/comment forms, checkboxes */
+.page-body .bo_sch_wrap,.page-body #bo_v_share,.page-body .gall_chk,
+.page-body .gall_option,.page-body #bo_vc,.page-body .cmt_btn,
+.page-body input[type=hidden],.page-body .sound_only,
+.page-body #bo_list_total + .btn_bo_adm{display:none !important}
+
+/* ==========================================================================
+   BOARD LIST
+   ========================================================================== */
+.page-body #bo_list,.page-body #bo_gall{width:100% !important}
+
+/* category / year filter → pill row */
+.page-body #bo_cate{margin-bottom:28px}
+.page-body #bo_cate h2{position:absolute;left:-9999px}
+.page-body #bo_cate_ul{display:flex;flex-wrap:wrap;gap:8px}
+.page-body #bo_cate_ul a{
+  display:block;padding:8px 16px;border-radius:999px;
+  border:1px solid var(--line);background:var(--paper);
+  font-size:14px;font-weight:600;color:var(--ink-soft);
+  text-decoration:none;transition:all .25s var(--ease);
+}
+.page-body #bo_cate_ul a:hover{border-color:var(--green-400);color:var(--green-600);background:var(--sand)}
+.page-body #bo_cate_ul a#bo_cate_on{
+  background:var(--green-600);border-color:var(--green-600);color:#fff}
+
+/* "Total N건" strip */
+.page-body #bo_btn_top{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  flex-wrap:wrap;margin-bottom:14px}
+.page-body #bo_list_total{font-size:13.5px;color:var(--muted)}
+.page-body #bo_list_total span{font-weight:700;color:var(--ink)}
+
+/* the list table */
+.page-body .tbl_wrap{overflow-x:auto}
+.page-body .tbl_head01 table{
+  width:100%;border-collapse:collapse;font-size:15px;min-width:640px}
+.page-body .tbl_head01 caption{position:absolute;left:-9999px}
+.page-body .tbl_head01 thead th{
+  padding:14px 12px;text-align:left;white-space:nowrap;
+  font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);font-weight:700;
+  border-top:2px solid var(--ink);border-bottom:1px solid var(--line);
+}
+.page-body .tbl_head01 thead th a{color:inherit;text-decoration:none}
+.page-body .tbl_head01 tbody td{
+  padding:17px 12px;border-bottom:1px solid var(--line);
+  color:var(--ink-soft);vertical-align:middle}
+.page-body .tbl_head01 tbody tr:hover td{background:var(--sand)}
+.page-body .td_num,.page-body .td_num2,.page-body .td_date,
+.page-body .td_name,.page-body .td_datetime{
+  white-space:nowrap;font-size:13.5px;color:var(--muted);width:1%}
+.page-body .td_subject{width:auto}
+.page-body .bo_tit a{
+  color:var(--ink);text-decoration:none;font-weight:600;line-height:1.5;
+  display:inline-block}
+.page-body .bo_tit a:hover{color:var(--green-600);text-decoration:underline}
+.page-body .bo_notice td{background:rgba(26,122,87,.05)}
+.page-body .notice_icon{
+  display:inline-block;padding:3px 9px;border-radius:999px;
+  background:var(--green-600);color:#fff;font-size:11px;font-weight:700;
+  font-style:normal}
+.page-body .notice_icon i{display:none}
+.page-body .notice_icon::after{content:"공지"}
+/* gsle.js stamps data-lang="en" on <html> when the English cookie is set */
+:root[data-lang="en"] .page-body .notice_icon::after{content:"Notice"}
+.page-body .rep_inf{font-size:12.5px;color:var(--muted);margin-top:4px}
+
+/* pagination */
+.page-body .pg_wrap{display:flex;justify-content:center;margin-top:38px}
+.page-body .pg{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.page-body .pg_page,.page-body .pg_current{
+  display:grid;place-items:center;min-width:40px;height:40px;padding:0 12px;
+  border:1px solid var(--line);border-radius:8px;
+  font-size:14px;font-weight:600;color:var(--ink-soft);text-decoration:none}
+.page-body .pg_page:hover{border-color:var(--green-400);color:var(--green-600)}
+.page-body .pg_current{background:var(--green-600);border-color:var(--green-600);color:#fff}
+
+/* ==========================================================================
+   PUBLICATIONS LIST  (.publi_list — its own markup, not the table skin)
+   ========================================================================== */
+.page-body .publi_list ul.publiCon{list-style:none;padding:0;margin:0}
+.page-body .publi_list li{
+  display:grid;grid-template-columns:64px 1fr;gap:8px 20px;
+  padding:20px 8px;border-bottom:1px solid var(--line);
+  transition:background .25s var(--ease)}
+.page-body .publi_list li:hover{background:var(--sand)}
+
+/* year divider */
+.page-body .publi_list li.cate_year{
+  display:block;border-bottom:0 !important;padding:38px 0 10px;background:none}
+.page-body .publi_list li.cate_year:first-child{padding-top:6px}
+.page-body .publi_list .cateName{
+  margin:0;font-size:clamp(20px,2.2vw,26px);font-weight:700;
+  letter-spacing:-.008em;color:var(--green-600);
+  padding-bottom:10px;border-bottom:2px solid var(--green-500)}
+
+.page-body .publi_list .postNum{
+  font-size:13px;font-weight:700;color:var(--muted);padding-top:4px;
+  font-variant-numeric:tabular-nums}
+.page-body .publi_list .txtCon{min-width:0}
+.page-body .publi_list .ConWr a{display:block}
+.page-body .publi_list .txtTitle{
+  display:block;font-size:16.5px;font-weight:700;line-height:1.5;
+  letter-spacing:-.01em;color:var(--ink);margin-bottom:7px}
+.page-body .publi_list .ConWr a:hover .txtTitle{color:var(--green-600)}
+.page-body .publi_list .txtAuthor,.page-body .publi_list .txtJournal,
+.page-body .publi_list .txtVol,.page-body .publi_list .txtPage,
+.page-body .publi_list .txtStatus{
+  font-size:13.5px;color:var(--muted);line-height:1.65}
+.page-body .publi_list .txtJournal i{font-style:italic;color:var(--ink-soft)}
+
+/* LINK / Download buttons on a row */
+.page-body .publi_list .btnWr,.page-body .publi_list .btnLinkWr{display:inline-flex;gap:8px}
+.page-body .publi_list .btnLinkWr a,.page-body .publi_list .btnDownWr a{
+  display:inline-flex;align-items:center;gap:6px;margin-top:10px;
+  padding:5px 13px;border:1px solid var(--line);border-radius:999px;
+  font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-soft)}
+.page-body .publi_list .btnLinkWr a:hover,.page-body .publi_list .btnDownWr a:hover{
+  border-color:var(--green-500);color:var(--green-600);background:var(--paper)}
+
+@media (max-width:640px){
+  .page-body .publi_list li{grid-template-columns:1fr;gap:4px}
+  .page-body .publi_list .postNum{display:none}
+}
+
+/* ==========================================================================
+   GALLERY BOARD
+   ========================================================================== */
+.page-body #gall_ul{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:clamp(16px,2vw,26px)}
+.page-body .gall_li{width:auto !important;float:none !important;padding:0 !important}
+.page-body .gall_box{
+  border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;
+  background:var(--paper);height:100%;
+  display:flex;flex-direction:column;
+  transition:transform .3s var(--ease),box-shadow .3s var(--ease),border-color .3s var(--ease)}
+.page-body .gall_box:hover{transform:translateY(-4px);border-color:var(--green-400);
+  box-shadow:0 26px 46px -30px rgba(8,37,26,.42)}
+.page-body .gall_con{height:auto !important}
+.page-body .gall_img{display:block;aspect-ratio:4/3;overflow:hidden;background:var(--sand-dark)}
+.page-body .gall_img img{width:100%;height:100%;object-fit:cover;
+  transition:transform .6s var(--ease)}
+.page-body .gall_box:hover .gall_img img{transform:scale(1.05)}
+.page-body .gall_text_href{padding:18px 20px 0}
+.page-body .gall_text_href .bo_tit a{font-size:16px;font-weight:700}
+.page-body .gall_info{padding:10px 20px 18px;font-size:13px;color:var(--muted);
+  margin-top:auto;display:flex;gap:14px;flex-wrap:wrap}
+.page-body .gall_info a{color:inherit;text-decoration:none}
+
+/* ==========================================================================
+   PEOPLE BOARD  (재학생 / 졸업생 / 교수)
+   ========================================================================== */
+/* the tab row is sometimes a <ul>, sometimes a wrapper around one */
+.page-body .pagetab,.page-body .pagetab > ul{
+  display:flex;gap:8px;flex-wrap:wrap;align-items:center;
+  list-style:none;padding:0;margin:0}
+.page-body .pagetab{margin-bottom:30px}
+.page-body .pagetab li{list-style:none}
+.page-body .pagetab a{
+  padding:10px 22px;border:1px solid var(--line);border-radius:999px;
+  font-weight:600;font-size:14.5px;color:var(--ink-soft);text-decoration:none;
+  transition:all .25s var(--ease)}
+.page-body .pagetab a:hover{border-color:var(--green-400);color:var(--green-600)}
+.page-body .pagetab a.active,.page-body .pagetab .active a{
+  background:var(--green-600);border-color:var(--green-600);color:#fff}
+.page-body .member_list{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+  gap:clamp(16px,2vw,26px);list-style:none;padding:0}
+.page-body .ml_card{
+  display:flex;flex-direction:column;height:100%;
+  border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;
+  background:var(--paper);text-decoration:none;
+  transition:transform .3s var(--ease),box-shadow .3s var(--ease),border-color .3s var(--ease)}
+.page-body .ml_card:hover{transform:translateY(-4px);border-color:var(--green-400);
+  box-shadow:0 26px 46px -30px rgba(8,37,26,.42)}
+.page-body .ml_card .img_wr,.page-body .ml_card .img{
+  aspect-ratio:3/4;overflow:hidden;background:var(--sand-dark)}
+.page-body .ml_card .img_wr img,.page-body .ml_card .img img{
+  width:100%;height:100%;object-fit:cover}
+.page-body .ml_card .info_wr{padding:18px 20px 22px}
+.page-body .ml_card .name{display:block;font-size:18px;font-weight:700;
+  letter-spacing:-.008em;color:var(--ink);margin-bottom:4px}
+.page-body .ml_card .course{display:block;font-size:13.5px;color:var(--green-600);
+  font-weight:600;margin-bottom:10px}
+.page-body .ml_card .info,.page-body .ml_card .email,
+.page-body .ml_card .edu,.page-body .ml_card .work{
+  display:block;font-size:13.5px;color:var(--muted);line-height:1.6}
+.page-body .ml_card .info_wr{display:flex;flex-direction:column;flex:1}
+.page-body .ml_card .more{
+  margin-top:auto;padding-top:16px;
+  font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--green-600)}
+.page-body .ml_card .more a{text-decoration:none}
+
+/* ==========================================================================
+   DETAIL VIEW
+   ========================================================================== */
+.page-body #bo_v{width:100% !important;max-width:none}
+
+/* top "목록" button */
+.page-body #bo_v_top,.page-body .btn_bo_user{margin-bottom:26px}
+.page-body .btn_bo_user{display:flex;gap:10px;flex-wrap:wrap;list-style:none;padding:0}
+.page-body .btn_bo_user a{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 20px;border-radius:999px;border:1px solid var(--line);
+  font-size:14px;font-weight:600;color:var(--ink-soft);text-decoration:none;
+  transition:all .25s var(--ease)}
+.page-body .btn_bo_user a:hover{border-color:var(--green-500);color:var(--green-600);background:var(--sand)}
+/* The label lives in .sound_only and the icon is a font-awesome glyph we no
+   longer load — so reveal the text and drop the empty icon. */
+.page-body .btn_bo_user a i{display:none}
+.page-body .btn_bo_user a .sound_only{
+  display:inline !important;position:static !important;
+  width:auto !important;height:auto !important;clip:auto !important;
+  margin:0 !important;white-space:normal !important}
+
+.page-body #bo_v_title,.page-body .bo_v_tit{
+  font-size:clamp(23px,2.9vw,36px);font-weight:700;letter-spacing:-.008em;
+  line-height:1.32;color:var(--ink);margin:0 0 18px}
+
+/* meta row (author / date / hits) */
+.page-body #bo_v_info{
+  display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px;
+  padding:0 0 20px;margin-bottom:32px;
+  border-bottom:1px solid var(--line);
+  font-size:13.5px;color:var(--muted)}
+.page-body #bo_v_info .pf_img,.page-body #bo_v_info .profile_info{display:none}
+.page-body #bo_v_info strong,.page-body #bo_v_info .name{font-weight:700;color:var(--ink-soft)}
+.page-body #bo_v_info .if_date,.page-body #bo_v_info .hit,
+.page-body #bo_v_info .comment{display:inline-flex;align-items:center;gap:6px}
+
+.page-body #bo_v_con{font-size:16.5px;line-height:1.85;color:var(--ink-soft)}
+.page-body #bo_v_con img{margin:14px 0;border-radius:var(--r-md)}
+.page-body #bo_v_img img{margin-bottom:20px;border-radius:var(--r-md)}
+
+/* attachments */
+.page-body #bo_v_file{margin-top:36px;border-top:1px solid var(--line);padding-top:22px}
+.page-body #bo_v_file h2,.page-body #bo_v_atc_title{
+  font-size:12px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--muted);margin:0 0 12px}
+.page-body #bo_v_file li{margin-bottom:8px}
+.page-body #bo_v_file a{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:12px 18px;border:1px solid var(--line);border-radius:var(--r-md);
+  background:var(--sand);text-decoration:none;color:var(--ink-soft);
+  font-size:14.5px;font-weight:600}
+.page-body #bo_v_file a:hover{border-color:var(--green-400);color:var(--green-600)}
+.page-body .bo_v_file_cnt{font-size:12.5px;color:var(--muted);font-weight:400}
+
+/* related link */
+.page-body #bo_v_link{margin:26px 0}
+.page-body #bo_v_link dl{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap;margin:0}
+.page-body #bo_v_link dt{font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);font-weight:700;flex:none}
+.page-body #bo_v_link dd{margin:0;word-break:break-all}
+.page-body #bo_v_link strong{font-weight:600}
+.page-body .bo_v_link_cnt{font-size:12.5px;color:var(--muted);margin-left:8px}
+
+/* publication detail: the dt/dd spec block */
+.page-body .publi_view .txtTitle{
+  font-size:clamp(21px,2.6vw,32px);font-weight:700;letter-spacing:-.008em;
+  line-height:1.35;color:var(--ink);margin:0 0 26px}
+.page-body .publi_view > dl{
+  display:grid;grid-template-columns:120px 1fr;gap:12px 20px;
+  margin:0;padding:13px 0;border-bottom:1px solid var(--line);font-size:15px}
+.page-body .publi_view > dl dt{
+  font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);font-weight:700;padding-top:3px}
+.page-body .publi_view > dl dd{margin:0;color:var(--ink-soft);line-height:1.6}
+.page-body .publi_view .conWr{margin-top:34px}
+
+/* baked Korean abstract box — recoloured to the new palette */
+.page-body .gsle-ko-abstract{
+  background:var(--sand) !important;
+  border-left:4px solid var(--green-500) !important;
+  border-radius:var(--r-md) !important;
+  padding:20px 24px !important;margin:0 0 28px !important}
+.page-body .gsle-ko-abstract b{color:var(--green-600) !important;
+  font-size:12px;letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:6px}
+.page-body .gsle-ko-abstract p{font-size:15.5px !important;line-height:1.8 !important;
+  color:var(--ink-soft);margin:0 !important}
+
+/* comments (emitted by the build, styled here rather than inline) */
+.page-body #gsle_comments{margin-top:52px;border-top:1px solid var(--line);padding-top:34px}
+.page-body #gsle_comments h2{
+  font-size:17px;font-weight:700;letter-spacing:-.008em;
+  color:var(--ink);margin:0 0 18px}
+/* Cusdis resizes its own iframe by postMessage; reserve roughly the height of
+   the empty comment form so the widget is not clipped before that lands */
+.page-body #cusdis_thread{min-height:250px}
+.page-body #cusdis_thread iframe{width:100%;border:0;display:block}
+
+/* prev / next navigation */
+.page-body .bo_v_nb{margin-top:40px;border-top:1px solid var(--line);list-style:none;padding:0}
+.page-body .bo_v_nb li{border-bottom:1px solid var(--line)}
+.page-body .bo_v_nb a{display:block;padding:16px 4px;text-decoration:none;
+  color:var(--ink-soft);font-size:15px}
+.page-body .bo_v_nb a:hover{color:var(--green-600)}
+
+/* ---------- responsive ---------- */
+@media (max-width:700px){
+  .page-body .publi_view > dl{grid-template-columns:1fr;gap:4px}
+  .page-body .tbl_head01 table{min-width:520px}
+  .page-body .td_name,.page-body .rep{display:none}
+}

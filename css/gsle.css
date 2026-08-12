@@ -1,0 +1,641 @@
+@charset "utf-8";
+/* ==========================================================================
+   GSLE 2026 design system  —  original, built for the lab.
+   No code, colour token or layout inherited from the previous vendor theme.
+   Section order: tokens · reset · type · layout · header · hero · research
+                  · about · publications · news · cta · footer · responsive
+   ========================================================================== */
+
+/* Poppins carries the Latin (rounded, geometric, friendly); Pretendard picks
+   up every Korean glyph it has no coverage for. Order matters — the browser
+   falls through per-character, so 한글 never renders in a Latin face. */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap");
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css");
+
+/* ---------- tokens ---------- */
+:root{
+  /* Greens are a fresh ramp mixed for this site: cool, desaturated, closer to
+     field/forest than the vendor's saturated web-green. */
+  --forest-900:#08251A;
+  --forest-800:#0C3123;
+  --forest-700:#12432F;
+  --green-600:#14634A;
+  --green-500:#1A7A57;
+  --green-400:#2C9B70;
+  --lime:#B7D44A;          /* accent only: rules, marks, hover underlines */
+
+  /* Warmer, softer ground than before — cream rather than grey-beige. */
+  --sand:#FAF6EC;          /* warm section ground */
+  --sand-dark:#EFE9DA;
+  --paper:#FFFFFF;
+  --ink:#1B241F;           /* softened off near-black */
+  --ink-soft:#44514A;
+  --muted:#6E7C74;
+  --line:#EAE4D6;
+  --line-dark:rgba(255,255,255,.16);
+
+  /* Wide like the WUR reference: content keeps growing on large monitors
+     instead of stopping at a narrow column. */
+  --wrap:1560px;
+  --measure:62ch;
+  --gutter:clamp(20px,4vw,56px);
+
+  /* Rounder everything — after the typeface, the strongest "casual" cue. */
+  --r-sm:10px;
+  --r-md:16px;
+  --r-lg:28px;
+  --r-btn:12px;
+
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --t:.32s var(--ease);
+
+  --font:"Poppins","Pretendard Variable",Pretendard,-apple-system,
+         BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",
+         "맑은 고딕",system-ui,sans-serif;
+}
+
+/* ---------- reset ---------- */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:var(--font);
+  font-size:17px;
+  line-height:1.8;          /* airier */
+  color:var(--ink);
+  background:var(--paper);
+  -webkit-font-smoothing:antialiased;
+  word-break:keep-all;      /* keeps Korean lines from breaking mid-word */
+  overflow-x:hidden;
+}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit;text-decoration:none}
+ul,ol{margin:0;padding:0;list-style:none}
+h1,h2,h3,h4,h5,p{margin:0}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:3px solid var(--lime);outline-offset:3px;border-radius:2px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* ---------- typography ---------- */
+.kicker{
+  display:block;
+  font-size:12.5px;
+  font-weight:600;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:var(--green-500);
+  margin-bottom:14px;
+}
+.kicker--light{color:var(--lime)}
+.h-sec{
+  font-size:clamp(30px,4.2vw,50px);
+  line-height:1.3;
+  font-weight:700;          /* was 800 — lighter reads friendlier */
+  letter-spacing:-.008em;   /* was -.02em — tight tracking reads corporate */
+}
+/* Two-tone headings: "환경친화적 축산을 위한 <em>과학과 기술</em>".
+   The single most recognisable casual device in the reference. */
+.h-sec em{font-style:normal;color:var(--green-400)}
+/* on the dark bands the mid-green would fall below contrast — use the lime */
+.hero h1 em,.sec--dark .h-sec em,.cta h2 em{font-style:normal;color:var(--lime)}
+
+/* centred section head — the reference centres its section intros */
+.sec-head--center{text-align:center}
+.sec-head--center .lead{margin-inline:auto}
+.sec-head--center .kicker{margin-bottom:10px}
+/* Korean-first: the English line sits under the KO heading, deliberately smaller */
+.h-sec-en{
+  display:block;
+  margin-top:8px;
+  font-size:clamp(15px,1.5vw,18px);
+  font-weight:600;
+  letter-spacing:.01em;
+  color:var(--muted);
+}
+.lead{
+  font-size:clamp(16px,1.6vw,19px);
+  color:var(--ink-soft);
+  max-width:var(--measure);
+}
+
+/* section head: EN kicker over large KO heading (Korean-first) */
+.sec-head{margin-bottom:clamp(36px,5vw,60px)}
+.sec-head--row{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;flex-wrap:wrap}
+
+/* ---------- layout ---------- */
+.wrap{width:100%;max-width:var(--wrap);margin-inline:auto;padding-inline:var(--gutter)}
+/* Direct children only — legacy page content contains its own <section>
+   elements (e.g. #bo_v_link), which must not inherit page-level padding. */
+body > section{padding-block:clamp(64px,9vw,124px)}
+.sec--sand{background:var(--sand)}
+.sec--dark{background:var(--forest-800);color:#EAF2ED}
+.sec--dark .lead{color:rgba(234,242,237,.72)}
+
+/* link with animated rule — the one shared interaction idiom of the site */
+.arrow-link{
+  display:inline-flex;align-items:center;gap:10px;
+  font-weight:700;font-size:15px;
+  padding-bottom:6px;
+  border-bottom:2px solid currentColor;
+  transition:gap var(--t);
+}
+.arrow-link:hover{gap:16px}
+.arrow-link svg{width:16px;height:16px;flex:none}
+
+/* The dark utility bar is gone — the reference carries a single white header
+   row. 충남대 link + e-mail now live in the footer only. */
+
+/* language selector: plain text + caret, sitting in the white header */
+.lang-pill{
+  display:inline-flex;align-items:center;gap:6px;flex:none;
+  color:var(--ink-soft);
+  transition:color var(--t);
+}
+.lang-pill:hover{color:var(--green-600)}
+.lang-pill svg{width:15px;height:15px;opacity:.6}
+.lang-pill select{
+  background:transparent;border:0;color:inherit;font:inherit;
+  font-size:14.5px;font-weight:500;cursor:pointer;outline:0;
+}
+.lang-pill select option{color:#222;background:#fff}
+
+/* ---------- header ---------- */
+.site-head{
+  position:sticky;top:0;z-index:60;
+  background:var(--paper);
+  border-bottom:1px solid var(--line);
+}
+.site-head .wrap{display:flex;align-items:center;gap:clamp(12px,2.2vw,40px);min-height:84px}
+
+.brand{display:flex;align-items:center;gap:14px;flex:none}
+.brand-mark{
+  width:42px;height:42px;flex:none;
+  border-radius:11px;
+  background:linear-gradient(150deg,var(--green-500),var(--forest-700));
+  display:grid;place-items:center;
+  color:#fff;font-weight:700;font-size:15px;letter-spacing:.02em;
+}
+.brand-txt strong{display:block;font-size:17px;font-weight:700;letter-spacing:-.008em;line-height:1.25}
+.brand-txt span{display:block;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
+
+/* primary nav */
+.nav{margin-left:auto}
+.nav > ul{display:flex;gap:6px}
+.nav-top{
+  display:block;padding:30px 18px;
+  font-size:16.5px;font-weight:700;letter-spacing:-.01em;
+  position:relative;
+}
+.nav-top::after{
+  content:"";position:absolute;left:18px;right:18px;bottom:22px;
+  height:2px;background:var(--green-500);
+  transform:scaleX(0);transform-origin:left;transition:transform var(--t);
+}
+.nav-item:hover .nav-top::after,
+.nav-item.is-open .nav-top::after,
+.nav-top:focus-visible::after{transform:scaleX(1)}
+
+/* mega-menu: full-bleed panel, replaces the old narrow dropdown */
+.mega{
+  position:absolute;left:0;right:0;top:100%;
+  background:var(--paper);
+  border-bottom:1px solid var(--line);
+  box-shadow:0 26px 44px -28px rgba(8,37,26,.4);
+  opacity:0;visibility:hidden;transform:translateY(-8px);
+  transition:opacity var(--t),transform var(--t),visibility var(--t);
+}
+.nav-item:hover .mega,
+.nav-item.is-open .mega{opacity:1;visibility:visible;transform:none}
+.mega-inner{
+  display:grid;grid-template-columns:minmax(230px,.85fr) 2fr;
+  gap:clamp(32px,6vw,80px);
+  align-items:start;
+  padding-block:40px 46px;
+}
+.mega-blurb .kicker{margin-bottom:10px}
+.mega-blurb h3{font-size:24px;font-weight:700;letter-spacing:-.008em;margin-bottom:12px}
+.mega-blurb p{font-size:14.5px;color:var(--muted);line-height:1.65}
+.mega-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 48px}
+.mega-cols h4{
+  font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);font-weight:700;
+  padding-bottom:12px;margin-bottom:12px;border-bottom:1px solid var(--line);
+}
+.mega-cols li + li{margin-top:2px}
+.mega-cols a{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:9px 12px;margin-inline:-12px;border-radius:var(--r-sm);
+  font-size:15.5px;font-weight:600;
+  transition:background var(--t),color var(--t);
+}
+.mega-cols a::after{content:"→";opacity:0;transform:translateX(-6px);transition:all var(--t);color:var(--green-500)}
+.mega-cols a:hover{background:var(--sand);color:var(--green-600)}
+.mega-cols a:hover::after{opacity:1;transform:none}
+
+/* header call-to-action, like the reference's "Contact Us" */
+.nav-cta{
+  flex:none;margin-left:26px;
+  display:inline-flex;align-items:center;
+  padding:12px 24px;border-radius:var(--r-btn);
+  background:var(--green-600);color:#fff;
+  font-size:15px;font-weight:600;
+  transition:background var(--t),transform var(--t);
+}
+.nav-cta:hover{background:var(--green-500);transform:translateY(-1px)}
+@media (max-width:1180px){.nav-cta{display:none}}
+
+/* mobile trigger */
+.burger{display:none;flex:none;width:46px;height:46px;border:1px solid var(--line);border-radius:var(--r-sm);
+  align-items:center;justify-content:center}
+.burger span{display:block;width:20px;height:2px;background:var(--ink);position:relative}
+.burger span::before,.burger span::after{content:"";position:absolute;left:0;width:20px;height:2px;background:var(--ink)}
+.burger span::before{top:-6px}
+.burger span::after{top:6px}
+
+/* ==========================================================================
+   SPLIT HERO — light ground, photo bleeding off the left edge, copy on the
+   right, angular green shape at the far right. This is the reference's
+   structure; the previous full-bleed dark band was the "rigid" part.
+   ========================================================================== */
+/* A three-column grid across the FULL section width. An earlier attempt
+   positioned the photo and shape absolutely in percentages while the copy sat
+   inside the centred .wrap — the two coordinate systems disagreed and the
+   green shape sat on top of the headline. The grid removes that class of bug. */
+.hero-split{
+  display:grid;
+  grid-template-columns:47% minmax(0,1fr) 19%;
+  align-items:stretch;
+  background:var(--paper);
+  /* beats the generic `body > section` padding — the photo must bleed to the
+     top and bottom edges, not sit in a band of white */
+  padding-block:0;
+  /* source photo is 747x465, so cap the height to limit upscaling */
+  min-height:min(68vh,560px);
+  overflow:hidden;
+}
+
+/* photo bleeds off the left edge — it is simply the first grid column */
+.hero-photo{position:relative}
+.hero-photo img{width:100%;height:100%;object-fit:cover;object-position:center}
+/* feathered edge into the page white — no hard rectangle */
+.hero-photo::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(100deg,transparent 45%,rgba(255,255,255,.55) 76%,#fff 98%);
+}
+
+.hero-copy{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(34px,4vw,56px) clamp(26px,3.2vw,60px);
+}
+.hero-copy .kicker{color:#B0710F;margin-bottom:12px}   /* warm "WELCOME!" */
+.hero-copy h1{
+  font-size:clamp(30px,3.4vw,46px);
+  line-height:1.26;font-weight:700;letter-spacing:-.01em;
+  margin-bottom:20px;
+}
+.hero-copy h1 em{font-style:normal;color:var(--green-500)}
+.hero-copy p{color:var(--ink-soft);font-size:clamp(15px,1.45vw,17px);margin-bottom:30px}
+.hero-copy .hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+
+/* angular green shape closing the right edge */
+.hero-shape{
+  position:relative;
+  background:linear-gradient(160deg,var(--green-600),var(--forest-700));
+  clip-path:polygon(52% 0,100% 0,100% 100%,0 100%);
+}
+.hero-shape svg{
+  position:absolute;right:-18%;bottom:6%;width:150%;height:auto;opacity:.5;
+}
+
+@media (max-width:1024px){
+  .hero-split{display:block;min-height:0}
+  .hero-photo{height:clamp(220px,44vw,340px)}
+  .hero-photo::after{background:linear-gradient(to bottom,transparent 55%,#fff 100%)}
+  .hero-copy{padding:26px var(--gutter) clamp(42px,6vw,58px)}
+  .hero-shape{display:none}
+}
+
+/* ---------- hero (legacy dark variant, kept for reference) ---------- */
+.hero{
+  position:relative;
+  /* Reads as green, not near-black: a mid forest green lifted by a warm
+     highlight behind the photo column. */
+  background:
+    radial-gradient(115% 95% at 76% 4%,rgba(93,201,143,.34),transparent 62%),
+    linear-gradient(158deg,#16603F 0%,#114A31 48%,#0C3724 100%);
+  color:#fff;
+  padding-block:clamp(64px,8.5vw,110px);
+  overflow:hidden;
+}
+/* ---------- organic accents ----------
+   Loose dashed rings, like the reference's dotted arcs. Pure CSS geometry, so
+   they cost nothing and never pixelate. Shared by the homepage hero and every
+   sub-page banner, which is what ties the casual feel across all 1,216 pages. */
+.hero::before,.page-hero::before{
+  content:"";position:absolute;pointer-events:none;z-index:1;
+  right:-90px;top:-140px;width:440px;height:440px;border-radius:50%;
+  border:1.5px dashed rgba(183,212,74,.26);
+}
+.hero .wrap::before{
+  content:"";position:absolute;pointer-events:none;z-index:0;
+  left:-120px;bottom:-180px;width:300px;height:300px;border-radius:50%;
+  border:1.5px dashed rgba(255,255,255,.12);
+}
+@media (max-width:900px){
+  .hero::before,.page-hero::before{width:260px;height:260px;right:-70px;top:-90px}
+  .hero .wrap::before{display:none}
+}
+
+/* faint contour rule — geometry, not imagery, so it never pixelates */
+.hero::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px);
+  background-size:100% 88px;
+  mask-image:linear-gradient(to bottom,transparent,#000 30%,#000 70%,transparent);
+}
+.hero .wrap{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr .85fr;
+  gap:clamp(36px,6vw,72px);align-items:center}
+.hero h1{
+  font-size:clamp(34px,4.6vw,60px);
+  line-height:1.26;font-weight:700;letter-spacing:-.008em;
+  margin-bottom:22px;
+  /* No hard <br>: Korean holds together via word-break:keep-all, and the
+     English translation (always longer) still wraps to a sane shape. */
+  max-width:17ch;
+}
+.hero h1 em{font-style:normal;color:var(--lime)}
+.hero-sub{font-size:clamp(15.5px,1.7vw,18.5px);color:rgba(255,255,255,.76);max-width:46ch;margin-bottom:36px}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:16px 30px;border-radius:var(--r-btn);   /* soft rect, not a pill */
+  font-weight:600;font-size:15.5px;letter-spacing:.005em;
+  transition:transform var(--t),background var(--t),color var(--t),border-color var(--t);
+}
+.btn:hover{transform:translateY(-2px)}
+/* solid = deep green on light ground (the reference's olive button); the lime
+   is reserved for dark bands where green would disappear */
+.btn--solid{background:var(--green-600);color:#fff}
+.btn--solid:hover{background:var(--green-500)}
+.sec--dark .btn--solid,.cta .btn--solid{background:var(--lime);color:var(--forest-900)}
+.sec--dark .btn--solid:hover,.cta .btn--solid:hover{background:#c8e35c}
+.btn--ghost{border:1.5px solid rgba(255,255,255,.4);color:#fff}
+.btn--ghost:hover{border-color:#fff;background:rgba(255,255,255,.08)}
+/* outline button used for the centred "see all" links under each section */
+.btn--outline{border:1.5px solid var(--line);color:var(--green-600);background:var(--paper)}
+.btn--outline:hover{border-color:var(--green-500);background:var(--sand)}
+.sec--dark .btn--outline{border-color:rgba(255,255,255,.32);color:#fff;background:transparent}
+.sec--dark .btn--outline:hover{border-color:var(--lime);color:var(--lime);background:rgba(255,255,255,.06)}
+
+/* centred "see all" row under a section's content */
+.sec-more{margin-top:clamp(34px,4vw,52px);text-align:center}
+
+/* centred intro band, straight under the hero (reference's "What sets us apart") */
+.intro{text-align:center;background:var(--paper)}
+.intro .wrap{max-width:940px}
+.intro h2{margin-bottom:22px}
+.intro p{color:var(--ink-soft);font-size:clamp(15.5px,1.5vw,17.5px);margin-bottom:34px}
+
+/* photo pair — sized to the source files (329x534) so they stay sharp */
+.hero-figs{display:flex;gap:18px;justify-content:flex-end}
+.hero-fig{
+  position:relative;border-radius:var(--r-lg);overflow:hidden;
+  width:min(258px,42vw);
+  box-shadow:0 30px 60px -30px rgba(0,0,0,.7);
+}
+.hero-fig img{width:100%;height:100%;object-fit:cover}
+.hero-fig--a{aspect-ratio:329/460}
+.hero-fig--b{aspect-ratio:329/380;align-self:flex-end;margin-bottom:34px}
+.hero-fig figcaption{
+  position:absolute;left:0;right:0;bottom:0;
+  padding:26px 16px 13px;
+  font-size:12px;letter-spacing:.02em;color:#fff;
+  background:linear-gradient(transparent,rgba(8,37,26,.85));
+}
+
+/* stat strip sits on the seam between hero and page */
+.stats{background:var(--forest-700);color:#fff}
+.stats .wrap{display:grid;grid-template-columns:repeat(4,1fr)}
+.stat{padding:30px 8px;text-align:center}
+.stat + .stat{border-left:1px solid var(--line-dark)}
+.stat b{display:block;font-size:clamp(28px,3.4vw,40px);font-weight:700;letter-spacing:-.008em;line-height:1.1}
+.stat span{display:block;font-size:13px;color:rgba(255,255,255,.66);margin-top:6px}
+
+/* ---------- research ---------- */
+/* Typographic cards: the legacy diagrams carry baked-in text and the old
+   palette, so the redesign leads with structure instead of those images. */
+.rsch-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(16px,2vw,24px)}
+.rsch{
+  display:block;position:relative;
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:var(--r-lg);
+  padding:clamp(28px,3.2vw,42px);
+  overflow:hidden;
+  transition:transform var(--t),box-shadow var(--t),border-color var(--t);
+}
+.rsch::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:4px;
+  background:var(--green-500);transform:scaleY(0);transform-origin:top;
+  transition:transform .4s var(--ease);
+}
+.rsch:hover{transform:translateY(-5px);border-color:var(--green-400);
+  box-shadow:0 28px 50px -30px rgba(8,37,26,.42)}
+.rsch:hover::before{transform:scaleY(1)}
+.rsch-num{
+  font-size:12px;font-weight:700;letter-spacing:.16em;color:var(--green-400);
+  display:block;margin-bottom:18px;
+}
+.rsch h3{font-size:clamp(19px,2.1vw,24px);font-weight:700;letter-spacing:-.008em;line-height:1.35;margin-bottom:8px}
+.rsch .en{display:block;font-size:13.5px;color:var(--muted);margin-bottom:22px}
+.rsch ul{border-top:1px solid var(--line);padding-top:18px}
+.rsch li{
+  position:relative;padding-left:18px;
+  font-size:15px;color:var(--ink-soft);line-height:1.6;
+}
+.rsch li + li{margin-top:9px}
+.rsch li::before{content:"";position:absolute;left:0;top:.62em;width:7px;height:2px;background:var(--green-400)}
+.rsch-go{
+  position:absolute;right:clamp(28px,3.2vw,42px);top:clamp(28px,3.2vw,42px);
+  width:38px;height:38px;border-radius:50%;
+  border:1px solid var(--line);display:grid;place-items:center;
+  color:var(--green-600);
+  transition:background var(--t),color var(--t),border-color var(--t),transform var(--t);
+}
+.rsch:hover .rsch-go{background:var(--green-500);border-color:var(--green-500);color:#fff;transform:rotate(-45deg)}
+
+/* ---------- about ---------- */
+.about{display:grid;grid-template-columns:1fr 1fr;gap:clamp(36px,6vw,84px);align-items:center}
+.about-fig{position:relative;border-radius:var(--r-lg);overflow:hidden;background:var(--sand-dark)}
+.about-fig img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.about-quote{
+  border-left:3px solid var(--lime);
+  padding-left:22px;margin-block:26px;
+  font-size:clamp(17px,1.9vw,21px);line-height:1.6;font-weight:600;letter-spacing:-.01em;
+}
+.about-meta{display:flex;gap:36px;flex-wrap:wrap;margin-top:30px;padding-top:26px;border-top:1px solid var(--line)}
+.about-meta div b{display:block;font-size:26px;font-weight:700;letter-spacing:-.008em}
+.about-meta div span{font-size:13.5px;color:var(--muted)}
+
+/* ---------- publications ---------- */
+.pub-list{border-top:1px solid var(--line-dark)}
+.pub{
+  display:grid;grid-template-columns:88px 1fr 40px;
+  gap:clamp(16px,3vw,40px);align-items:start;
+  padding:26px 4px;
+  border-bottom:1px solid var(--line-dark);
+  transition:background var(--t),padding-inline var(--t);
+}
+.pub:hover{background:rgba(255,255,255,.045);padding-inline:16px}
+.pub-year{font-size:14px;font-weight:700;letter-spacing:.06em;color:var(--lime);padding-top:3px}
+.pub-title{
+  display:block;
+  font-size:clamp(16px,1.7vw,19px);font-weight:700;line-height:1.5;letter-spacing:-.01em;
+  margin-bottom:9px;
+}
+.pub-meta{display:block;font-size:13.5px;color:rgba(234,242,237,.62);line-height:1.6}
+.pub-meta i{font-style:italic;color:rgba(234,242,237,.82)}
+.pub-go{color:rgba(255,255,255,.35);justify-self:end;padding-top:4px;transition:color var(--t),transform var(--t)}
+.pub:hover .pub-go{color:var(--lime);transform:translateX(4px)}
+
+/* ---------- news ---------- */
+.news-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(18px,2.4vw,30px)}
+.news{
+  display:flex;flex-direction:column;height:100%;
+  border:1px solid var(--line);border-radius:var(--r-lg);
+  overflow:hidden;background:var(--paper);
+  transition:transform var(--t),box-shadow var(--t),border-color var(--t);
+}
+.news:hover{transform:translateY(-5px);border-color:var(--green-400);
+  box-shadow:0 28px 50px -30px rgba(8,37,26,.42)}
+.news-thumb{aspect-ratio:16/10;background:var(--sand-dark);overflow:hidden}
+.news-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
+.news:hover .news-thumb img{transform:scale(1.05)}
+.news-thumb--blank{
+  display:grid;place-items:center;
+  background:linear-gradient(140deg,var(--sand-dark),var(--sand));
+  color:var(--green-400);
+}
+.news-body{padding:24px 26px 28px;display:flex;flex-direction:column;flex:1}
+.news-tag{
+  display:inline-block;align-self:flex-start;
+  font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--green-600);background:rgba(26,122,87,.09);
+  padding:5px 10px;border-radius:999px;margin-bottom:14px;
+}
+.news h3{font-size:17.5px;font-weight:700;line-height:1.45;letter-spacing:-.01em;margin-bottom:10px}
+.news p{font-size:14.5px;color:var(--muted);line-height:1.65;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.news time{margin-top:auto;padding-top:18px;font-size:13px;color:var(--muted)}
+
+/* ---------- cta band ---------- */
+.cta{background:linear-gradient(120deg,var(--green-600),var(--forest-700));color:#fff}
+.cta .wrap{display:flex;align-items:center;justify-content:space-between;gap:36px;flex-wrap:wrap}
+.cta h2{font-size:clamp(24px,3.2vw,38px);font-weight:700;letter-spacing:-.008em;line-height:1.3}
+.cta p{color:rgba(255,255,255,.75);margin-top:12px;max-width:52ch}
+
+/* ---------- footer ---------- */
+.site-foot{background:var(--forest-900);color:rgba(255,255,255,.66);font-size:14.5px}
+.foot-top{display:grid;grid-template-columns:1.4fr repeat(3,1fr);gap:clamp(30px,4vw,56px);
+  padding-block:clamp(52px,6vw,76px)}
+.foot-brand .brand-mark{width:46px;height:46px;margin-bottom:20px}
+.foot-brand strong{display:block;color:#fff;font-size:17px;font-weight:700;margin-bottom:14px}
+.foot-contact li{display:flex;gap:12px;line-height:1.6;margin-bottom:9px}
+.foot-contact b{flex:none;width:58px;color:rgba(255,255,255,.4);font-weight:600;font-size:13px}
+.foot-contact a:hover{color:#fff}
+.foot-col h4{color:#fff;font-size:13px;letter-spacing:.13em;text-transform:uppercase;font-weight:700;margin-bottom:18px}
+.foot-col li{margin-bottom:9px}
+.foot-col a{transition:color var(--t)}
+.foot-col a:hover{color:var(--lime)}
+.foot-bot{
+  border-top:1px solid var(--line-dark);padding-block:24px;
+  display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;
+  font-size:13px;color:rgba(255,255,255,.42);
+}
+
+/* back-to-top */
+.to-top{
+  position:fixed;right:22px;bottom:22px;z-index:50;
+  width:46px;height:46px;border-radius:50%;
+  background:var(--forest-800);color:#fff;
+  display:grid;place-items:center;
+  box-shadow:0 12px 26px -12px rgba(0,0,0,.6);
+  opacity:0;visibility:hidden;transform:translateY(10px);
+  transition:opacity var(--t),transform var(--t),visibility var(--t),background var(--t);
+}
+.to-top.is-on{opacity:1;visibility:visible;transform:none}
+.to-top:hover{background:var(--green-500)}
+
+/* ---------- reveal on scroll ---------- */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.reveal.is-in{opacity:1;transform:none}
+
+/* ---------- responsive ---------- */
+@media (max-width:1080px){
+  .hero .wrap{grid-template-columns:1fr}
+  .hero-figs{justify-content:flex-start}
+  .about{grid-template-columns:1fr}
+  .news-grid{grid-template-columns:1fr 1fr}
+  .foot-top{grid-template-columns:1fr 1fr}
+}
+@media (max-width:900px){
+  .nav{display:none}
+  .burger{display:flex}
+  .site-head .wrap{min-height:70px;justify-content:space-between}
+  .lang-pill{margin-left:auto}
+}
+@media (max-width:560px){
+  /* keep brand + language + burger on one row without clipping */
+  .brand-txt span{display:none}
+  .brand-txt strong{font-size:15px}
+  .brand-mark{width:36px;height:36px;font-size:13px}
+  .lang-pill svg{display:none}
+  /* 2x2: only the right-hand cell of each row keeps a divider */
+  .stats .wrap{grid-template-columns:1fr 1fr}
+  .stat + .stat{border-left:0}
+  .stat:nth-child(even){border-left:1px solid var(--line-dark)}
+  .stat:nth-child(n+3){border-top:1px solid var(--line-dark)}
+  .rsch-grid{grid-template-columns:1fr}
+  .news-grid{grid-template-columns:1fr}
+  .pub{grid-template-columns:64px 1fr;gap:14px}
+  .pub-go{display:none}
+  .hero-fig--b{display:none}
+}
+@media (max-width:560px){
+  body{font-size:16px}
+  .foot-top{grid-template-columns:1fr}
+  .hero-figs{display:none}
+}
+
+/* ---------- mobile drawer ---------- */
+.drawer{
+  position:fixed;inset:0;z-index:80;
+  background:var(--forest-900);color:#fff;
+  padding:22px var(--gutter) 60px;
+  overflow-y:auto;
+  opacity:0;visibility:hidden;transform:translateY(-12px);
+  transition:opacity var(--t),transform var(--t),visibility var(--t);
+}
+.drawer.is-open{opacity:1;visibility:visible;transform:none}
+.drawer-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:30px}
+.drawer-close{width:44px;height:44px;border:1px solid var(--line-dark);border-radius:var(--r-sm);
+  display:grid;place-items:center;font-size:22px}
+.drawer-sec{border-bottom:1px solid var(--line-dark)}
+.drawer-sec > button{
+  width:100%;display:flex;align-items:center;justify-content:space-between;
+  padding:18px 0;font-size:19px;font-weight:700;text-align:left;
+}
+.drawer-sec > button span{color:var(--lime);font-size:22px;transition:transform var(--t)}
+.drawer-sec.is-open > button span{transform:rotate(45deg)}
+.drawer-sub{display:none;padding-bottom:16px}
+.drawer-sec.is-open .drawer-sub{display:block}
+.drawer-sub a{display:block;padding:10px 0 10px 14px;color:rgba(255,255,255,.72);font-size:15.5px}
+.drawer-sub a:hover{color:var(--lime)}
+
+/* honour reduced-motion across the whole system */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important}
+  html{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none}
+}
