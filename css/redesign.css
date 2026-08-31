@@ -1,0 +1,1023 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
+
+/* ══════════════════════════════════════════════════════
+   GSLE / LEL redesign — 2026
+   Tokens
+   ══════════════════════════════════════════════════════ */
+:root{
+  --deep:      oklch(21% 0.038 158);
+  --deep-2:    oklch(26% 0.048 158);
+  --green:     oklch(38% 0.088 156);
+  --green-mid: oklch(48% 0.105 152);
+  --green-br:  oklch(66% 0.135 146);
+  --paper:     oklch(100% 0 0);
+  --bg:        oklch(97.4% 0.006 150);
+  --bg-2:      oklch(94.6% 0.009 150);
+  --ink:       oklch(22% 0.014 158);
+  --ink-soft:  oklch(46% 0.014 158);
+  --ink-faint: oklch(62% 0.012 158);
+  --line:      oklch(89% 0.008 150);
+
+  --font-display:'Archivo','Noto Sans KR',sans-serif;
+  --font-body:'Source Sans 3','Noto Sans KR',sans-serif;
+
+  --pad: clamp(20px, 4.4vw, 64px);
+  --maxw: 1440px;
+  --t: .22s cubic-bezier(.4,0,.2,1);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:var(--font-body);font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
+h1,h2,h3,h4{margin:0;font-family:var(--font-display);font-weight:700;letter-spacing:-.015em;text-wrap:balance}
+p{margin:0;text-wrap:pretty}
+ul{margin:0;padding:0;list-style:none}
+img{max-width:100%;display:block}
+a{color:var(--green);text-decoration:none;transition:color var(--t)}
+a:hover{color:var(--green-mid)}
+:focus-visible{outline:2.5px solid var(--green-br);outline-offset:3px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* ── shared bits ───────────────────────────────────── */
+.wrap{max-width:var(--maxw);margin:0 auto;padding-inline:var(--pad)}
+.eyebrow{font:700 12px var(--font-body);letter-spacing:.2em;text-transform:uppercase;color:var(--green-br)}
+.eyebrow--dark{color:var(--green-mid)}
+.rule{display:block;width:52px;height:3px;background:var(--green-br);border:0}
+.rule--dark{background:var(--green-mid)}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  min-height:48px;padding:14px 30px;border-radius:2px;
+  font:700 14px var(--font-body);letter-spacing:.04em;white-space:nowrap;
+  transition:background var(--t),color var(--t),border-color var(--t),transform var(--t);
+}
+.btn svg{flex-shrink:0;transition:transform var(--t)}
+.btn:hover svg{transform:translateX(3px)}
+.btn--green{background:var(--green);color:var(--paper)}
+.btn--green:hover{background:var(--green-mid);color:var(--paper)}
+.btn--ghost{border:1.5px solid oklch(100% 0 0 / .55);color:var(--paper)}
+.btn--ghost:hover{background:oklch(100% 0 0 / .12);color:var(--paper);border-color:var(--paper)}
+.btn--out{border:1.5px solid var(--line);color:var(--ink);background:var(--paper)}
+.btn--out:hover{border-color:var(--green);color:var(--green)}
+.btn--paper{background:var(--paper);color:var(--green)}
+.btn--paper:hover{background:var(--bg-2);color:var(--green)}
+
+.sec{padding-block:clamp(56px,7vw,96px)}
+.sec--paper{background:var(--paper)}
+.sec--tint{background:var(--bg-2)}
+
+.sec-head{display:flex;flex-direction:column;gap:16px;max-width:720px;margin-inline:auto;text-align:center;align-items:center;margin-bottom:clamp(34px,4.4vw,58px)}
+.sec-head h2{font-size:clamp(26px,3.2vw,36px);color:var(--deep)}
+.sec-head h2 em{font-style:normal;color:var(--green-mid)}
+.sec-head p{font-size:clamp(14.5px,1.2vw,15.5px);line-height:1.75;color:var(--ink-soft)}
+
+.sec-head--split{
+  flex-direction:row;justify-content:space-between;align-items:flex-end;
+  text-align:left;max-width:none;margin-inline:0;
+}
+.sec-head--split .sec-head-txt{display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+.sec-head--split h2{font-size:clamp(26px,3vw,34px)}
+
+/* ══════ utility bar ══════ */
+.util{background:var(--deep);color:oklch(100% 0 0 / .72)}
+.util .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:42px}
+.util-left,.util-right{display:flex;align-items:center;gap:26px}
+.util a,.util span{font:500 12.5px var(--font-body);color:inherit}
+.util-right{color:oklch(100% 0 0 / .82);font-weight:600}
+.util .ic{display:inline-flex;align-items:center;gap:7px}
+.util .ic svg{color:var(--green-br)}
+.util a:hover{color:var(--green-br)}
+.util-sep{width:1px;height:13px;background:oklch(100% 0 0 / .22)}
+
+/* language switch — a real <select>, styled to match the bar */
+.lang-pill{display:inline-flex;align-items:center;gap:7px;color:oklch(100% 0 0 / .82)}
+.lang-pill > svg{flex-shrink:0}
+.lang-pill select{
+  appearance:none;-webkit-appearance:none;
+  background:transparent;border:0;color:inherit;cursor:pointer;
+  font:600 12.5px var(--font-body);padding:4px 18px 4px 0;line-height:1.4;
+  background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' opacity='.8'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right center;background-size:10px 10px;
+}
+.lang-pill select:hover{color:var(--green-br)}
+.lang-pill option{color:#111;background:#fff}
+
+/* ── Google Translate: keep its chrome out of the layout ──
+   The banner iframe shifts <body> down by ~40px, which breaks the
+   sticky header. These three rules undo that. The gadget itself must be
+   off-screen rather than display:none, or Google never populates it. */
+#google_translate_element{position:absolute;left:-10000px;top:-10000px;height:0;overflow:hidden}
+iframe.skiptranslate,.goog-te-banner-frame,.VIpgJd-ZVi9od-ORHb-OEVmcd{display:none !important}
+html{margin-top:0 !important}
+body{top:0 !important}
+/* Google wraps translated runs in <font> — keep them transparent to layout */
+font{font:inherit;color:inherit;background:none}
+
+/* ══════ header / nav ══════ */
+.head{background:var(--paper);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:40}
+.head .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:82px}
+.brand{display:flex;align-items:center;gap:15px;color:inherit}
+.brand:hover{color:inherit}
+.brand-mark{
+  width:48px;height:48px;flex-shrink:0;border-radius:2px;background:var(--green);color:var(--paper);
+  display:flex;align-items:center;justify-content:center;
+  font:800 15px var(--font-display);letter-spacing:.02em;
+}
+.brand-txt{display:flex;flex-direction:column;gap:3px}
+.brand-ko{font:700 16.5px var(--font-display);color:var(--deep);letter-spacing:-.01em}
+.brand-en{font:600 10.5px var(--font-body);color:var(--ink-faint);letter-spacing:.15em;text-transform:uppercase}
+
+/* The items stretch to the full header height so the drop-panel's `top:100%`
+   lands exactly on the header's bottom edge — flush, with no gap for the
+   cursor to fall through on the way down. */
+.nav{display:flex;align-items:stretch;align-self:stretch;gap:4px}
+.nav-item{position:relative;display:flex;align-items:center}
+.nav .nav-top{
+  display:block;padding:9px 13px;border:1.5px solid transparent;border-radius:2px;
+  font:600 14.5px var(--font-body);color:var(--ink);white-space:nowrap;
+}
+.nav .nav-top:hover{color:var(--green)}
+.nav .nav-top[aria-current="page"]{color:var(--green);border-color:var(--green)}
+.nav-item:hover .nav-top{color:var(--green)}
+.nav .btn{margin-left:14px;padding:13px 24px;min-height:auto;align-self:center}
+
+/* sub-menu revealed on hover — the SWEET Lab behaviour, in our palette
+   (theirs is a dark translucent panel because their header sits over a hero;
+   ours is a white bar, so the panel is paper with a soft lift). */
+.nav-drop{
+  position:absolute;top:100%;left:50%;
+  transform:translate(-50%,-6px);
+  min-width:212px;padding:8px;display:flex;flex-direction:column;
+  background:var(--paper);border:1px solid var(--line);border-radius:3px;
+  box-shadow:0 18px 40px oklch(21% 0.038 158 / .15);
+  opacity:0;visibility:hidden;pointer-events:none;z-index:50;
+  transition:opacity var(--t),transform var(--t),visibility var(--t);
+}
+/* no bridge needed: the item runs to the header's edge and the panel starts
+   there, so the cursor never crosses dead space */
+.nav-item:hover .nav-drop,
+.nav-item:focus-within .nav-drop{
+  opacity:1;visibility:visible;pointer-events:auto;transform:translate(-50%,0);
+}
+.nav-drop a{
+  display:block;padding:10px 14px;border-radius:2px;
+  font:500 14px var(--font-body);color:var(--ink-soft);white-space:nowrap;
+}
+.nav-drop a:hover{background:var(--bg-2);color:var(--green)}
+
+.burger{
+  display:none;width:48px;height:48px;align-items:center;justify-content:center;
+  background:none;border:0;color:var(--deep);cursor:pointer;padding:0;
+}
+
+/* ══════ hero ══════ */
+.hero{position:relative;min-height:566px;display:flex;align-items:center;background:var(--deep);overflow:hidden}
+.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 42%}
+.hero-scrim{
+  position:absolute;inset:0;
+  background:linear-gradient(97deg,
+    oklch(19% 0.04 158 / .93) 0%,
+    oklch(19% 0.04 158 / .82) 38%,
+    oklch(19% 0.04 158 / .30) 68%,
+    oklch(19% 0.04 158 / .12) 100%);
+}
+.hero .wrap{position:relative;width:100%;padding-block:clamp(56px,7vw,80px)}
+.hero-copy{display:flex;flex-direction:column;gap:20px;max-width:820px}
+.hero-kicker{display:flex;align-items:center;gap:14px}
+.hero h1{
+  font-size:clamp(32px,4.6vw,60px);line-height:1.12;font-weight:800;
+  letter-spacing:-.025em;color:var(--paper);
+}
+.hero h1 em{font-style:normal;color:var(--green-br)}
+.hero p{font-size:clamp(14.5px,1.35vw,17px);line-height:1.75;color:oklch(100% 0 0 / .8);max-width:620px}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:12px}
+
+/* ══════ quick cards ══════ */
+.quick{position:relative;z-index:2;margin-top:-62px}
+.quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.quick-card{
+  background:var(--paper);border-top:3px solid var(--green-br);
+  padding:30px 28px;display:flex;align-items:flex-start;gap:18px;
+  box-shadow:0 14px 34px oklch(21% 0.038 158 / .13);
+  transition:transform var(--t),box-shadow var(--t);
+}
+.quick-card:hover{transform:translateY(-4px);box-shadow:0 20px 42px oklch(21% 0.038 158 / .18)}
+.quick-ic{
+  width:58px;height:58px;flex-shrink:0;border-radius:2px;
+  background:oklch(93.5% 0.032 152);color:var(--green);
+  display:flex;align-items:center;justify-content:center;
+  transition:background var(--t),color var(--t);
+}
+.quick-card:hover .quick-ic{background:var(--green);color:var(--paper)}
+.quick-card h3{font-size:17px;color:var(--deep);margin-bottom:6px}
+.quick-card p{font-size:13.5px;line-height:1.6;color:var(--ink-soft)}
+
+/* ══════ intro ══════ */
+.intro{padding-block:clamp(56px,6.6vw,92px) clamp(48px,5.6vw,78px);text-align:center}
+.intro-inner{max-width:800px;margin-inline:auto;display:flex;flex-direction:column;align-items:center;gap:18px}
+.intro h2{font-size:clamp(26px,3.2vw,36px);color:var(--deep)}
+.intro h2 em{font-style:normal;color:var(--green-mid)}
+.intro p{font-size:clamp(15px,1.3vw,16.5px);line-height:1.85;color:var(--ink-soft)}
+
+/* ══════ stats ══════ */
+.stats{background:var(--deep)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr)}
+.stat{padding:40px 24px 42px;text-align:center;border-right:1px solid oklch(100% 0 0 / .1)}
+.stat:last-child{border-right:0}
+.stat-ic{
+  width:46px;height:46px;margin:0 auto 16px;border-radius:50%;
+  background:oklch(100% 0 0 / .09);color:var(--green-br);
+  display:flex;align-items:center;justify-content:center;
+}
+.stat b{display:block;font:800 clamp(32px,3.6vw,44px) var(--font-display);color:var(--paper);letter-spacing:-.03em;line-height:1}
+.stat span{display:block;margin-top:11px;font:600 13px var(--font-body);color:oklch(100% 0 0 / .62);letter-spacing:.1em;text-transform:uppercase}
+
+/* ══════ research cards ══════ */
+.rsch-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.rsch{
+  border:1px solid var(--line);background:var(--paper);
+  display:flex;flex-direction:column;color:inherit;
+  transition:transform var(--t),box-shadow var(--t),border-color var(--t);
+}
+.rsch:hover{transform:translateY(-5px);border-color:var(--green-br);box-shadow:0 16px 36px oklch(21% 0.038 158 / .12);color:inherit}
+.rsch-top{padding:26px 24px 22px;display:flex;flex-direction:column;gap:16px;background:var(--green)}
+.rsch:nth-child(even) .rsch-top{background:var(--green-mid)}
+.rsch-ic{
+  width:60px;height:60px;border-radius:3px;
+  background:oklch(100% 0 0 / .13);border:1px solid oklch(100% 0 0 / .18);
+  color:var(--paper);display:flex;align-items:center;justify-content:center;
+  transition:background var(--t),transform var(--t);
+}
+.rsch:hover .rsch-ic{background:oklch(100% 0 0 / .22);transform:scale(1.06)}
+.rsch-num{font:700 11px var(--font-body);letter-spacing:.18em;color:oklch(100% 0 0 / .78)}
+.rsch-body{padding:26px 24px 28px;display:flex;flex-direction:column;gap:14px;flex:1}
+.rsch-body h3{font-size:17.5px;line-height:1.42;color:var(--deep)}
+.rsch-body ul{display:flex;flex-direction:column;gap:9px}
+.rsch-body li{display:flex;gap:9px;font-size:13.5px;line-height:1.5;color:var(--ink-soft)}
+.rsch-body li::before{content:"—";color:var(--green-br);font-weight:700;flex-shrink:0}
+
+/* ══════ split (photo + text) ══════ */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,4.4vw,64px);align-items:center}
+.split--wide-right{grid-template-columns:1fr 1.05fr}
+.split-fig{position:relative}
+.split-fig img{width:100%;height:clamp(300px,34vw,474px);object-fit:cover;object-position:center 28%}
+.split-tag{
+  position:absolute;left:0;bottom:0;background:var(--deep);color:var(--paper);
+  padding:15px 26px;display:flex;flex-direction:column;gap:3px;
+}
+.split-tag b{font:700 13px var(--font-display);letter-spacing:.02em}
+.split-tag span{font:500 11px var(--font-body);letter-spacing:.12em;text-transform:uppercase;color:oklch(100% 0 0 / .55)}
+.split-txt{display:flex;flex-direction:column;gap:20px}
+.split-txt h2{font-size:clamp(24px,3vw,34px);line-height:1.32;color:var(--deep)}
+.split-txt h2 em{font-style:normal;color:var(--green-mid)}
+.split-txt p{font-size:clamp(14.5px,1.25vw,15.5px);line-height:1.85;color:var(--ink-soft)}
+.split-txt p b{color:var(--deep);font-weight:700}
+.split-cta{display:flex;flex-wrap:wrap;gap:13px;margin-top:10px}
+
+.mini-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:6px}
+.mini{background:var(--paper);padding:20px 18px;text-align:center}
+.mini b{display:block;font:800 clamp(20px,2vw,26px) var(--font-display);color:var(--green);line-height:1}
+.mini span{display:block;margin-top:7px;font-size:12.5px;color:var(--ink-faint)}
+
+/* ══════ photo cards ══════ */
+.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.photo-grid--2{grid-template-columns:1fr 1fr}
+.pcard{border:1px solid var(--line);background:var(--paper);overflow:hidden;display:flex;flex-direction:column;color:inherit;transition:transform var(--t),box-shadow var(--t)}
+.pcard:hover{transform:translateY(-5px);box-shadow:0 16px 36px oklch(21% 0.038 158 / .12);color:inherit}
+.pcard img{width:100%;height:224px;object-fit:cover}
+.photo-grid--2 .pcard img{height:clamp(220px,26vw,330px)}
+.pcard-body{padding:24px 24px 26px;display:flex;flex-direction:column;gap:10px;flex:1}
+.pcard-tag{display:flex;align-items:center;gap:8px;font:700 11px var(--font-body);letter-spacing:.16em;color:var(--green-mid)}
+.pcard-tag svg{flex-shrink:0}
+.pcard h3{font-size:17px;line-height:1.42;color:var(--deep)}
+.photo-grid--2 .pcard h3{font-size:19px}
+.pcard p{font-size:13.5px;line-height:1.65;color:var(--ink-soft)}
+.photo-grid--2 .pcard p{font-size:14px;line-height:1.7}
+
+/* ══════ wide photo band ══════ */
+.band{position:relative;border:1px solid var(--line);overflow:hidden;margin-top:24px;display:flex;align-items:center;min-height:300px}
+.band img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 52%}
+.band-scrim{
+  position:absolute;inset:0;
+  background:linear-gradient(90deg, oklch(19% 0.04 158 / .88) 0%, oklch(19% 0.04 158 / .55) 46%, oklch(19% 0.04 158 / .05) 100%);
+}
+.band-txt{position:relative;padding:36px clamp(20px,3vw,44px);display:flex;flex-direction:column;gap:12px;max-width:640px}
+.band-txt h3{font-size:clamp(20px,2.2vw,25px);line-height:1.35;color:var(--paper)}
+.band-txt p{font-size:14.5px;line-height:1.7;color:oklch(100% 0 0 / .8)}
+.band-tag{display:flex;align-items:center;gap:8px;font:700 11px var(--font-body);letter-spacing:.16em;color:var(--green-br)}
+.band-tag svg{flex-shrink:0}
+
+/* ══════ output chart ══════ */
+.chart-wrap{display:grid;grid-template-columns:360px 1fr;gap:clamp(36px,5vw,72px);align-items:center}
+.chart-txt{display:flex;flex-direction:column;gap:16px;align-items:flex-start}
+.chart-txt h2{font-size:clamp(24px,2.8vw,32px);line-height:1.32;color:var(--deep)}
+.chart-txt h2 em{font-style:normal;color:var(--green-mid)}
+.chart-txt p{font-size:14.5px;line-height:1.75;color:var(--ink-soft)}
+.chart{background:var(--paper);border:1px solid var(--line);padding:clamp(26px,3vw,38px) clamp(24px,3vw,40px);display:flex;flex-direction:column;gap:26px}
+.bar-row{display:grid;grid-template-columns:96px 1fr 54px;align-items:center;gap:20px}
+.bar-row > span:first-child{font:600 14px var(--font-body);color:var(--ink)}
+.bar-track{height:22px;background:var(--bg-2);overflow:hidden}
+.bar-fill{height:100%;background:var(--green)}
+.bar-fill--mid{background:var(--green-mid)}
+.bar-fill--br{background:var(--green-br)}
+.bar-fill--faint{background:var(--green-br);opacity:.6}
+.bar-val{font:800 19px var(--font-display);color:var(--deep);text-align:right}
+
+/* ══════ publications ══════ */
+.pub-list{border-top:2px solid var(--deep)}
+.pub{
+  display:grid;grid-template-columns:78px 1fr 260px 30px;gap:26px;align-items:center;
+  padding:24px 4px;border-bottom:1px solid var(--line);color:inherit;
+  transition:background var(--t),padding var(--t);
+}
+.pub:hover{background:var(--bg-2);color:inherit;padding-inline:16px}
+.pub-year{font:800 15px var(--font-display);color:var(--green-mid)}
+.pub-main{display:flex;flex-direction:column;gap:6px}
+.pub-title{font:600 15.5px/1.5 var(--font-body);color:var(--deep)}
+.pub-authors{font-size:13px;color:var(--ink-faint)}
+.pub-venue{font:500 13px/1.5 var(--font-body);color:var(--ink-soft);font-style:italic}
+.pub svg{color:var(--green-mid);flex-shrink:0}
+
+/* ══════ news ══════ */
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.news{border:1px solid var(--line);background:var(--paper);display:flex;flex-direction:column;color:inherit;transition:transform var(--t),box-shadow var(--t)}
+.news:hover{transform:translateY(-5px);box-shadow:0 16px 36px oklch(21% 0.038 158 / .12);color:inherit}
+.news-thumb{height:186px;background:var(--bg-2);display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--line);color:var(--ink-faint)}
+.news-body{padding:24px;display:flex;flex-direction:column;gap:11px;flex:1}
+.news-tag{align-self:flex-start;background:var(--green);color:var(--paper);font:700 10.5px var(--font-body);letter-spacing:.14em;padding:5px 11px}
+.news-tag--notice{background:var(--deep)}
+.news h3{font-size:16px;line-height:1.48;color:var(--deep)}
+.news p{font-size:13.5px;line-height:1.65;color:var(--ink-soft);flex:1}
+.news time{font:500 12.5px var(--font-body);color:var(--ink-faint)}
+
+/* ══════ CTA band ══════ */
+.cta{background:var(--green);padding-block:clamp(44px,5vw,62px)}
+.cta .wrap{display:flex;align-items:center;justify-content:space-between;gap:48px}
+.cta-txt{display:flex;flex-direction:column;gap:13px}
+.cta-eyebrow{font:700 12px var(--font-body);letter-spacing:.2em;text-transform:uppercase;color:oklch(100% 0 0 / .62)}
+.cta h2{font-size:clamp(22px,2.8vw,30px);line-height:1.35;color:var(--paper)}
+.cta p{font-size:15px;line-height:1.7;color:oklch(100% 0 0 / .78)}
+
+/* ══════════════════════════════════════════════════════
+   Interior page head — the SWEET Lab arrangement:
+   a quiet tinted band carrying the SECTION name and the lab line, then the
+   page's own name centred over the content under a short vertical rule.
+   Two levels of "where am I", neither of them shouting.
+   ══════════════════════════════════════════════════════ */
+.pbanner{background:var(--bg-2);padding-block:clamp(46px,5.6vw,74px);text-align:center;padding-inline:0}
+.pbanner .wrap{display:flex;flex-direction:column;align-items:center;gap:14px}
+.pbanner h1{
+  margin:0;font:800 clamp(28px,3.8vw,42px) var(--font-display);
+  letter-spacing:-.01em;text-transform:uppercase;color:var(--deep);line-height:1.15;
+}
+.pbanner small{
+  font:400 clamp(14px,1.3vw,17px) var(--font-body);letter-spacing:.05em;
+  color:var(--ink-faint);
+}
+.pbanner .crumb{
+  display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;
+  margin-top:6px;font:500 12.5px var(--font-body);color:var(--ink-faint);
+}
+.pbanner .crumb a{color:var(--ink-faint)}
+.pbanner .crumb a:hover{color:var(--green)}
+.pbanner .crumb span[aria-hidden="true"]{color:var(--line)}
+.pbanner .crumb .here{color:var(--green);font-weight:600}
+
+/* the page's own name, centred under a hairline rule */
+.page-body .sCont_title{
+  position:relative;text-align:center;margin:0;
+  padding:clamp(46px,5vw,74px) 0 clamp(30px,3.6vw,52px);
+  font:700 clamp(28px,3.6vw,44px) var(--font-display);letter-spacing:-.02em;color:var(--deep);
+}
+.page-body .sCont_title::before{
+  content:"";position:absolute;left:50%;top:0;transform:translateX(-50%);
+  width:1px;height:38px;background:var(--green-mid);
+}
+/* the vendor content often repeats the page name — hide the duplicate */
+.page-body .sCont_title + .pagetab{margin-top:0}
+
+/* ══════ page banner (legacy dark variant, kept for reference) ══════ */
+/* padding:0 is load-bearing on generated pages: gsle.css puts a section-level
+   vertical rhythm on every <section>, which would otherwise add ~250px here. */
+.banner{position:relative;background:var(--deep);min-height:248px;display:flex;align-items:center;overflow:hidden;padding:0}
+.hero{padding:0}
+.banner-art{position:absolute;inset:0;width:100%;height:100%}
+.banner-scrim{position:absolute;inset:0;background:linear-gradient(90deg,var(--deep) 42%, oklch(21% 0.038 158 / .55) 100%)}
+.banner .wrap{position:relative;width:100%;padding-block:44px}
+.banner-inner{display:flex;flex-direction:column;gap:16px}
+.crumb{display:flex;align-items:center;gap:9px;font:500 12.5px var(--font-body);color:oklch(100% 0 0 / .55);flex-wrap:wrap}
+.crumb a{color:inherit}
+.crumb a:hover{color:var(--green-br)}
+.crumb i,.crumb span[aria-hidden="true"]{font-style:normal;color:oklch(100% 0 0 / .3)}
+.crumb [aria-current],.crumb .here{color:var(--green-br);font-weight:600}
+.banner h1{font-size:clamp(30px,3.8vw,44px);line-height:1.2;font-weight:800;letter-spacing:-.025em;color:var(--paper)}
+.banner-sub{display:flex;align-items:center;gap:14px}
+
+/* ══════ aim cards ══════ */
+.aim-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.aim{background:var(--paper);border:1px solid var(--line);padding:clamp(28px,3vw,38px) clamp(24px,2.6vw,32px);display:flex;flex-direction:column;gap:16px}
+.aim-ic{width:56px;height:56px;border-radius:2px;background:var(--green);color:var(--paper);display:flex;align-items:center;justify-content:center}
+.aim:nth-child(even) .aim-ic{background:var(--green-mid)}
+.aim h3{font-size:19px;line-height:1.4;color:var(--deep)}
+.aim p{font-size:14.5px;line-height:1.75;color:var(--ink-soft)}
+
+/* ══════ footer ══════ */
+.foot{background:var(--deep)}
+.foot-top{display:grid;grid-template-columns:1.5fr repeat(4,minmax(0,1fr));gap:clamp(26px,2.8vw,44px);padding-block:clamp(44px,5vw,64px) clamp(36px,4vw,52px)}
+.foot-brand{display:flex;flex-direction:column;gap:20px}
+.foot-brand-row{display:flex;align-items:center;gap:14px}
+.foot-mark{width:44px;height:44px;flex-shrink:0;border-radius:2px;background:var(--green-mid);color:var(--paper);display:flex;align-items:center;justify-content:center;font:800 14px var(--font-display)}
+.foot-brand-row strong{font:700 15px var(--font-display);color:var(--paper);line-height:1.4}
+.foot-contact{display:flex;flex-direction:column;gap:12px}
+.foot-contact li{display:flex;gap:14px;font-size:13.5px;line-height:1.6;color:oklch(100% 0 0 / .62)}
+.foot-contact b{font-weight:700;color:oklch(100% 0 0 / .85);width:36px;flex-shrink:0}
+.foot-contact a{color:inherit}
+.foot-contact a:hover{color:var(--green-br)}
+.foot-col{display:flex;flex-direction:column;gap:16px}
+.foot-col h4{font:700 12.5px var(--font-body);letter-spacing:.18em;text-transform:uppercase;color:var(--green-br)}
+.foot-col ul{display:flex;flex-direction:column;gap:11px}
+.foot-col a{font-size:13.5px;color:oklch(100% 0 0 / .68)}
+.foot-col a:hover{color:var(--paper)}
+.foot-bot{border-top:1px solid oklch(100% 0 0 / .12)}
+.foot-bot .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-block:22px}
+.foot-bot p{font-size:12.5px;color:oklch(100% 0 0 / .48)}
+.foot-bot b{color:oklch(100% 0 0 / .78);font-weight:700}
+
+/* ══════ mobile drawer ══════ */
+.drawer{
+  position:fixed;inset:0 0 0 auto;width:min(340px,88vw);background:var(--deep);z-index:60;
+  transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column;overflow-y:auto;padding:0 0 32px;
+}
+.drawer[data-open="true"]{transform:translateX(0)}
+.drawer-head{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid oklch(100% 0 0 / .12)}
+.drawer-head strong{font:700 14px var(--font-display);color:var(--paper)}
+.drawer-close{width:48px;height:48px;background:none;border:0;color:var(--paper);font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.drawer nav{display:flex;flex-direction:column;padding:12px 8px}
+.drawer nav a{
+  padding:15px 16px;min-height:48px;display:flex;align-items:center;
+  font:600 16px var(--font-body);color:oklch(100% 0 0 / .82);border-radius:2px;
+}
+.drawer nav a:hover,.drawer nav a[aria-current="page"]{background:oklch(100% 0 0 / .08);color:var(--green-br)}
+/* sub-pages carried over from the old desktop mega-menu */
+.drawer nav a.drawer-sub-link{
+  padding:11px 16px 11px 30px;min-height:44px;
+  font:400 14px var(--font-body);color:oklch(100% 0 0 / .55);
+}
+.drawer nav a.drawer-sub-link::before{content:"–";margin-right:9px;opacity:.5}
+.drawer nav a.drawer-sub-link:hover{color:var(--green-br);background:oklch(100% 0 0 / .06)}
+
+/* ── generated interior pages: the old content shell still styles the body,
+   so give it the new page ground and rhythm ── */
+main.page-body{background:var(--paper)}
+main.page-body > .wrap{padding-block:clamp(40px,5vw,72px)}
+
+/* ── legacy content, made language-proof ──
+   The vendor stylesheet sizes several blocks with a hard `height` that only
+   ever fitted the Korean copy. Translated text is ~40% longer, overflows the
+   box, and collides with the next one (the greeting page's Action/Target
+   circles are chained with margin-top:-20px, so the spill lands on top of the
+   circle below). Swapping height for min-height leaves Korean pixel-identical
+   — its content is shorter than the old fixed height — and lets any longer
+   translation push the box down instead of out of it. */
+.page-body .greet .greeconWrap .greecon_list div{
+  height:auto;min-height:200px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:26px 16px;
+}
+.page-body .greet .greeconWrap.g_con03 .greecon_list div{
+  height:auto;min-height:555px;justify-content:flex-start;
+}
+/* English needs a slightly wider, smaller-set circle to stay circular */
+html[data-lang="en"] .page-body .greet .greeconWrap .greecon_list div{width:225px;padding:24px 14px}
+html[data-lang="en"] .page-body .greet .greeconWrap .greecon_list div p{font-size:15px;line-height:1.38}
+html[data-lang="en"] .page-body .greet .greeconWrap.g_con03 .greecon_list div p{font-size:21px}
+html[data-lang="en"] .page-body .greet .greecon{padding:50px clamp(24px,7vw,120px)}
+
+/* 연구실 소개's .labimg is a 345px box with text over lab_BG.png, and it takes
+   a different height at every breakpoint — releasing the height outright would
+   shift the Korean layout, so only English (the case that actually spills)
+   gets to grow. */
+html[data-lang="en"] .page-body #lab .labimg{height:auto;padding-bottom:44px}
+
+/* ══════════════════════════════════════════════════════
+   People (교수 소개 · 재학생 · 졸업생)
+   The board markup already carries everything we need — .ml_card with a
+   photo, .name, a role <p>, and labelled .inbot rows. content.css laid these
+   out as a grid of vertical cards; this replaces that with a roster of wide
+   rows (portrait left, details right), which is what the long Korean/English
+   education and career lines actually need.
+   ══════════════════════════════════════════════════════ */
+
+/* sub-tabs: 교수 / 재학생 / 졸업생 */
+.page-body .pagetab{margin-bottom:clamp(28px,3.4vw,44px)}
+.page-body .pagetab ul{display:flex;flex-wrap:wrap;gap:4px;border-bottom:2px solid var(--line);list-style:none;padding:0}
+.page-body .pagetab li{margin:0}
+/* content.css ships these as filled pills; override the whole box so they
+   read as quiet underline tabs, in keeping with the calmer page head. */
+.page-body .pagetab li a,
+.page-body .pagetab a.active,
+.page-body .pagetab .active a{
+  display:block;padding:13px 26px;margin-bottom:-2px;
+  font:600 15px var(--font-body);color:var(--ink-soft);
+  background:none;border:0;border-radius:0;
+  border-bottom:2px solid transparent;transition:color var(--t),border-color var(--t);
+}
+.page-body .pagetab li a:hover{color:var(--green)}
+.page-body .pagetab a.active,
+.page-body .pagetab .active a{color:var(--green);border-bottom-color:var(--green)}
+
+/* the roster — two-up bordered cards (the SWEET Lab arrangement) */
+.page-body .member_list{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(18px,2vw,26px);border-top:0;list-style:none;padding:0;
+}
+.page-body .ml_card{
+  display:grid;grid-template-columns:120px minmax(0,1fr);
+  gap:clamp(18px,2vw,30px);align-items:start;
+  padding:clamp(22px,2.4vw,30px);border:1px solid var(--line);border-radius:4px;
+  background:var(--paper);height:auto;overflow:visible;
+  transition:border-color var(--t),box-shadow var(--t);
+}
+.page-body .ml_card:hover{
+  transform:none;border-color:var(--green-br);
+  box-shadow:0 12px 30px oklch(21% 0.038 158 / .09);background:var(--paper);
+}
+
+.page-body .ml_card .img_wr,.page-body .ml_card .img{
+  width:120px;aspect-ratio:120/160;overflow:hidden;background:var(--bg-2);border-radius:2px;
+}
+.page-body .ml_card .img_wr img,.page-body .ml_card .img img{width:100%;height:100%;object-fit:cover}
+
+/* Name and role share one line — the detail that makes SWEET's card read as
+   a single stroke of identity rather than two stacked labels. */
+.page-body .ml_card .info_wr{display:block;padding:0}
+.page-body .ml_card .name{
+  display:inline;font:700 clamp(19px,1.8vw,24px) var(--font-display);
+  color:var(--green);letter-spacing:-.015em;margin:0;line-height:1.3;
+}
+/* The role line arrives two different ways: 재학생/졸업생 leave .course empty
+   and put the degree stage in a bare <p>; 교수 소개 uses .inmail for the
+   affiliation. Style both the same. */
+.page-body .ml_card .course{display:none}
+.page-body .ml_card .info_wr > p,
+.page-body .ml_card .inmail{
+  display:inline;font:400 clamp(14px,1.2vw,16px) var(--font-body);
+  color:var(--ink-faint);margin:0 0 0 10px;
+}
+.page-body .ml_card .inmail a{color:inherit}
+/* Records typed through the vendor's rich-text editor carry inline
+   font-size/font-family on the role line (one card ships 18pt), which would
+   render that member's role two-thirds larger than everyone else's. */
+.page-body .ml_card .info_wr > p span,
+.page-body .ml_card .info_wr > p font,
+.page-body .ml_card .inmail span{font-size:inherit !important;font-family:inherit !important}
+.page-body .ml_card .info{display:flex;flex-direction:column;gap:9px;margin-top:14px;font-size:inherit;color:inherit}
+
+.page-body .ml_card .inbot{
+  display:grid;grid-template-columns:82px minmax(0,1fr);gap:4px 14px;align-items:baseline;
+}
+.page-body .ml_card .intit{
+  font:700 11.5px var(--font-body);letter-spacing:.11em;text-transform:uppercase;
+  color:var(--ink-faint);margin:0;line-height:1.7;
+}
+.page-body .ml_card .inbot ul{display:flex;flex-direction:column;gap:5px;list-style:none;padding:0;margin:0}
+.page-body .ml_card .inbot li{position:relative}
+.page-body .ml_card .inbot p{
+  font:400 14.5px/1.7 var(--font-body);color:var(--ink);margin:0;
+  display:block;overflow-wrap:anywhere;
+}
+.page-body .ml_card .inbot a{color:var(--green)}
+.page-body .ml_card .inbot a:hover{color:var(--green-mid);text-decoration:underline}
+
+.page-body .ml_card .more{grid-column:2;margin:16px 0 0;padding:0;align-self:start}
+.page-body .ml_card .more a{
+  display:inline-flex;align-items:center;gap:6px;
+  font:600 12px var(--font-body);letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-faint);white-space:nowrap;transition:color var(--t);
+}
+.page-body .ml_card .more a::after{content:"\2192";font-size:13px}
+.page-body .ml_card .more a:hover{color:var(--green)}
+
+/* 교수소개 keeps the full page width — its 학력/경력 need the room */
+.page-body.board-sub2_1 .member_list{grid-template-columns:minmax(0,1fr)}
+
+@media (max-width:1100px){
+  .page-body .member_list{grid-template-columns:minmax(0,1fr)}
+}
+
+/* ── Graduate School › 교수소개 (board_sub2_1) ──
+   The faculty roster is presented as bordered profile cards: portrait and
+   identity across the top of each card, then the 학력 / 경력 the build
+   un-hides, each under its own label column. Scoped by :has() so the
+   재학생/졸업생 rosters keep the plain row treatment above. */
+.page-body.board-sub2_1 .member_list{border-top:0;gap:clamp(20px,2.4vw,30px)}
+.page-body.board-sub2_1 .member_list .ml_card{
+  grid-template-columns:190px minmax(0,1fr);
+  border:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:clamp(26px,3vw,36px);background:var(--paper);
+}
+.page-body.board-sub2_1 .member_list .ml_card:hover{
+  background:var(--paper);border-color:var(--green-br);
+  box-shadow:0 14px 34px oklch(21% 0.038 158 / .09);
+}
+.page-body.board-sub2_1 .member_list .img_wr,
+.page-body.board-sub2_1 .member_list .img{width:190px}
+.page-body.board-sub2_1 .member_list .name{
+  font-size:clamp(21px,2.2vw,26px);color:var(--green);
+}
+.page-body.board-sub2_1 .member_list .inmail{
+  font-weight:400;color:var(--ink-soft);font-size:15px;
+}
+/* the identity block gets a divider before the CV rows */
+.page-body.board-sub2_1 .member_list .info{
+  margin-top:20px;padding-top:20px;border-top:1px solid var(--line);gap:16px;
+}
+.page-body.board-sub2_1 .member_list .inbot{grid-template-columns:88px minmax(0,1fr)}
+.page-body.board-sub2_1 .member_list .intit{color:var(--green-mid)}
+.page-body.board-sub2_1 .member_list .inbot li p{margin:0}
+.page-body.board-sub2_1 .member_list .inbot li p + p{margin-top:5px}
+.page-body.board-sub2_1 .member_list .more{
+  grid-column:2;justify-self:start;margin-top:16px;align-self:start;
+}
+
+@media (max-width:820px){
+  .page-body.board-sub2_1 .member_list .ml_card{grid-template-columns:120px minmax(0,1fr)}
+  .page-body.board-sub2_1 .member_list .img_wr,
+  .page-body.board-sub2_1 .member_list .img{width:120px}
+  .page-body.board-sub2_1 .member_list .more{grid-column:1 / -1}
+  .page-body .ml_card{grid-template-columns:120px minmax(0,1fr);gap:18px}
+  .page-body .ml_card .img_wr,.page-body .ml_card .img{width:120px}
+  .page-body .ml_card .more{grid-column:1 / -1;align-self:start;margin-top:4px}
+  .page-body .ml_card .inbot{grid-template-columns:1fr;gap:2px}
+  .page-body .ml_card .intit{color:var(--green-mid)}
+  .page-body .pagetab li a{padding:11px 16px;font-size:14px}
+}
+
+/* ══════════════════════════════════════════════════════
+   Professor / member profile (the detail page behind 교수 소개)
+   Portrait and identity across the top, then each career section as a
+   full-width run under its own ruled heading — an academic CV page.
+   ══════════════════════════════════════════════════════ */
+.page-body .member_view{max-width:1000px}
+
+.page-body .vw_card{
+  display:grid;grid-template-columns:230px minmax(0,1fr);
+  gap:clamp(28px,4vw,54px);align-items:start;
+  padding-bottom:clamp(30px,3.4vw,44px);
+}
+.page-body .vw_card .img_wr,.page-body .vw_card .img{
+  width:230px;aspect-ratio:3/4;overflow:hidden;background:var(--bg-2);border-radius:2px;
+}
+.page-body .vw_card .img_wr img,.page-body .vw_card .img img{
+  width:100%;height:100%;object-fit:cover;display:block;border:0;
+}
+
+.page-body .vw_card .info_wr{padding-top:6px}
+.page-body .vw_card .name{
+  margin:0;font:800 clamp(27px,3vw,35px) var(--font-display);
+  letter-spacing:-.02em;color:var(--green);line-height:1.2;
+}
+.page-body .vw_card .inmail{
+  margin:12px 0 0;font:400 14.5px/1.75 var(--font-body);color:var(--ink-soft);
+}
+.page-body .vw_card .inmail a{color:inherit}
+
+.page-body .vw_card .info{margin-top:clamp(24px,2.6vw,34px);display:flex;flex-direction:column;gap:24px}
+.page-body .vw_card .inbot{display:block}
+.page-body .vw_card .intit{
+  margin:0 0 12px;font:700 clamp(18px,1.8vw,21px) var(--font-display);
+  letter-spacing:-.01em;color:var(--green);
+}
+.page-body .vw_card .intit i{display:none}
+.page-body .vw_card .inbot ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:7px}
+.page-body .vw_card .inbot p{
+  margin:0;font:400 14.5px/1.8 var(--font-body);color:var(--ink);
+}
+
+/* Career / Awards / anything else the record carries */
+.page-body .vw_content{margin-top:clamp(28px,3vw,40px)}
+.page-body .vw_content dl{margin:0}
+.page-body .vw_content dt{
+  margin:0 0 18px;padding-bottom:12px;
+  font:700 clamp(19px,2vw,23px) var(--font-display);letter-spacing:-.015em;
+  color:var(--green);border-bottom:1.5px solid var(--line);
+}
+.page-body .vw_content dd{margin:0 0 clamp(28px,3vw,40px)}
+.page-body .vw_content dd:last-child{margin-bottom:0}
+.page-body .vw_content dd p{
+  position:relative;margin:0;padding:0 0 0 20px;
+  font:400 14.5px/1.9 var(--font-body);color:var(--ink);
+}
+.page-body .vw_content dd p::before{
+  content:"";position:absolute;left:3px;top:.86em;
+  width:5px;height:5px;border-radius:50%;background:var(--green-br);
+}
+.page-body .vw_content dd p:empty{display:none}
+
+/* back-to-list button sitting above the card */
+.page-body .btn_b01.btn{
+  display:inline-flex;align-items:center;min-height:40px;padding:10px 20px;
+  border:1.5px solid var(--line);border-radius:2px;
+  font:700 12px var(--font-body);letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-soft);transition:all var(--t);
+}
+.page-body .btn_b01.btn:hover{border-color:var(--green);color:var(--green)}
+.page-body .btn_b01.btn .fa{display:none}
+
+@media (max-width:760px){
+  .page-body .vw_card{grid-template-columns:1fr;gap:24px}
+  .page-body .vw_card .img_wr,.page-body .vw_card .img{width:190px}
+}
+
+/* ══════════════════════════════════════════════════════
+   Lab › 교수·재학생·졸업생 — the professor's CV page (board_sub3_2_a)
+   Identity band on top, then 학력 / 경력 as ruled sections. The records
+   arrive as table rows carrying <dl><dt>heading</dt><dd><ul>items, so the
+   table furniture is unwound back into a flowing document.
+   ══════════════════════════════════════════════════════ */
+.page-body .prof{margin-bottom:clamp(34px,4vw,52px)}
+.page-body .prof .prtop{
+  display:grid;grid-template-columns:230px minmax(0,1fr);
+  gap:clamp(28px,4vw,54px);align-items:center;
+  padding-bottom:clamp(28px,3.2vw,42px);border-bottom:1.5px solid var(--line);
+}
+.page-body .prof .primg p{margin:0}
+.page-body .prof .primg img{
+  width:230px;aspect-ratio:3/4;object-fit:cover;display:block;
+  background:var(--bg-2);border-radius:2px;
+}
+.page-body .prof .prtxt h5{
+  margin:0 0 12px;font:700 12px var(--font-body);letter-spacing:.2em;
+  text-transform:uppercase;color:var(--green-br);
+}
+.page-body .prof .prtxt h2{
+  margin:0;font:800 clamp(27px,3vw,35px) var(--font-display);
+  letter-spacing:-.02em;color:var(--green);line-height:1.22;
+}
+.page-body .prof .prtxt > p{margin:12px 0 0;font:400 14.5px/1.75 var(--font-body);color:var(--ink-soft)}
+.page-body .prof .prtxt ul{list-style:none;padding:0;margin:18px 0 0;display:flex;flex-direction:column;gap:9px}
+.page-body .prof .prtxt li p{
+  margin:0;display:flex;flex-wrap:wrap;gap:0 10px;align-items:baseline;
+  font:400 14.5px var(--font-body);color:var(--ink);
+}
+.page-body .prof .prtxt li p span{
+  font:700 11.5px var(--font-body);letter-spacing:.11em;text-transform:uppercase;
+  color:var(--ink-faint);min-width:66px;
+}
+.page-body .prof .prtxt i{display:none}
+
+/* CV sections: unwind the table back into a document */
+.page-body #bo_list .basic_tbl_head table,
+.page-body #bo_list .basic_tbl_head tbody,
+.page-body #bo_list .basic_tbl_head tr,
+.page-body #bo_list .basic_tbl_head td{display:block;width:auto;border:0;padding:0}
+.page-body #bo_list .basic_tbl_head caption,
+.page-body #bo_list .basic_tbl_head thead,
+.page-body #bo_list .basic_tbl_head .td_num2,
+.page-body #bo_list .basic_tbl_head .td_datetime,
+.page-body #bo_list .basic_tbl_head .td_name{display:none}
+.page-body #bo_list .basic_tbl_head tr{margin-bottom:clamp(28px,3vw,40px)}
+.page-body #bo_list .basic_tbl_head .td_subject{padding-left:0 !important}
+.page-body #bo_list .bo_tit dl{margin:0}
+.page-body #bo_list .bo_tit dt{
+  margin:0 0 18px;padding-bottom:12px;
+  font:700 clamp(19px,2vw,23px) var(--font-display);letter-spacing:-.015em;
+  color:var(--green);border-bottom:1.5px solid var(--line);
+}
+.page-body #bo_list .bo_tit dt i{display:none}
+.page-body #bo_list .bo_tit dd{margin:0}
+.page-body #bo_list .prof_cnt ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px}
+.page-body #bo_list .prof_cnt li{
+  position:relative;padding-left:20px;
+  font:400 14.5px/1.85 var(--font-body);color:var(--ink);
+}
+.page-body #bo_list .prof_cnt li::before{
+  content:"";position:absolute;left:3px;top:.82em;
+  width:5px;height:5px;border-radius:50%;background:var(--green-br);
+}
+
+@media (max-width:760px){
+  .page-body .prof .prtop{grid-template-columns:1fr;gap:22px}
+  .page-body .prof .primg img{width:190px}
+}
+
+/* ══════════════════════════════════════════════════════
+   Publications (논문 · 학술대회 · 특허 · 수상)
+   A year-grouped, numbered reference list: each entry reads as one
+   continuous citation — Authors, "Title", Journal, Vol, Pages — with the
+   entry number in the left gutter, the way a printed bibliography does.
+   ══════════════════════════════════════════════════════ */
+
+/* year filter tabs */
+.page-body #bo_cate h2{
+  position:absolute;width:1px;height:1px;overflow:hidden;
+  clip:rect(0 0 0 0);white-space:nowrap;
+}
+.page-body #bo_cate ul{
+  display:flex;flex-wrap:wrap;gap:2px;list-style:none;padding:0;margin:0 0 clamp(26px,3vw,40px);
+  border-bottom:2px solid var(--line);
+}
+.page-body #bo_cate li{margin:0}
+.page-body #bo_cate li a{
+  display:block;padding:11px 17px;margin-bottom:-2px;
+  font:600 14px var(--font-body);color:var(--ink-soft);
+  border-bottom:2px solid transparent;transition:color var(--t),border-color var(--t);
+}
+.page-body #bo_cate li a:hover{color:var(--green)}
+.page-body #bo_cate li a#bo_cate_on{color:var(--green);border-bottom-color:var(--green)}
+
+.page-body .publi_list{margin-top:8px}
+.page-body .publiCon{list-style:none;padding:0;margin:0}
+
+/* year heading */
+.page-body .publiCon > li.cate_year{
+  display:block;padding:0;border:0;margin:clamp(38px,4vw,56px) 0 0;
+}
+.page-body .publiCon > li.cate_year:first-child{margin-top:0}
+.page-body .cateName{
+  margin:0;padding:0 0 12px;
+  font:800 clamp(24px,2.8vw,32px) var(--font-display);letter-spacing:-.02em;
+  color:var(--deep);border-bottom:2.5px solid var(--deep);
+}
+
+/* one publication */
+.page-body .publiCon > li{
+  display:grid;grid-template-columns:66px minmax(0,1fr);
+  gap:6px 22px;align-items:baseline;
+  padding:20px 4px;border-bottom:1px solid var(--line);
+}
+.page-body .publiCon > li:hover{background:var(--bg)}
+.page-body .postNum{
+  font:700 14.5px var(--font-display);color:var(--ink-faint);
+  text-align:right;letter-spacing:-.01em;
+}
+.page-body .postNum span{display:inline}
+.page-body .postNum span::after{content:"."}
+
+.page-body .txtCon{display:flex;gap:20px;align-items:flex-start;min-width:0}
+.page-body .ConWr{flex:1;min-width:0}
+.page-body .ConWr > a{
+  display:block;font:400 14.5px/1.8 var(--font-body);color:var(--ink);
+  overflow-wrap:anywhere;
+}
+.page-body .ConWr > a:hover .txtTitle{color:var(--green)}
+.page-body .txtAuthor{color:var(--green-mid)}
+.page-body .txtTitle{color:var(--deep);font-weight:600;transition:color var(--t)}
+.page-body .txtTitle::after{content:","}
+.page-body .txtJournal i,.page-body .txtJournal em{font-style:italic;color:var(--ink-soft)}
+.page-body .txtVol{font-weight:600}
+.page-body .txtPage,.page-body .txtStatus{color:var(--ink-soft)}
+
+/* Only 논문 (sub4_3) fills .txtAuthor. 학술대회/특허/수상 reuse the same span
+   classes for whatever field came next — .txtJournal holds the first author,
+   .txtVol the rest — so journal-italic and volume-bold would emphasise the
+   wrong words there. Keep the emphasis only where the classes mean what they
+   say; everywhere else the entry still gets the numbering, year grouping and
+   type, just without misleading styling. */
+.page-body .ConWr > a:not(:has(.txtAuthor)) .txtJournal i,
+.page-body .ConWr > a:not(:has(.txtAuthor)) .txtJournal em{font-style:normal;color:inherit}
+.page-body .ConWr > a:not(:has(.txtAuthor)) .txtVol{font-weight:400}
+
+/* The LINK buttons all point at "#" — the DOI lived behind the server-side
+   pieces that a static site can't keep. Hide the dead ones; any entry whose
+   DOI is recovered by relink() keeps its button automatically. */
+.page-body .btnLinkWr{flex-shrink:0}
+/* content.css already claims `.page-body .publi_list .btnLinkWr a`, so these
+   have to match at least that specificity to win. */
+.page-body .publi_list .btnLinkWr a[href="#"],
+.page-body .publi_list .btnDownWr a[href="#"],
+.page-body .btnLink[href="#"],
+.page-body .btnLink:not([href]){display:none}
+.page-body .txtCon .btnLinkWr:has(> a[href="#"]),
+.page-body .txtCon .btnDownWr:has(> a[href="#"]){display:none}
+.page-body .btnLink{
+  display:inline-flex;align-items:center;gap:7px;
+  min-height:38px;padding:9px 16px;border:1.5px solid var(--line);border-radius:2px;
+  font:700 11.5px var(--font-body);letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-soft);white-space:nowrap;transition:all var(--t);
+}
+.page-body .btnLink:hover{border-color:var(--green);color:var(--green);background:var(--paper)}
+.page-body .btnLink .fa{display:none}
+
+@media (max-width:700px){
+  .page-body .publiCon > li{grid-template-columns:1fr;gap:6px;padding:18px 2px}
+  .page-body .postNum{text-align:left;font-size:13px;color:var(--green-mid)}
+  .page-body .ConWr > a{font-size:14px;line-height:1.7}
+  .page-body #bo_cate li a{padding:10px 13px;font-size:13.5px}
+}
+
+/* 컨소시엄's partner captions are position:absolute under a 200px logo circle,
+   so they sit outside their parent by design (Korean does this too — it only
+   looks like overflow). They can't grow the parent, so the one thing that
+   helps a longer translation is letting it wrap instead of running wide. */
+html[data-lang="en"] .page-body #conso .consotxt .sidewrap h4,
+html[data-lang="en"] .page-body #conso .consotxt .sidewrap p{word-break:normal;overflow-wrap:anywhere}
+.drawer .btn{margin:16px 20px 0}
+.scrim{position:fixed;inset:0;background:oklch(19% 0.04 158 / .55);z-index:50;opacity:0;pointer-events:none;transition:opacity .3s}
+.scrim[data-open="true"]{opacity:1;pointer-events:auto}
+
+/* ══════ to-top ══════ */
+.to-top{
+  position:fixed;right:24px;bottom:24px;width:48px;height:48px;z-index:35;
+  background:var(--green);color:var(--paper);border:0;border-radius:2px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transform:translateY(10px);
+  transition:opacity var(--t),transform var(--t),background var(--t);
+  box-shadow:0 8px 22px oklch(21% 0.038 158 / .28);
+}
+.to-top[data-show="true"]{opacity:1;pointer-events:auto;transform:translateY(0)}
+.to-top:hover{background:var(--green-mid)}
+
+/* ══════════════════════════════════════════════════════
+   English mode — lang.js stamps data-lang on <html>.
+   English labels run ~40% longer than Korean, so the nav and
+   brand need a little more room to stay on one row.
+   ══════════════════════════════════════════════════════ */
+html[data-lang="en"] .nav{gap:2px}
+html[data-lang="en"] .nav .nav-top{padding:9px 10px;font-size:13.5px}
+html[data-lang="en"] .nav .btn{padding:13px 18px;margin-left:8px;font-size:13px}
+html[data-lang="en"] .brand-ko{font-size:14.5px;line-height:1.3;max-width:250px}
+html[data-lang="en"] .stat span{letter-spacing:.06em;font-size:12px}
+html[data-lang="en"] .rsch-body h3,
+html[data-lang="en"] .split-txt h2,
+html[data-lang="en"] .hero h1,
+html[data-lang="en"] .cta h2{text-wrap:pretty}
+/* Korean line breaks are wrong for English — let it reflow naturally */
+html[data-lang="en"] .rsch-body h3 br,
+html[data-lang="en"] .cta h2 br,
+html[data-lang="en"] .foot-brand-row strong br{display:none}
+
+/* ══════════════════════════════════════════════════════
+   Responsive
+   ══════════════════════════════════════════════════════ */
+@media (max-width:1180px){
+  .nav .nav-top{padding:9px 12px;font-size:13.5px}
+  .nav .btn{padding:12px 18px;margin-left:8px}
+  .pub{grid-template-columns:64px 1fr 30px}
+  .pub-venue{display:none}
+  .chart-wrap{grid-template-columns:300px 1fr}
+}
+
+@media (max-width:1000px){
+  .nav{display:none}
+  .burger{display:flex}
+  .head .wrap{min-height:70px}
+  .brand-mark{width:42px;height:42px;font-size:13px}
+  .brand-ko{font-size:15px}
+  .rsch-grid{grid-template-columns:repeat(2,1fr)}
+  .quick-grid{grid-template-columns:1fr}
+  .quick{margin-top:-40px}
+  .photo-grid{grid-template-columns:repeat(2,1fr)}
+  .news-grid{grid-template-columns:repeat(2,1fr)}
+  .split,.split--wide-right{grid-template-columns:1fr}
+  .split-fig{order:-1}
+  .chart-wrap{grid-template-columns:1fr;gap:32px}
+  .foot-top{grid-template-columns:1fr 1fr;gap:36px}
+  .foot-brand{grid-column:1 / -1}
+  .cta .wrap{flex-direction:column;align-items:flex-start;gap:28px}
+}
+
+@media (max-width:760px){
+  .util .wrap{min-height:auto;padding-block:9px;flex-wrap:wrap;gap:8px 18px}
+  .util-left,.util-right{gap:16px}
+  .util a,.util span{font-size:11.5px}
+  .brand-en{display:none}
+  .brand-ko{font-size:14.5px}
+  .hero{min-height:auto}
+  .hero-scrim{
+    background:linear-gradient(180deg,
+      oklch(19% 0.04 158 / .78) 0%,
+      oklch(19% 0.04 158 / .88) 55%,
+      oklch(19% 0.04 158 / .95) 100%);
+  }
+  .hero-img{object-position:62% 45%}
+  .hero-cta{flex-direction:column;align-items:stretch}
+  .hero-cta .btn{width:100%}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .stat{border-bottom:1px solid oklch(100% 0 0 / .1);padding:26px 16px}
+  .stat:nth-child(2n){border-right:0}
+  .stat:nth-last-child(-n+2){border-bottom:0}
+  .rsch-grid,.photo-grid,.photo-grid--2,.news-grid,.aim-grid{grid-template-columns:1fr}
+  .mini-grid{grid-template-columns:1fr}
+  .pub{grid-template-columns:1fr;gap:8px;padding-block:20px}
+  .pub svg{display:none}
+  .pub-title{font-size:14.5px}
+  .sec-head--split{flex-direction:column;align-items:flex-start;gap:22px}
+  .band{min-height:auto}
+  .band img{position:relative;height:220px}
+  .band-scrim{background:linear-gradient(180deg, oklch(19% 0.04 158 / .35) 0%, oklch(19% 0.04 158 / .95) 62%)}
+  .band-txt{padding:24px 20px 30px}
+  .foot-top{grid-template-columns:1fr;gap:32px}
+  .foot-bot .wrap{flex-direction:column;align-items:flex-start;gap:10px}
+  .to-top{right:16px;bottom:16px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms !important;transition-duration:.01ms !important}
+  html{scroll-behavior:auto}
+}
