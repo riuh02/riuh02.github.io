@@ -1055,26 +1055,51 @@ const DURATION=[['now','Just now (<10 min)','방금 잠깐 (10분 미만)'],['mi
 const FREQ=[['first','First time','처음'],['some','A few times a month','한 달에 몇 번'],['often','A few times a week','일주일에 몇 번'],['daily','Almost daily','거의 매일']];
 const SOURCE=[['unknown','Not sure','모름'],['livestock','Livestock barn','축사'],['compost','Compost / fertiliser','퇴비·비료'],['sewage','Sewage / manure treatment','하수·분뇨 처리'],['waste','Waste / landfill','폐기물·매립'],['factory','Factory / industry','공장·산업'],['traffic','Traffic / road','교통·도로'],['restaurant','Restaurant / household','음식점·생활'],['other','Other','기타']];
 const IMPACT=[['none','No impact','영향 없음'],['slight','Slightly bothered','조금 불편'],['windows','Closed windows','창문을 닫음'],['outdoor','Avoided going outside','야외 활동을 피함'],['health','Headache or nausea','두통·메스꺼움']];
-const GENDER=[['female','Woman','여성'],['male','Man','남성'],['other','Another gender','기타'],['na','Prefer not to say','응답 안 함']];
+const GENDER=[['female','Woman','여성'],['male','Man','남성'],['na','Prefer not to say','응답 안 함']];
 // Member types from the Dec 2022 CNU registration screen.
 const OCC=[['livestock','Livestock farmer','축산농가'],['agri','Agriculture / forestry / fishery','농림어업 종사자'],['office','Office worker','사무 종사자'],['service','Service worker','서비스 종사자'],['labour','Manual labour','단순노무 종사자'],['student','Student','학생'],['other','Other','기타'],['na','Prefer not to say','응답 안 함']];
 const SMOKE=[['no','No','아니요'],['yes','Yes','예'],['na','Prefer not to say','응답 안 함']];
 const AGEB=['14–19','20–29','30–39','40–49','50–59','60–69','70+'];
 const ageBand=y=>{const a=2026-y;return a<20?AGEB[0]:a<30?AGEB[1]:a<40?AGEB[2]:a<50?AGEB[3]:a<60?AGEB[4]:a<70?AGEB[5]:AGEB[6]};
-// Survey area (illustrative, D8): neighbourhoods of Yuseong-gu, Daejeon. Coordinates approximate.
+// Demo neighbourhoods of Yuseong-gu, Daejeon: where the synthetic data sits. The survey itself covers all of South Korea.
 const AREAS=[['gung','Gung-dong','궁동',36.3627,127.3466],['eoeun','Eoeun-dong','어은동',36.3668,127.3600],['bongmyeong','Bongmyeong-dong','봉명동',36.3552,127.3470],['sinseong','Sinseong-dong','신성동',36.3840,127.3530],['guseong','Guseong-dong','구성동',36.3735,127.3630],['noeun','Noeun-dong','노은동',36.3740,127.3190],['jangdae','Jangdae-dong','장대동',36.3620,127.3350],['deokmyeong','Deokmyeong-dong','덕명동',36.3560,127.3050]];
 const AREA=Object.fromEntries(AREAS.map(a=>[a[0],a]));
 const BOUNDS={lat0:36.335,lat1:36.405,lng0:127.285,lng1:127.395};
 // Facilities are illustrative and admin-only (D3: private by default).
 const FAC=[{id:'F1',en:'Hanwoo farm A',ko:'한우 농가 A',type:'cattle',lat:36.3810,lng:127.3220},{id:'F2',en:'Pig farm B',ko:'양돈 농가 B',type:'pig',lat:36.3920,lng:127.3410},{id:'F3',en:'Compost plant C',ko:'퇴비화 시설 C',type:'compost',lat:36.3480,lng:127.3180},{id:'F4',en:'Sewage plant D',ko:'하수처리 시설 D',type:'sewage',lat:36.3760,lng:127.3770}];
 const lab=(list,v)=>{const x=list.find(o=>o[0]===v);return x?L(x[1],x[2]):(v??'')};
-const areaName=id=>AREA[id]?L(AREA[id][1],AREA[id][2]):L('Outside area','지역 외');
 
 /* ---------------- geometry ---------------- */
 const MX=89650,MY=110950;
 const toM=(lat,lng)=>({x:(lng-BOUNDS.lng0)*MX,y:(BOUNDS.lat1-lat)*MY});
-const distM=(a,b)=>Math.hypot((a.lng-b.lng)*MX,(a.lat-b.lat)*MY);
-const inArea=(lat,lng)=>lat>=BOUNDS.lat0&&lat<=BOUNDS.lat1&&lng>=BOUNDS.lng0&&lng<=BOUNDS.lng1;
+const distM=(a,b)=>Math.hypot((a.lng-b.lng)*111320*Math.cos((a.lat+b.lat)*Math.PI/360),(a.lat-b.lat)*MY);
+// South Korea (mainland, Jeju, west-sea islands, Ulleungdo, Dokdo); excludes North Korea and Tsushima. Generous at sea.
+const KOREA=[[37.80,126.25],[37.80,126.62],[37.90,126.68],[37.97,126.85],[38.10,127.05],[38.28,127.30],[38.32,127.75],[38.32,128.10],[38.55,128.33],[38.62,128.37],[38.62,128.75],[38.00,129.05],[37.60,130.30],[37.60,132.00],[36.95,132.00],[36.95,130.00],[36.60,129.80],[36.00,129.75],[35.25,129.55],[34.95,129.10],[34.60,128.75],[34.45,128.45],[33.90,127.90],[32.95,127.00],[32.95,126.00],[33.00,125.60],[34.00,124.90],[37.40,124.50],[37.95,124.50],[38.05,124.70],[37.92,124.95],[37.70,125.55],[37.75,125.95]];
+function inKorea(lat,lng){let ins=false;for(let i=0,j=KOREA.length-1;i<KOREA.length;j=i++){const [yi,xi]=KOREA[i],[yj,xj]=KOREA[j];if((yi>lat)!==(yj>lat)&&lng<(xj-xi)*(lat-yi)/(yj-yi)+xi)ins=!ins}return ins}
+const PROV=[['seoul','Seoul','서울특별시',37.5665,126.9780],['busan','Busan','부산광역시',35.1796,129.0756],['daegu','Daegu','대구광역시',35.8714,128.6014],['incheon','Incheon','인천광역시',37.4563,126.7052],['gwangju','Gwangju','광주광역시',35.1595,126.8526],['daejeon','Daejeon','대전광역시',36.3504,127.3845],['ulsan','Ulsan','울산광역시',35.5384,129.3114],['sejong','Sejong','세종특별자치시',36.4800,127.2890],['gyeonggi','Gyeonggi','경기도',37.2636,127.0286],['gangwon','Gangwon','강원특별자치도',37.8813,127.7298],['chungbuk','Chungbuk','충청북도',36.6424,127.4890],['chungnam','Chungnam','충청남도',36.6550,126.6720],['jeonbuk','Jeonbuk','전북특별자치도',35.8242,127.1480],['jeonnam','Jeonnam','전라남도',34.9900,126.4817],['gyeongbuk','Gyeongbuk','경상북도',36.5684,128.7294],['gyeongnam','Gyeongnam','경상남도',35.2280,128.6811],['jeju','Jeju','제주특별자치도',33.4996,126.5312]];
+const PROVM=Object.fromEntries(PROV.map(x=>[x[0],x]));
+// Towns for approximate place labels (nearest town; production should reverse-geocode on the server with VWorld or Kakao).
+const TOWNS=`gyeonggi|Suwon|수원|37.2636|127.0286;gyeonggi|Seongnam|성남|37.4200|127.1267;gyeonggi|Goyang|고양|37.6584|126.8320;gyeonggi|Yongin|용인|37.2411|127.1776;gyeonggi|Bucheon|부천|37.5034|126.7660;gyeonggi|Ansan|안산|37.3219|126.8309;gyeonggi|Anyang|안양|37.3943|126.9568;gyeonggi|Namyangju|남양주|37.6360|127.2165;gyeonggi|Hwaseong|화성|37.1995|126.8312;gyeonggi|Pyeongtaek|평택|36.9921|127.1129;gyeonggi|Uijeongbu|의정부|37.7381|127.0337;gyeonggi|Paju|파주|37.7600|126.7799;gyeonggi|Gimpo|김포|37.6153|126.7156;gyeonggi|Icheon|이천|37.2724|127.4350;gyeonggi|Anseong|안성|37.0080|127.2797;gyeonggi|Pocheon|포천|37.8949|127.2003;gyeonggi|Yangpyeong|양평|37.4917|127.4876;gyeonggi|Gapyeong|가평|37.8315|127.5105;gyeonggi|Yeoju|여주|37.2983|127.6370;gyeonggi|Yeoncheon|연천|38.0965|127.0748;incheon|Ganghwa|강화|37.7466|126.4880;incheon|Baengnyeong|백령도|37.9706|124.7155;incheon|Yeonpyeong|연평도|37.6650|125.6990;
+gangwon|Chuncheon|춘천|37.8813|127.7298;gangwon|Wonju|원주|37.3422|127.9202;gangwon|Gangneung|강릉|37.7519|128.8761;gangwon|Sokcho|속초|38.2070|128.5918;gangwon|Donghae|동해|37.5247|129.1143;gangwon|Samcheok|삼척|37.4499|129.1652;gangwon|Taebaek|태백|37.1641|128.9856;gangwon|Hongcheon|홍천|37.6970|127.8886;gangwon|Cheorwon|철원|38.1467|127.3132;gangwon|Pyeongchang|평창|37.3707|128.3903;gangwon|Jeongseon|정선|37.3807|128.6608;gangwon|Yeongwol|영월|37.1837|128.4617;gangwon|Inje|인제|38.0697|128.1704;gangwon|Hoengseong|횡성|37.4917|127.9850;gangwon|Yanggu|양구|38.1100|127.9898;
+chungbuk|Cheongju|청주|36.6424|127.4890;chungbuk|Chungju|충주|36.9910|127.9259;chungbuk|Jecheon|제천|37.1326|128.1910;chungbuk|Eumseong|음성|36.9403|127.6906;chungbuk|Jincheon|진천|36.8554|127.4357;chungbuk|Boeun|보은|36.4895|127.7295;chungbuk|Okcheon|옥천|36.3064|127.5714;chungbuk|Yeongdong|영동|36.1750|127.7834;chungbuk|Goesan|괴산|36.8154|127.7867;chungbuk|Danyang|단양|36.9846|128.3656;
+chungnam|Cheonan|천안|36.8151|127.1139;chungnam|Asan|아산|36.7898|127.0019;chungnam|Gongju|공주|36.4465|127.1190;chungnam|Nonsan|논산|36.1872|127.0987;chungnam|Boryeong|보령|36.3334|126.6127;chungnam|Seosan|서산|36.7848|126.4503;chungnam|Dangjin|당진|36.8898|126.6459;chungnam|Hongseong|홍성|36.6012|126.6608;chungnam|Yesan|예산|36.6826|126.8449;chungnam|Buyeo|부여|36.2758|126.9098;chungnam|Geumsan|금산|36.1088|127.4880;chungnam|Taean|태안|36.7456|126.2980;chungnam|Cheongyang|청양|36.4591|126.8022;chungnam|Seocheon|서천|36.0803|126.6919;chungnam|Gyeryong|계룡|36.2745|127.2487;
+jeonbuk|Jeonju|전주|35.8242|127.1480;jeonbuk|Iksan|익산|35.9483|126.9576;jeonbuk|Gunsan|군산|35.9676|126.7366;jeonbuk|Jeongeup|정읍|35.5699|126.8559;jeonbuk|Namwon|남원|35.4164|127.3904;jeonbuk|Gimje|김제|35.8036|126.8809;jeonbuk|Wanju|완주|35.9047|127.1622;jeonbuk|Gochang|고창|35.4358|126.7020;jeonbuk|Buan|부안|35.7317|126.7330;jeonbuk|Imsil|임실|35.6178|127.2891;jeonbuk|Sunchang|순창|35.3744|127.1374;jeonbuk|Jinan|진안|35.7917|127.4249;jeonbuk|Muju|무주|36.0068|127.6608;jeonbuk|Jangsu|장수|35.6474|127.5212;
+jeonnam|Muan|무안|34.9900|126.4817;jeonnam|Mokpo|목포|34.8118|126.3922;jeonnam|Yeosu|여수|34.7604|127.6622;jeonnam|Suncheon|순천|34.9506|127.4872;jeonnam|Naju|나주|35.0160|126.7108;jeonnam|Gwangyang|광양|34.9407|127.6959;jeonnam|Haenam|해남|34.5733|126.5992;jeonnam|Yeongam|영암|34.8000|126.6967;jeonnam|Goheung|고흥|34.6112|127.2850;jeonnam|Boseong|보성|34.7715|127.0800;jeonnam|Hwasun|화순|35.0645|126.9866;jeonnam|Jangheung|장흥|34.6816|126.9070;jeonnam|Gangjin|강진|34.6420|126.7672;jeonnam|Wando|완도|34.3110|126.7550;jeonnam|Jindo|진도|34.4868|126.2635;jeonnam|Sinan|신안|34.8335|126.3517;jeonnam|Yeonggwang|영광|35.2772|126.5120;jeonnam|Damyang|담양|35.3211|126.9882;jeonnam|Gokseong|곡성|35.2820|127.2920;jeonnam|Gurye|구례|35.2025|127.4627;jeonnam|Hampyeong|함평|35.0659|126.5165;jeonnam|Jangseong|장성|35.3018|126.7849;
+gyeongbuk|Andong|안동|36.5684|128.7294;gyeongbuk|Pohang|포항|36.0190|129.3435;gyeongbuk|Gyeongju|경주|35.8562|129.2247;gyeongbuk|Gumi|구미|36.1195|128.3446;gyeongbuk|Gimcheon|김천|36.1398|128.1136;gyeongbuk|Yeongju|영주|36.8057|128.6240;gyeongbuk|Yeongcheon|영천|35.9733|128.9386;gyeongbuk|Sangju|상주|36.4110|128.1590;gyeongbuk|Mungyeong|문경|36.5865|128.1867;gyeongbuk|Gyeongsan|경산|35.8251|128.7414;gyeongbuk|Uiseong|의성|36.3527|128.6970;gyeongbuk|Yeongdeok|영덕|36.4150|129.3650;gyeongbuk|Uljin|울진|36.9930|129.4004;gyeongbuk|Chilgok|칠곡|35.9955|128.4017;gyeongbuk|Seongju|성주|35.9191|128.2829;gyeongbuk|Goryeong|고령|35.7262|128.2629;gyeongbuk|Cheongdo|청도|35.6474|128.7340;gyeongbuk|Yecheon|예천|36.6577|128.4529;gyeongbuk|Bonghwa|봉화|36.8931|128.7325;gyeongbuk|Cheongsong|청송|36.4359|129.0570;gyeongbuk|Ulleung|울릉|37.4845|130.9058;
+gyeongnam|Changwon|창원|35.2280|128.6811;gyeongnam|Gimhae|김해|35.2285|128.8894;gyeongnam|Jinju|진주|35.1800|128.1076;gyeongnam|Yangsan|양산|35.3350|129.0378;gyeongnam|Geoje|거제|34.8806|128.6211;gyeongnam|Tongyeong|통영|34.8544|128.4331;gyeongnam|Sacheon|사천|35.0037|128.0642;gyeongnam|Miryang|밀양|35.5038|128.7467;gyeongnam|Haman|함안|35.2725|128.4065;gyeongnam|Changnyeong|창녕|35.5444|128.4924;gyeongnam|Geochang|거창|35.6866|127.9095;gyeongnam|Hapcheon|합천|35.5666|128.1658;gyeongnam|Namhae|남해|34.8377|127.8924;gyeongnam|Hadong|하동|35.0673|127.7512;gyeongnam|Sancheong|산청|35.4156|127.8734;gyeongnam|Hamyang|함양|35.5205|127.7251;gyeongnam|Goseong|고성|34.9730|128.3223;gyeongnam|Uiryeong|의령|35.3222|128.2617;
+jeju|Seogwipo|서귀포|33.2541|126.5600`;
+const PLACES=[...PROV.map(x=>({k:'p-'+x[0],sido:x[0],en:x[1],ko:x[2].replace(/(특별자치시|특별자치도|특별시|광역시)$/,''),lat:x[3],lng:x[4]})),
+ ...TOWNS.split(';').map(t=>t.trim()).filter(Boolean).map(t=>{const [sido,en,ko,la,lo]=t.split('|');return{k:'t-'+en.toLowerCase(),sido,en,ko,lat:+la,lng:+lo}}),
+ ...AREAS.map(a=>({k:a[0],sido:'daejeon',en:a[1]+', Daejeon',ko:'대전 '+a[2],lat:a[3],lng:a[4],dong:true}))];
+const PLACEM=Object.fromEntries(PLACES.map(x=>[x.k,x]));
+function nearestPlace(pt){if(!inKorea(pt.lat,pt.lng))return null;let b=null,bd=1e12;for(const x of PLACES){const d=distM(pt,x)*(x.dong?1:1.15);if(d<bd){bd=d;b=x}}if(b&&b.dong&&bd>3000){b=null;bd=1e12;for(const x of PLACES){if(x.dong)continue;const d=distM(pt,x);if(d<bd){bd=d;b=x}}}return b}
+const nearestArea=pt=>{const x=nearestPlace(pt);return x?x.k:'out'};
+const areaName=k=>{const x=PLACEM[k];if(!x)return L('Outside South Korea','국외');return x.dong?L(x.en,x.ko):L(x.en+' area',x.ko+' 인근')};
+const provOf=p=>p.province||(AREA[p.area]?'daejeon':null);
+const distOf=p=>p.district||(AREA[p.area]?'유성구':'');
+const provName=k=>PROVM[k]?L(PROVM[k][1],PROVM[k][2]):'—';
+const homeName=p=>{const pr=provOf(p);if(!pr)return'—';const d=distOf(p);return d?`${esc(d)} · ${provName(pr)}`:provName(pr)};
+const homeCenter=p=>{if(AREA[p?.area])return[AREA[p.area][3],AREA[p.area][4]];const x=PROVM[provOf(p||{})];return x?[x[3],x[4]]:[36.3504,127.3845]};
 const HEXR=144.34; // pointy-top hex, 250 m across flats
 function hexKey(x,y){const q=(Math.sqrt(3)/3*x-y/3)/HEXR,r=(2/3*y)/HEXR;let rx=Math.round(q),rz=Math.round(r),ry=Math.round(-q-r);const dx=Math.abs(rx-q),dz=Math.abs(rz-r),dy=Math.abs(ry+q+r);if(dx>dy&&dx>dz)rx=-ry-rz;else if(dy<=dz)rz=-rx-ry;return rx+','+rz}
 function hexCenter(k){const [q,r]=k.split(',').map(Number);return{x:HEXR*(Math.sqrt(3)*q+Math.sqrt(3)/2*r),y:HEXR*1.5*r}}
@@ -1103,7 +1128,7 @@ const RULE_META={
  contra:{en:'Contradictory answers',ko:'모순된 응답',den:'Answers that cannot all be true, e.g. "no odor" with headache, or manure rated very pleasant.',dko:'무취인데 두통, 분뇨 냄새를 매우 쾌적 등 서로 맞지 않는 응답.',unit:''},
  gps:{en:'Poor GPS accuracy',ko:'GPS 정확도 낮음',den:'Location accuracy is worse than the limit.',dko:'위치 정확도가 기준보다 낮음.',unit:'m'},
  mock:{en:'Mock location',ko:'모의 위치',den:'The phone reported a mock (fake) GPS location.',dko:'기기가 모의(가짜) GPS 위치를 보고함.',unit:''},
- area:{en:'Outside survey area',ko:'조사 지역 밖',den:'Report location is outside the survey boundary.',dko:'응답 위치가 조사 지역 경계 밖.',unit:''},
+ area:{en:'Outside South Korea',ko:'국외 위치',den:'Report location is outside South Korea (includes islands; excludes North Korea and Japan).',dko:'응답 위치가 대한민국 밖 (도서 포함, 북한·일본 제외).',unit:''},
  jump:{en:'Impossible travel',ko:'불가능한 이동',den:'Speed implied by two consecutive reports from one person exceeds the limit.',dko:'연속 두 응답 사이 이동 속도가 기준 초과.',unit:'km/h'},
  timer:{en:'Cooldown farming',ko:'대기시간 맞춤 제출',den:'Reports submitted the moment the cooldown ends, many times in a row.',dko:'대기시간이 끝나자마자 연속 제출.',unit:'in a row'},
  dup:{en:'Duplicate',ko:'중복 제출',den:'Identical answers from the same person within a few minutes.',dko:'같은 참여자가 몇 분 안에 동일 응답.',unit:'min'},
@@ -1144,9 +1169,9 @@ function genSeed(){
  const SUR='김이박최정강조윤장임한오서신권황안송류홍'.split(''),GIV=['민준','서연','지후','하은','도윤','수아','예준','지민','시우','서윤','주원','하린','지호','채원','건우','지아','현우','다은','유진','소율','영수','정희','순자','상철','미숙','동현'];
  const people=[],reports=[];
  const mkPerson=(i,o={})=>{const by=wp([[1952+Math.floor(R()*14),25],[1966+Math.floor(R()*20),40],[1986+Math.floor(R()*15),25],[2001+Math.floor(R()*11),10]]);
-  return{id:'P-'+String(i).padStart(4,'0'),name:pick(SUR)+pick(GIV),gender:wp([['female',48],['male',47],['other',2],['na',3]]),birthYear:by,
+  return{id:'P-'+String(i).padStart(4,'0'),name:pick(SUR)+pick(GIV),gender:wp([['female',49],['male',48],['na',3]]),birthYear:by,
    occupation:wp([['livestock',8],['agri',10],['office',22],['service',18],['labour',8],['student',14],['other',14],['na',6]]),
-   area:wp(AREAS.map((a,j)=>[a[0],[18,16,14,12,10,10,12,8][j]])),smoking:wp([['no',78],['yes',15],['na',7]]),joined:NOW0-Math.floor(30+R()*40)*DAY,consent:'v2.0',synthetic:true,...o}};
+   area:wp(AREAS.map((a,j)=>[a[0],[18,16,14,12,10,10,12,8][j]])),province:'daejeon',district:'유성구',smoking:wp([['no',78],['yes',15],['na',7]]),joined:NOW0-Math.floor(30+R()*40)*DAY,consent:'v2.0',synthetic:true,...o}};
  // episodes: facility emissions with wind direction
  const eps=[];for(let d=0;d<31;d++)for(const f of FAC){const n=wp([[0,25],[1,50],[2,25]]);for(let k=0;k<n;k++){const day=new Date(NOW0-d*DAY+9*HOUR);day.setUTCHours(wp([[5,2],[6,3],[16,2],[17,3],[18,4],[19,5],[20,5],[21,4],[22,3],[10,1],[13,1]]),0,0,0);const st=day.getTime()-9*HOUR;eps.push({f,t0:st,t1:st+(2+R()*4)*HOUR,str:3.2+R()*2.6,wind:R()*Math.PI*2})}}
  const smellFor={cattle:[['manure',6],['ammonia',2],['sour',1]],pig:[['manure',6],['ammonia',3],['sulfur',2]],compost:[['compost',5],['ammonia',3],['sour',2]],sewage:[['sewage',5],['sulfur',4]]};
@@ -1177,7 +1202,7 @@ function genSeed(){
  // planted low-quality patterns (for the data-quality demo)
  const c1=mkPerson(43);people.push(c1);for(let k=0;k<14;k++)reports.push(mkReport(c1,NOW0-(26-k*1.7)*DAY-2*HOUR,{inten:5,chars:['manure'],manure:'pig',src:'livestock',impact:'none',hed:-2,durMs:3200+Math.floor(R()*1500)}));
  const c2=mkPerson(44);people.push(c2);for(let k=0;k<10;k++)reports.push(mkReport(c2,randTime(),{inten:Math.floor(R()*6),durMs:1100+Math.floor(R()*1300)}));
- const c3=mkPerson(45);people.push(c3);for(let k=0;k<8;k++){const t=NOW0-(20-k*2)*DAY;reports.push(mkReport(c3,t,k%3===1?{acc:400+Math.floor(R()*900),mock:true}:k===5?{lat:37.5665,lng:126.9780}:{}))}
+ const c3=mkPerson(45);people.push(c3);for(let k=0;k<8;k++){const t=NOW0-(20-k*2)*DAY;reports.push(mkReport(c3,t,k%3===1?{acc:400+Math.floor(R()*900),mock:true}:k===5?{lat:33.5902,lng:130.4017}:{}))}
  const c4=mkPerson(46);people.push(c4);{let t=NOW0-3*DAY-10*HOUR;for(let k=0;k<12;k++){reports.push(mkReport(c4,t,{inten:k%4===3?2:3,chars:['compost'],src:'compost',impact:'windows',hed:-1,durMs:9000+Math.floor(R()*4000)}));t+=20*MIN+Math.floor(R()*40)*1000}}
  const c5=mkPerson(47);people.push(c5);[[0,'health',null,[]],[1,'outdoor',null,['manure']],[5,'none',2,['manure']],[4,'none',2,['sewage']],[2,'slight',-1,['fuel']],[0,'windows',null,[]]].forEach(([i,imp,h,c],k)=>reports.push(mkReport(c5,NOW0-(12-k*2)*DAY-5*HOUR,{inten:i,impact:imp,hed:h,chars:c,note:k===2?'asdfasdf':k===4?'ㅋㅋㅋㅋㅋ':''})));
  reports.sort((a,b)=>a.t-b.t);
@@ -1197,7 +1222,7 @@ function runQC(){
   const s=r.durMs/1000,minS=r.inten===0?R.speed.p/2:R.speed.p;if(s<minS)add(r,'speed',`${s.toFixed(1)} s < ${minS} s`);
   if(r.acc!=null&&r.acc>R.gps.p)add(r,'gps',`±${r.acc} m`);
   if(r.mock)add(r,'mock','device reported a mock location');
-  if(!inArea(r.lat,r.lng))add(r,'area',`${r.lat.toFixed(3)}, ${r.lng.toFixed(3)}`);
+  if(!inKorea(r.lat,r.lng))add(r,'area',`${r.lat.toFixed(3)}, ${r.lng.toFixed(3)}`);
   const harsh=['manure','sewage','garbage','sulfur'];
   if((r.inten<=1&&['outdoor','health'].includes(r.impact))||(r.inten===0&&r.chars.length)||(r.inten>=4&&r.impact==='none'&&(r.hed??-9)>=1)||(r.hed===2&&r.chars.some(c=>harsh.includes(c))))add(r,'contra',`${r.inten} · ${r.impact||'—'} · ${r.hed??'—'}`);
   if(GIB.test(r.note||'')||GIB.test(r.other||''))add(r,'text',`"${(r.note||r.other).slice(0,20)}"`);
@@ -1376,7 +1401,7 @@ function drawPoints(m,reports){m.pts.clearLayers();reports.forEach(r=>LF.circleM
 function drawFac(m,on){m.fac.clearLayers();if(!on)return;const ink=cssv('--ink');
  FAC.forEach(f=>{[2000,1000,500].forEach(r=>LF.circle([f.lat,f.lng],{radius:r,color:ink,weight:1,opacity:.5,fill:false,dashArray:r===2000?'6 6':r===1000?'3 5':null,interactive:false}).addTo(m.fac));
   LF.marker([f.lat,f.lng],{icon:LF.divIcon({className:'',html:`<div class="fac-ic">${ic('factory',16)}</div>`,iconSize:[26,26],iconAnchor:[13,13]})}).bindTooltip(`${esc(L(f.en,f.ko))} · ${L('example facility, fictional placement','예시 시설 (가상 위치)')} · ${L('rings 500 / 1,000 / 2,000 m','반경 500/1,000/2,000 m')}`).addTo(m.fac)})}
-function youPos(){if(GEO.real)return[GEO.lat,GEO.lng];const a=AREA[me()?.area]||AREA.gung;return[a[3],a[4]]}
+function youPos(){if(GEO.real)return[GEO.lat,GEO.lng];return homeCenter(me())}
 function drawYou(m){if(!m.you)return;m.you.clearLayers();const [la,lo]=youPos();
  if(GEO.real&&GEO.acc)LF.circle([la,lo],{radius:GEO.acc,color:cssv('--blue'),weight:1,fillColor:cssv('--blue'),fillOpacity:.08,interactive:false}).addTo(m.you);
  LF.marker([la,lo],{interactive:false,icon:LF.divIcon({className:'',html:`<div class="you-dot ${GEO.real?'':'sim'}"></div>`,iconSize:[18,18],iconAnchor:[9,9]}),zIndexOffset:900}).addTo(m.you)}
@@ -1415,7 +1440,7 @@ const MAPCFG={
 };
 function createMap(key,cfg){
  const el=document.createElement('div');el.className='lmap '+cfg.cls;
- const map=LF.map(el,{zoomControl:false,attributionControl:true,minZoom:8,maxZoom:18,zoomSnap:.5}).setView(cfg.center(),cfg.zoom);
+ const map=LF.map(el,{zoomControl:false,attributionControl:true,minZoom:6,maxZoom:18,zoomSnap:.5}).setView(cfg.center(),cfg.zoom);
  LF.control.zoom({position:'topright'}).addTo(map);
  const m={key,el,map};MAPS[key]=m;
  if(cfg.ctl){const C=LF.Control.extend({onAdd(){const d=LF.DomUtil.create('div','mapctl');LF.DomEvent.disableClickPropagation(d);LF.DomEvent.disableScrollPropagation(d);m.ctl=d;return d}});new C({position:'topleft'}).addTo(map)}
@@ -1470,7 +1495,7 @@ function geoInfo(){const d=S.draft,st=GEO.state;
  else if(st==='locating')hint=L('Recording your position automatically. A clear view of the sky gives the best accuracy.','위치를 자동으로 기록합니다. 하늘이 트인 곳에서 더 정확합니다.');
  else if(st==='weak')hint=(why?why+' ':'')+L(`Accuracy is worse than ${S.rules.gps.p} m. Wait a moment or drag the pin.`,`정확도가 ${S.rules.gps.p} m보다 낮습니다. 잠시 기다리거나 핀을 옮기세요.`);
  else if(st==='ok')hint=L('Position recorded automatically. Drag the pin only if it is wrong.','위치가 자동으로 기록되었습니다. 틀린 경우에만 핀을 옮기세요.');
- if(pos&&!pend&&!inArea(pos.lat,pos.lng))hint+=' '+L('You are outside the survey area (Yuseong-gu), so this report will be reviewed.','조사 지역(유성구) 밖이므로 검토 대상입니다.');
+ if(pos&&!pend&&!inKorea(pos.lat,pos.lng))hint+=' '+L('This position is outside South Korea, so the report will be reviewed.','대한민국 밖의 위치이므로 검토 대상입니다.');
  return{led,txt,hint}}
 function updateGeoUI(){const g=geoInfo();
  document.querySelectorAll('.geo-led').forEach(el=>{el.className='led geo-led '+g.led[1];el.textContent=g.led[0]});
@@ -1528,7 +1553,7 @@ function cooldown(){const mine=myReports(),last=mine.length?mine[mine.length-1].
 const NOTES={
  signin:['U1','Sign in',['Kakao, Google and Apple (iOS). The buttons are placeholders; use the official brand assets.','The 2022 app offered Kakao and Google; Apple is required for an iOS release.','No password is stored by the lab.']],
  consent:['U2','Consent',['Two required consents: collection of location, time and answers; private storage of your name and profile.','14+ age confirmation (D5: confirm with the CNU privacy officer / IRB).','Notifications are optional and off by default.']],
- profile:['U2b','About you (5 questions)',['Only what the analysis needs: name, gender, birth year, occupation, home area. Smoking is optional because it can change the sense of smell.','Occupation uses the 2022 CNU member types, so old and new data compare.','Phone number and e-mail are not asked; vouchers are delivered in the app.','Admins can switch each field between required, optional and off.']],
+ profile:['U2b','About you (5 questions)',['Only what the analysis needs: name, gender (woman / man / prefer not to say), birth year, occupation, home province and district. Smoking is optional because it can change the sense of smell.','Occupation uses the 2022 CNU member types, so old and new data compare.','Phone number and e-mail are not asked; vouchers are delivered in the app.','Admins can switch each field between required, optional and off.']],
  home:['U3','Home',['One-tap intensity keys open the report with that level already chosen.','Cooldown (20 min) and daily limit (10) from 2022 are shown up front, not after a failed tap.','Points card is the only lime element in the app.','Example participant: one more accepted report unlocks the first reward. Try it.']],
  report1:['U4','Report · location & intensity',['Position is recorded automatically from the phone GPS (high-accuracy watch) with a live accuracy readout.','Drag the pin only if the fix is wrong; moves over 300 m and hand-placed pins are flagged for review.','Location is read only while the app is open, never in the background (Location Information Act consent at sign-up).','0–5 Korean direct-sensory scale. Tapping 1–5 opens the smell question with a message for that level.']],
  report2:['U5','Report · what it smells like',['Odor-character categories adapted from odor-wheel practice (wastewater, compost, livestock).','Pick up to 3. Manure asks which animal. "Other" asks for text.','Pleasantness (hedonic tone) is a simplified 5-point pleasant–unpleasant scale.','"Submit now" is allowed here; details are optional.']],
@@ -1556,14 +1581,14 @@ function renderP(){
  <p class="small" style="margin:10px 0 0">${L('Reports you submit here appear in the Admin console in the same browser.','여기서 제출한 응답은 같은 브라우저의 관리자 콘솔에 표시됩니다.')}</p></div></aside></div>`;
 }
 function pHeader(){const p=me();const titles={home:L('Eco Survey','환경모아'),map:L('Community map','우리 동네 지도'),history:L('My reports','내 기록'),rewards:L('Rewards','리워드'),me:L('Profile','내 정보')};
- return`<div class="app-h"><div class="t"><span class="eyebrow">${S.scr==='home'?areaName(p.area):L('Eco Survey','환경모아')}</span><b>${titles[S.scr]}</b></div>
+ return`<div class="app-h"><div class="t"><span class="eyebrow">${S.scr==='home'?(GEO.real?areaName(nearestArea({lat:GEO.lat,lng:GEO.lng})):homeName(p)):L('Eco Survey','환경모아')}</span><b>${titles[S.scr]}</b></div>
  <button class="icon-btn" data-act="announce" aria-label="${L('Announcements','공지')}">${ic('bellOutline',20)}</button><button class="avatar" data-act="scr" data-v="me" aria-label="${L('Profile','내 정보')}">${esc((p.name||'?').slice(0,1))}</button></div>`}
 function pTabs(){const t=[['home','homeOutline',L('Home','홈')],['map','mapOutline',L('Map','지도')],['report','plus',L('Report','알리기')],['history','history',L('History','기록')],['rewards','giftOutline',L('Rewards','리워드')]];
  return`<nav class="tabbar">${t.map(([k,i,l])=>k==='report'?`<button data-act="startReport" aria-label="${l}"><span class="fab">${ic('plus',28)}</span>${l}</button>`:`<button data-act="scr" data-v="${k}" ${S.scr===k?'aria-current="page"':''}>${ic(i,24)}${l}</button>`).join('')}</nav>`}
 function nextMilestone(pts){return S.milestones.find(m=>pts<m.at)||null}
 function pHome(){
  const p=me(),ps=PSTAT[p.id],cd=cooldown(),nm=nextMilestone(ps.points),prev=[...S.milestones].reverse().find(m=>ps.points>=m.at);
- const since=Date.now()-DAY,near=DB.reports.filter(r=>r.t>since&&QC[r.id].status==='pass'&&distM(r,{lat:AREA[p.area]?.[3]||36.36,lng:AREA[p.area]?.[4]||127.34})<1500);
+ const [cla,clo]=youPos(),since=Date.now()-DAY,near=DB.reports.filter(r=>r.t>since&&QC[r.id].status==='pass'&&distM(r,{lat:cla,lng:clo})<1500);
  const med=median(near.map(r=>r.inten)),peak=near.length?Math.max(...near.map(r=>r.inten)):null;
  const last=myReports().slice(-1)[0];
  return`${S.settings.live?'':`<div class="alert warn">${ic('alertOutline',18)}<span>${L('The survey is paused by the research team. Reports are not accepted right now.','연구팀이 설문을 일시 중지했습니다. 지금은 응답을 받지 않습니다.')}</span></div>`}
@@ -1574,7 +1599,7 @@ function pHome(){
  <div class="card pad points stack" data-act="scr" data-v="rewards" style="cursor:pointer"><div class="between"><span class="eyebrow" style="color:var(--limed)">${L('Your points','내 포인트')}</span>${ps.pending?`<span class="small" style="color:var(--limed)">+${ps.pending} ${L('pending','대기')}</span>`:''}</div>
  <div class="row" style="align-items:flex-end;gap:8px"><span class="big num">${ps.points}</span><span style="font-weight:700;padding-bottom:4px">pts</span></div>
  ${nm?`<div class="meter"><i style="width:${Math.min(100,(ps.points-(prev?prev.at:0))/(nm.at-(prev?prev.at:0))*100)}%"></i></div><div class="between small" style="color:var(--limed)"><span>${L('Next','다음')}: <b>${esc(L(nm.en,nm.ko))}</b></span><span class="mono">${ps.points}/${nm.at}</span></div><div class="small" style="color:var(--limed)">${L(`${Math.ceil((nm.at-ps.points)/S.settings.ppr)} more accepted report(s) to go`,`승인된 응답 ${Math.ceil((nm.at-ps.points)/S.settings.ppr)}건 더 필요`)}</div>`:`<div class="small" style="color:var(--limed)">${L('All milestones reached. Thank you!','모든 마일스톤 달성. 감사합니다!')}</div>`}</div>
- <div class="card pad"><div class="between"><div><div class="eyebrow">${L('Near you · last 24 h','내 주변 · 최근 24시간')}</div><b>${areaName(p.area)} ${L('+ 1.5 km','반경 1.5 km')}</b></div><button class="link" data-act="scr" data-v="map">${L('Map','지도')} ›</button></div>
+ <div class="card pad"><div class="between"><div><div class="eyebrow">${L('Near you · last 24 h','내 주변 · 최근 24시간')}</div><b>${GEO.real?L('Your position','현재 위치'):homeName(p)} ${L('+ 1.5 km','반경 1.5 km')}</b></div><button class="link" data-act="scr" data-v="map">${L('Map','지도')} ›</button></div>
  <div class="stats3" style="margin-top:10px"><div class="stat"><b class="num">${near.length}</b><span>${L('reports','응답')}</span></div><div class="stat"><b class="num">${near.length>=5?med:'—'}</b><span>${L('median','중앙값')}</span></div><div class="stat"><b class="num">${near.length>=5?peak:'—'}</b><span>${L('peak','최고')}</span></div></div>
  ${near.length<5?`<p class="small" style="margin:8px 0 0">${L('Median and peak appear once there are 5 or more reports.','응답이 5건 이상이면 중앙값과 최고값이 표시됩니다.')}</p>`:''}</div>
  ${last?`<div class="card pad"><div class="eyebrow">${L('Your last report','최근 내 응답')}</div><div class="row" style="margin-top:8px">${ichip(last.inten)}<div style="flex:1;min-width:0"><b>${esc(L(INT[last.inten].en,INT[last.inten].ko))}</b><div class="small">${fDT(last.t)}${last.chars.length?' · '+last.chars.map(c=>esc(L(SMELL[c].en,SMELL[c].ko))).join(', '):''}</div></div>${qcPill(QC[last.id].status)}</div></div>`:''}`;
@@ -1596,7 +1621,6 @@ function pHistory(){
  <div class="mono">${r.id} · ${areaName(nearestArea(r))}</div>
  ${q.status==='exclude'?`<div class="alert warn">${ic('informationOutline',16)}<span>${L('This report did not pass the automatic checks and earns no points. If you think this is wrong, ask for a review.','자동 검사를 통과하지 못해 포인트가 지급되지 않았습니다. 잘못되었다면 검토를 요청하세요.')}</span></div><button class="btn ghost sm" data-act="askReview" data-v="${r.id}">${L('Ask for review','검토 요청')}</button>`:q.status==='review'?`<div class="alert info">${ic('timerSandEmpty',16)}<span>${L('A researcher will check this report. Points are added if it is accepted.','연구원이 확인 후 승인되면 포인트가 지급됩니다.')}</span></div>`:''}</div>`:''}`}).join(''):`<div class="pad small">${L('No reports yet. Your reports will appear here.','아직 응답이 없습니다.')}</div>`}</div>`;
 }
-const nearestArea=r=>{let b=null,bd=1e9;for(const a of AREAS){const d=distM(r,{lat:a[3],lng:a[4]});if(d<bd){bd=d;b=a[0]}}return bd<3000?b:'out'};
 function pRewards(){
  const ps=PSTAT[S.meId],claims=S.claims.filter(c=>c.pid===S.meId);
  return`<div class="card pad points stack"><span class="eyebrow" style="color:var(--limed)">${L('Points balance','포인트')}</span><div class="row" style="align-items:flex-end;gap:8px"><span class="big num">${ps.points}</span><span style="font-weight:700;padding-bottom:4px">pts</span></div>
@@ -1614,7 +1638,7 @@ function pMe(){
  const p=me(),f=S.settings.fields;
  if(S.meEdit)return`<div class="card pad stack">${profileFields(p)}<div class="row"><button class="btn ghost" data-act="meEdit" data-v="0">${L('Cancel','취소')}</button><button class="btn primary" style="flex:1" data-act="saveProfile">${L('Save','저장')}</button></div></div>`;
  return`<div class="card pad stack"><div class="between"><div><b style="font-size:17px">${esc(p.name)}</b><div class="small mono">${p.id}${p.example?' · '+L('example participant','예시 참여자'):''}</div></div><button class="btn ghost sm" data-act="meEdit" data-v="1">${L('Edit','수정')}</button></div>
- <dl class="kv"><dt>${L('Gender','성별')}</dt><dd>${lab(GENDER,p.gender)||'—'}</dd><dt>${L('Birth year','출생 연도')}</dt><dd>${p.birthYear||'—'}</dd><dt>${L('Occupation','직업')}</dt><dd>${lab(OCC,p.occupation)||'—'}</dd><dt>${L('Home area','거주 지역')}</dt><dd>${areaName(p.area)}</dd>${f.smoking!=='off'?`<dt>${L('Smoking','흡연')}</dt><dd>${lab(SMOKE,p.smoking)||'—'}</dd>`:''}</dl>
+ <dl class="kv"><dt>${L('Gender','성별')}</dt><dd>${lab(GENDER,p.gender)||'—'}</dd><dt>${L('Birth year','출생 연도')}</dt><dd>${p.birthYear||'—'}</dd><dt>${L('Occupation','직업')}</dt><dd>${lab(OCC,p.occupation)||'—'}</dd><dt>${L('Home area','거주 지역')}</dt><dd>${homeName(p)}</dd>${f.smoking!=='off'?`<dt>${L('Smoking','흡연')}</dt><dd>${lab(SMOKE,p.smoking)||'—'}</dd>`:''}</dl>
  <p class="small" style="margin:0">${L('Private: visible only to you and authorised researchers. Never shown on the map.','비공개: 본인과 권한 있는 연구원만 볼 수 있으며 지도에 표시되지 않습니다.')}</p></div>
  <div class="card pad stack"><div class="between"><span>${L('Language','언어')}</span><button class="btn ghost sm" data-act="lang">${S.lang==='ko'?'English':'한국어'}</button></div>
  <div class="between"><span>${L('Notifications','알림')}</span><button class="switch" role="switch" aria-checked="${!!p.notify}" data-act="notify" aria-label="${L('Notifications','알림')}"></button></div></div>
@@ -1639,10 +1663,11 @@ function profileFields(p){
  ${f.gender!=='off'?`<div class="field"><label>${L('Gender','성별')}${req('gender')}</label>${chipRow('gender',GENDER)}</div>`:''}
  ${f.birthYear!=='off'?`<div class="field"><label for="pf-by">${L('Birth year','출생 연도')}${req('birthYear')}</label><select class="input" id="pf-by" data-pf="birthYear"><option value="">${L('Choose','선택')}</option>${yrs.map(y=>`<option ${p.birthYear==y?'selected':''}>${y}</option>`).join('')}</select></div>`:''}
  ${f.occupation!=='off'?`<div class="field"><label>${L('Occupation','직업')}${req('occupation')}</label>${chipRow('occupation',OCC)}</div>`:''}
- ${f.area!=='off'?`<div class="field"><label for="pf-area">${L('Home area (dong)','거주 지역 (동)')}${req('area')}</label><select class="input" id="pf-area" data-pf="area"><option value="">${L('Choose','선택')}</option>${AREAS.map(a=>`<option value="${a[0]}" ${p.area===a[0]?'selected':''}>${esc(L(a[1],a[2]))}</option>`).join('')}<option value="out" ${p.area==='out'?'selected':''}>${L('Outside the survey area','조사 지역 외')}</option></select></div>`:''}
+ ${f.area!=='off'?`<div class="field"><label for="pf-prov">${L('Where do you live?','거주 지역')}${req('area')}</label><select class="input" id="pf-prov" data-pf="province"><option value="">${L('Province / city','시·도 선택')}</option>${PROV.map(x=>`<option value="${x[0]}" ${provOf(p)===x[0]?'selected':''}>${esc(L(x[1],x[2]))}</option>`).join('')}</select>
+ <input class="input" id="pf-district" data-pf="district" maxlength="30" autocomplete="address-level2" value="${esc(distOf(p))}" placeholder="${L('District (si / gun / gu), e.g. Yuseong-gu','시·군·구 (예: 유성구)')}" aria-label="${L('District','시·군·구')}"></div>`:''}
  ${f.smoking!=='off'?`<div class="field"><label>${L('Do you smoke?','흡연하시나요?')}${req('smoking')}</label>${chipRow('smoking',SMOKE)}<span class="small">${L('Smoking can change how strongly smells are perceived.','흡연은 냄새를 느끼는 정도에 영향을 줄 수 있습니다.')}</span></div>`:''}`;
 }
-function profileMissing(p){const f=S.settings.fields,miss=[];if(!(p.name||'').trim())miss.push(L('name','이름'));for(const k of ['gender','birthYear','occupation','area','smoking'])if(f[k]==='req'&&!p[k])miss.push({gender:L('gender','성별'),birthYear:L('birth year','출생 연도'),occupation:L('occupation','직업'),area:L('home area','거주 지역'),smoking:L('smoking','흡연')}[k]);return miss}
+function profileMissing(p){const f=S.settings.fields,miss=[];if(!(p.name||'').trim())miss.push(L('name','이름'));for(const k of ['gender','birthYear','occupation','area','smoking'])if(f[k]==='req'&&(k==='area'?!(provOf(p)&&distOf(p).trim()):!p[k]))miss.push({gender:L('gender','성별'),birthYear:L('birth year','출생 연도'),occupation:L('occupation','직업'),area:L('home area','거주 지역'),smoking:L('smoking','흡연')}[k]);return miss}
 function pOnboard(){
  const o=S.onb;
  if(o.step==='signin')return`<div class="scroll" style="justify-content:center;gap:18px;padding:24px"><div class="stack" style="align-items:flex-start;gap:14px"><span class="logo" style="width:64px;height:64px;border-radius:18px">${ic('mapMarker',36)}</span>
@@ -1779,7 +1804,7 @@ function applyF(f){const from=f.from?new Date(f.from+'T00:00:00+09:00').getTime(
  return DB.reports.filter(r=>{const p=DB.byP[r.pid]||{},s=QC[r.id].status;
   if(r.t<from||r.t>to)return false;if(r.inten<f.imin||r.inten>f.imax)return false;
   if(f.gender.length&&!f.gender.includes(p.gender))return false;if(f.age.length&&!f.age.includes(ageBand(p.birthYear)))return false;
-  if(f.occ.length&&!f.occ.includes(p.occupation))return false;if(f.area.length&&!f.area.includes(p.area))return false;
+  if(f.occ.length&&!f.occ.includes(p.occupation))return false;if(f.area.length&&!f.area.includes(provOf(p)))return false;
   if(f.qc==='pass'&&s!=='pass')return false;if(f.qc==='passrev'&&s==='exclude')return false;if(['review','exclude'].includes(f.qc)&&s!==f.qc)return false;
   if(q&&![r.id,r.pid,isAdmin()?p.name:'',r.note,r.other,...r.chars].join(' ').toLowerCase().includes(q))return false;return true})}
 function filterBar(key,opts={}){const f=S[key];const tg=(k,list)=>`<div class="fchips">${list.map(o=>`<button class="chip" aria-pressed="${f[k].includes(o[0])}" data-act="ftog" data-f="${key}" data-k="${k}" data-v="${o[0]}">${esc(L(o[1],o[2]))}</button>`).join('')}</div>`;
@@ -1789,7 +1814,7 @@ function filterBar(key,opts={}){const f=S[key];const tg=(k,list)=>`<div class="f
  <div class="fgroup"><span>${L('Gender','성별')}</span>${tg('gender',GENDER)}</div>
  <div class="fgroup"><span>${L('Age','연령')}</span>${tg('age',AGEB.map(a=>[a,a,a]))}</div>
  <div class="fgroup"><span>${L('Occupation','직업')}</span>${tg('occ',OCC)}</div>
- <div class="fgroup"><span>${L('Home area','거주 지역')}</span>${tg('area',[...AREAS.map(a=>[a[0],a[1].replace('-dong',''),a[2]]),['out','Outside','지역 외']])}</div>
+ <div class="fgroup"><span>${L('Home province','거주 시·도')}</span>${tg('area',PROV.map(x=>[x[0],x[1],x[2].replace(/(특별자치시|특별자치도|특별시|광역시)$/,'')]))}</div>
  <label class="fgroup"><span>${L('Intensity','강도')}</span><span class="row" style="gap:6px"><select class="input sm" id="${key}-imin" data-fset="${key}.imin" data-num="1">${INT.map((x,i)=>`<option ${f.imin===i?'selected':''}>${i}</option>`).join('')}</select>–<select class="input sm" id="${key}-imax" data-fset="${key}.imax" data-num="1">${INT.map((x,i)=>`<option ${f.imax===i?'selected':''}>${i}</option>`).join('')}</select></span></label>
  ${opts.qc?`<div class="fgroup"><span>${L('Quality status','품질 상태')}</span><div class="fchips">${opts.qc.map(([v,en,ko])=>`<button class="chip" aria-pressed="${f.qc===v}" data-act="fset" data-f="${key}" data-k="qc" data-v="${v}">${L(en,ko)}</button>`).join('')}</div></div>`:''}
  ${opts.search?`<label class="fgroup" style="flex:1;min-width:180px"><span>${L('Search','검색')}</span><input class="input sm" id="${key}-q" data-fset="${key}.q" placeholder="${L('ID, smell, note'+(isAdmin()?', name':''),'ID, 냄새, 메모'+(isAdmin()?', 이름':''))}" value="${esc(f.q)}"></label>`:''}
@@ -1806,7 +1831,7 @@ function aResponses(){
 function aDrawer(){const r=DB.reports.find(x=>x.id===S.drawer);if(!r)return'';const p=DB.byP[r.pid],q=QC[r.id];
  return`<div class="drawer" role="dialog" aria-label="${r.id}"><div class="dh"><div><div class="eyebrow">${L('Report','응답')}</div><b class="mono" style="font-size:16px">${r.id}</b></div><div class="row">${qcPill(q.status)}<button class="icon-btn" data-act="closeDrawer" aria-label="${L('Close','닫기')}">${ic('close',20)}</button></div></div>
  <div class="db"><div class="row">${ichip(r.inten)}<b>${esc(L(INT[r.inten].en,INT[r.inten].ko))}</b><span class="small">· ${fDT(r.t)}</span></div>
- <dl class="kv"><dt>${L('Participant','참여자')}</dt><dd><span class="mono">${p.id}</span> · ${esc(pname(p))}</dd><dt>${L('Profile','프로필')}</dt><dd>${lab(GENDER,p.gender)} · ${ageBand(p.birthYear)} · ${lab(OCC,p.occupation)} · ${areaName(p.area)}</dd>
+ <dl class="kv"><dt>${L('Participant','참여자')}</dt><dd><span class="mono">${p.id}</span> · ${esc(pname(p))}</dd><dt>${L('Profile','프로필')}</dt><dd>${lab(GENDER,p.gender)} · ${ageBand(p.birthYear)} · ${lab(OCC,p.occupation)} · ${homeName(p)}</dd>
  <dt>${L('Smell','냄새')}</dt><dd>${r.chars.map(c=>esc(L(SMELL[c].en,SMELL[c].ko))).join(', ')||'—'}${r.manure?' · '+lab(MANURE,r.manure):''}${r.other?' · "'+esc(r.other)+'"':''}</dd>
  <dt>${L('Pleasantness','쾌·불쾌')}</dt><dd>${r.hed==null?'—':lab(HED.map(h=>[h[0],h[1],h[2]]),r.hed)+' ('+r.hed+')'}</dd><dt>${L('Duration · frequency','지속 · 빈도')}</dt><dd>${lab(DURATION,r.dur)||'—'} · ${lab(FREQ,r.freq)||'—'}</dd>
  <dt>${L('Source · impact','출처 · 영향')}</dt><dd>${lab(SOURCE,r.src)||'—'} · ${lab(IMPACT,r.impact)||'—'}</dd><dt>${L('Note','메모')}</dt><dd>${esc(r.note)||'—'}</dd>
@@ -1843,12 +1868,12 @@ function aQuality(){
 const COLS=[
  ['core','report_id','Report ID','string',r=>r.id],['core','observed_at_kst','Observation time, KST (YYYY-MM-DD HH:MM:SS)','datetime',r=>kIso(r.t)],['core','submitted_at_utc','Submission time, UTC ISO 8601','datetime',r=>new Date(r.sub).toISOString()],
  ['core','latitude','Latitude, WGS84 (rounded to 3 decimals when precision = ~100 m)','number',(r,x)=>x.precision==='round'?r.lat.toFixed(3):r.lat],['core','longitude','Longitude, WGS84','number',(r,x)=>x.precision==='round'?r.lng.toFixed(3):r.lng],
- ['core','gps_accuracy_m','Reported GPS accuracy (m)','integer',r=>r.acc??''],['core','location_source','Location source (gps, adjusted, manual, sim)','code',r=>r.locSrc||'gps'],['core','location_adjust_m','Distance the pin was moved from the GPS fix (m)','integer',r=>r.adjM??''],['core','area','Nearest survey neighbourhood','code',r=>nearestArea(r)],['core','intensity','Odor intensity 0–5 (Korean direct-sensory scale)','integer 0–5',r=>r.inten],['core','intensity_label','Intensity label (English)','string',r=>INT[r.inten].en],
+ ['core','gps_accuracy_m','Reported GPS accuracy (m)','integer',r=>r.acc??''],['core','location_source','Location source (gps, adjusted, manual, sim)','code',r=>r.locSrc||'gps'],['core','location_adjust_m','Distance the pin was moved from the GPS fix (m)','integer',r=>r.adjM??''],['core','place_approx','Nearest town or demo neighbourhood (approximate; reverse-geocode on the server in production)','string',r=>{const x=nearestPlace(r);return x?x.en:'outside South Korea'}],['core','province_approx','Province of that place (code)','code',r=>nearestPlace(r)?.sido||''],['core','intensity','Odor intensity 0–5 (Korean direct-sensory scale)','integer 0–5',r=>r.inten],['core','intensity_label','Intensity label (English)','string',r=>INT[r.inten].en],
  ['odor','smell_characters','Odor character codes, "|" separated (manure, ammonia, sulfur, sewage, garbage, sour, compost, burnt, chemical, fuel, fishy, other)','codes',r=>r.chars.join('|')],['odor','manure_animal','Animal when manure was chosen (pig, cattle, poultry, unsure)','code',r=>r.manure||''],['odor','smell_other','Free text for "other"','string',r=>r.other||''],
  ['odor','pleasantness','Pleasantness −2 (very unpleasant) to +2 (very pleasant)','integer −2–2',r=>r.hed??''],['odor','duration','Duration (now, min, hours, day)','code',r=>r.dur||''],['odor','frequency','Frequency at this place (first, some, often, daily)','code',r=>r.freq||''],
  ['odor','suspected_source','Suspected source code','code',r=>r.src||''],['odor','impact','Impact on daily life (none, slight, windows, outdoor, health)','code',r=>r.impact||''],['odor','note','Participant note (max 300 chars)','string',r=>r.note||''],
- ['demo','participant_code','Pseudonymous participant code','string',(r,x,p)=>p.id],['demo','gender','Gender (female, male, other, na)','code',(r,x,p)=>p.gender||''],['demo','birth_year','Birth year','integer',(r,x,p)=>p.birthYear||''],['demo','age_band','Age band at 2026','code',(r,x,p)=>p.birthYear?ageBand(p.birthYear):''],
- ['demo','occupation','Occupation (2022 CNU member types)','code',(r,x,p)=>p.occupation||''],['demo','home_area','Home neighbourhood code','code',(r,x,p)=>p.area||''],['demo','smoking','Smoking (no, yes, na)','code',(r,x,p)=>p.smoking||''],
+ ['demo','participant_code','Pseudonymous participant code','string',(r,x,p)=>p.id],['demo','gender','Gender (female, male, na)','code',(r,x,p)=>p.gender||''],['demo','birth_year','Birth year','integer',(r,x,p)=>p.birthYear||''],['demo','age_band','Age band at 2026','code',(r,x,p)=>p.birthYear?ageBand(p.birthYear):''],
+ ['demo','occupation','Occupation (2022 CNU member types)','code',(r,x,p)=>p.occupation||''],['demo','home_province','Home province (code)','code',(r,x,p)=>provOf(p)||''],['demo','home_district','Home district (si / gun / gu, as typed)','string',(r,x,p)=>distOf(p)],['demo','smoking','Smoking (no, yes, na)','code',(r,x,p)=>p.smoking||''],
  ['qc','qc_score','Quality score 0–100 (sum of check weights)','integer',r=>QC[r.id].score],['qc','qc_status','Final status (pass, review, exclude)','code',r=>QC[r.id].status],['qc','qc_flags','Checks tripped, "|" separated','codes',r=>QC[r.id].flags.map(f=>f.id).join('|')],
  ['qc','qc_manual_reason','Reason for a manual decision','string',r=>QC[r.id].ov?.reason||''],['qc','completion_seconds','Form completion time (s)','number',r=>(r.durMs/1000).toFixed(1)],['qc','app_version','App version','string',r=>r.ver||''],
  ['identity','participant_name','Participant name (identifiable; admin only)','string',(r,x,p)=>p.name||'']];
@@ -1890,14 +1915,14 @@ async function doExport(){
  if(x.split==='one')zip.file(`eco_survey_${stamp}.${x.format}`,ser(rows));
  else{const list=x.split==='gender'?GENDER:OCC,k=x.split==='gender'?'gender':'occupation';list.forEach(g=>{const part=rows.filter(r=>DB.byP[r.pid]?.[k]===g[0]);if(part.length)zip.file(`eco_survey_${k}_${g[0]}_${stamp}.${x.format}`,ser(part))})}
  if(x.codebook)zip.file('codebook.csv',codebook(cols));
- zip.file('README.txt',`Eco Survey export ${stamp}\nRows: ${rows.length}\nQuality filter: ${x.qc}\nLocation precision: ${x.precision}\nDate range: ${x.from||'start'} to ${x.to||'today'}\nFilters: gender=${x.gender.join('|')||'all'}; age=${x.age.join('|')||'all'}; occupation=${x.occ.join('|')||'all'}; area=${x.area.join('|')||'all'}; intensity=${x.imin}-${x.imax}\nSYNTHETIC PROTOTYPE DATA - not survey results.\n`);
+ zip.file('README.txt',`Eco Survey export ${stamp}\nRows: ${rows.length}\nQuality filter: ${x.qc}\nLocation precision: ${x.precision}\nDate range: ${x.from||'start'} to ${x.to||'today'}\nFilters: gender=${x.gender.join('|')||'all'}; age=${x.age.join('|')||'all'}; occupation=${x.occ.join('|')||'all'}; home_province=${x.area.join('|')||'all'}; intensity=${x.imin}-${x.imax}\nSYNTHETIC PROTOTYPE DATA - not survey results.\n`);
  const blob=await zip.generateAsync({type:'blob'});await saveFile(`eco_survey_${x.split}_${stamp}.zip`,blob);render();
 }
 function aParticipants(){
  const list=DB.people.map(p=>({p,s:PSTAT[p.id]})).sort((a,b)=>b.s.n-a.s.n);
  return aPH(L('Participants','참여자'),isAdmin()?L('Names are visible to lab admins only. Analysts see masked names and codes.','이름은 관리자만 볼 수 있으며 분석가는 마스킹된 이름과 코드를 봅니다.'):L('Names are masked for your role.','현재 역할에서는 이름이 마스킹됩니다.'))+
  `<div class="card"><div class="tbl-wrap"><table class="tbl"><thead><tr><th>${L('Code','코드')}</th><th>${L('Name','이름')}</th><th>${L('Gender','성별')}</th><th>${L('Age','연령')}</th><th>${L('Occupation','직업')}</th><th>${L('Home area','거주 지역')}</th><th class="r">${L('Reports','응답')}</th><th class="r">${L('Accepted','승인')}</th><th class="r">${L('Points','포인트')}</th><th class="r">${L('Avg QC','평균 QC')}</th><th>${L('Last report','최근 응답')}</th></tr></thead><tbody>
- ${list.map(({p,s})=>`<tr><td class="mono">${p.id}${p.id===S.meId?` <span class="pill blue">${L('you','나')}</span>`:''}${S.partEx[p.id]?` <span class="pill ex">${L('excluded','제외')}</span>`:''}</td><td>${esc(pname(p))}</td><td>${lab(GENDER,p.gender)}</td><td class="num">${p.birthYear?ageBand(p.birthYear):'—'}</td><td>${lab(OCC,p.occupation)}</td><td>${areaName(p.area)}</td><td class="r num">${s.n}</td><td class="r num">${s.acc}</td><td class="r num">${s.points}</td><td class="r mono" style="color:${s.avgScore>=25?'var(--warn)':'inherit'}">${s.avgScore}</td><td class="mono small">${s.last?fDT(s.last):'—'}</td></tr>`).join('')}</tbody></table></div></div>`;
+ ${list.map(({p,s})=>`<tr><td class="mono">${p.id}${p.id===S.meId?` <span class="pill blue">${L('you','나')}</span>`:''}${S.partEx[p.id]?` <span class="pill ex">${L('excluded','제외')}</span>`:''}</td><td>${esc(pname(p))}</td><td>${lab(GENDER,p.gender)}</td><td class="num">${p.birthYear?ageBand(p.birthYear):'—'}</td><td>${lab(OCC,p.occupation)}</td><td>${homeName(p)}</td><td class="r num">${s.n}</td><td class="r num">${s.acc}</td><td class="r num">${s.points}</td><td class="r mono" style="color:${s.avgScore>=25?'var(--warn)':'inherit'}">${s.avgScore}</td><td class="mono small">${s.last?fDT(s.last):'—'}</td></tr>`).join('')}</tbody></table></div></div>`;
 }
 function aRewards(){
  const ro=!isAdmin(),q=S.claims.slice().reverse();
@@ -1990,9 +2015,9 @@ const ACT={
  claim:el=>{const at=Number(el.dataset.v);S.claims.push({id:'C-'+Date.now(),pid:S.meId,at,at_t:Date.now(),status:'requested'});persist();toast(L('Reward requested. You will be notified when the code is ready.','리워드를 신청했습니다. 코드가 준비되면 알려 드려요.'));render()},
  copy:el=>{const v=el.dataset.v;if(navigator.clipboard)navigator.clipboard.writeText(v).then(()=>toast(L('Code copied','코드 복사됨')),()=>toast(v));else toast(v)},
  meEdit:el=>{S.meEdit=el.dataset.v==='1';S.pf={...me()};render()},
- pf:el=>{const tgt=S.onb?S.onb.p:S.pf;if(!tgt)return;const k=el.dataset.k;tgt[k]=el.dataset.v;if(S.onb)S.onb.err='';const nm=$('pf-name');if(nm)tgt.name=nm.value;render()},
- saveProfile:()=>{const p=S.pf;p.name=$('pf-name').value.trim();const miss=profileMissing(p);if(miss.length)return toast(L('Missing: ','입력 필요: ')+miss.join(', '));
-  const target=DB.byP[S.meId];Object.assign(target,{name:p.name,gender:p.gender,birthYear:p.birthYear,occupation:p.occupation,area:p.area,smoking:p.smoking});const np=S.newPeople.find(x=>x.id===S.meId);if(np)Object.assign(np,target);persist();S.meEdit=false;toast(L('Profile saved','저장했습니다'));render()},
+ pf:el=>{const tgt=S.onb?S.onb.p:S.pf;if(!tgt)return;const k=el.dataset.k;tgt[k]=el.dataset.v;if(S.onb)S.onb.err='';const nm=$('pf-name');if(nm)tgt.name=nm.value;const ds=$('pf-district');if(ds)tgt.district=ds.value;render()},
+ saveProfile:()=>{const p=S.pf;p.name=$('pf-name').value.trim();if($('pf-district'))p.district=$('pf-district').value.trim();const miss=profileMissing(p);if(miss.length)return toast(L('Missing: ','입력 필요: ')+miss.join(', '));
+  const target=DB.byP[S.meId];Object.assign(target,{name:p.name,gender:p.gender,birthYear:p.birthYear,occupation:p.occupation,province:provOf(p),district:distOf(p).trim(),smoking:p.smoking});const np=S.newPeople.find(x=>x.id===S.meId);if(np)Object.assign(np,target);persist();S.meEdit=false;toast(L('Profile saved','저장했습니다'));render()},
  notify:()=>{const p=me();p.notify=!p.notify;const np=S.newPeople.find(x=>x.id===S.meId);if(np)np.notify=p.notify;persist();render()},
  myData:()=>{const p=me();saveFile(`eco_survey_my_data_${p.id}.json`,JSON.stringify({profile:p,reports:myReports(),points:PSTAT[p.id],claims:S.claims.filter(c=>c.pid===p.id)},null,2))},
  delArm:el=>{S.delArm=el.dataset.v==='1';render()},
@@ -2003,9 +2028,9 @@ const ACT={
  useExample:()=>{S.meId='P-0001';S.onb=null;S.scr='home';persist();buildDB();render()},
  cancelOnb:()=>{S.onb=null;S.scr='home';render()},
  resetDemo:()=>{try{localStorage.removeItem('eco2')}catch(e){}location.reload()},
- signin:el=>{S.onb={step:'consent',provider:el.dataset.v,c1:false,c2:false,c3:false,c4:false,p:{name:'',gender:null,birthYear:null,occupation:null,area:null,smoking:null},err:''};render()},
+ signin:el=>{S.onb={step:'consent',provider:el.dataset.v,c1:false,c2:false,c3:false,c4:false,p:{name:'',gender:null,birthYear:null,occupation:null,province:null,district:'',smoking:null},err:''};render()},
  onbNext:()=>{S.onb.step='profile';geoStart();render()},
- onbFinish:()=>{const o=S.onb;o.p.name=($('pf-name')?.value||'').trim();const miss=profileMissing(o.p);if(miss.length){o.err=L('Please answer: ','다음 항목을 입력하세요: ')+miss.join(', ');return render()}
+ onbFinish:()=>{const o=S.onb;o.p.name=($('pf-name')?.value||'').trim();if($('pf-district'))o.p.district=$('pf-district').value.trim();const miss=profileMissing(o.p);if(miss.length){o.err=L('Please answer: ','다음 항목을 입력하세요: ')+miss.join(', ');return render()}
   const n=Math.max(47,...DB.people.map(p=>Number(p.id.slice(2))))+1,id='P-'+String(n).padStart(4,'0');
   const p={id,...o.p,birthYear:o.p.birthYear?Number(o.p.birthYear):null,joined:Date.now(),consent:'v2.0',provider:o.provider,notify:o.c4};S.newPeople.push(p);S.meId=id;S.onb=null;S.scr='home';persist();buildDB();toast(L('Welcome! You can report now.','환영합니다! 이제 응답할 수 있어요.'));render()},
  // admin
@@ -2047,7 +2072,7 @@ document.addEventListener('change',e=>{const el=e.target;
 });
 document.addEventListener('input',e=>{const el=e.target;
  if(el.dataset.dr==='note'||el.dataset.dr==='other'){S.draft[el.dataset.dr]=el.value;return}
- if(el.id==='pf-name'){const tgt=S.onb?S.onb.p:S.pf;if(tgt)tgt.name=el.value;return}
+ if(el.id==='pf-name'||el.id==='pf-district'){const tgt=S.onb?S.onb.p:S.pf;if(tgt)tgt[el.id==='pf-name'?'name':'district']=el.value;return}
  if(el.dataset.fset==='f.q'){S.f.q=el.value;S.f.page=0;clearTimeout(window._qt);window._qt=setTimeout(render,250)}
 });
 document.addEventListener('submit',e=>{if(e.target.id!=='loginForm')return;e.preventDefault();const l=S.login;
