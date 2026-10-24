@@ -5,7 +5,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Eco Survey"><meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
-</head><body>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script></head><body>
 <title>Eco Survey 환경모아</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -750,6 +750,7 @@ h1,h2,h3{text-wrap:balance;margin:0}
 .notes ul{margin:8px 0 0;padding-left:18px;color:var(--ink2);font-size:13px;display:grid;gap:6px}
 .notes .id{font-family:var(--f-mono);font-size:11px;color:var(--blue);font-weight:600}
 @media (max-width:860px){.stage{grid-template-columns:minmax(0,1fr);justify-items:center}.notes{position:static;width:100%;max-width:390px}}
+body.live .notes{display:none}body.live .stage{grid-template-columns:auto}
 @media (max-width:600px){
   body.pm{overflow:hidden}
   body.pm .topbar{display:none}
@@ -817,6 +818,10 @@ h1,h2,h3{text-wrap:balance;margin:0}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{border:1px solid var(--line);background:var(--surf);border-radius:10px;padding:8px 12px;font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:6px;color:var(--ink)}
 .chip[aria-pressed="true"]{background:var(--bluet);border-color:var(--blue);color:var(--blued)}
+.lapse{display:flex;gap:3px;align-items:stretch;height:84px;overflow-x:auto;padding-bottom:2px}
+.lbar-b{flex:1 0 22px;display:flex;flex-direction:column;justify-content:flex-end;gap:3px;border:1px solid transparent;border-radius:6px;background:var(--well);padding:3px 2px;cursor:pointer;font:600 10px var(--f-mono);color:var(--ink2)}
+.lbar-b i{display:block;border-radius:3px;width:100%}.lbar-b.on{border-color:var(--ink);background:var(--surf);color:var(--ink)}
+.lapse-lbl{margin-top:8px;font:600 15px var(--f-mono)}
 .smells{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .smell{border:1px solid var(--line);background:var(--surf);border-radius:14px;padding:10px;text-align:left;display:grid;grid-template-columns:36px 1fr;gap:8px;align-items:center;min-height:60px}
 .smell .g{width:36px;height:36px;border-radius:10px;background:var(--well);display:grid;place-items:center;color:var(--ink2)}
@@ -1015,6 +1020,11 @@ const L=(en,ko)=>S.lang==='ko'&&ko!=null?ko:en;
 const MIN=60000,HOUR=3600000,DAY=86400000;
 const NOW0=Math.floor(Date.now()/MIN)*MIN;
 const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+// Build flavour, set by build.py: 'demo' = synthetic artifact; 'p' = live participant app; 'a' = live admin console (Firebase).
+// App version: shown in the header and on the Profile screen, stored on every report, and used as the offline-cache name.
+const APPVER='2.3.0';
+const BUILD='p',LIVE=BUILD!=='demo',FBCFG={"apiKey": "AIzaSyDHMB2I-YCAXivzPs9O_bNHAScwwInysSY", "authDomain": "eco-survey-331bb.firebaseapp.com", "projectId": "eco-survey-331bb", "storageBucket": "eco-survey-331bb.firebasestorage.app", "messagingSenderId": "392355803426", "appId": "1:392355803426:web:0fb02f4ba643e432d2757b"};
+const SKEY=LIVE?'eco-live-'+BUILD:'eco2';
 
 /* ---------------- reference vocabularies ---------------- */
 // Odor intensity: 0–5 Korean direct-sensory (직접관능법) scale; descriptors paraphrased. Confirm with the lab (D1).
@@ -1065,8 +1075,8 @@ const ageBand=y=>{const a=2026-y;return a<20?AGEB[0]:a<30?AGEB[1]:a<40?AGEB[2]:a
 const AREAS=[['gung','Gung-dong','궁동',36.3627,127.3466],['eoeun','Eoeun-dong','어은동',36.3668,127.3600],['bongmyeong','Bongmyeong-dong','봉명동',36.3552,127.3470],['sinseong','Sinseong-dong','신성동',36.3840,127.3530],['guseong','Guseong-dong','구성동',36.3735,127.3630],['noeun','Noeun-dong','노은동',36.3740,127.3190],['jangdae','Jangdae-dong','장대동',36.3620,127.3350],['deokmyeong','Deokmyeong-dong','덕명동',36.3560,127.3050]];
 const AREA=Object.fromEntries(AREAS.map(a=>[a[0],a]));
 const BOUNDS={lat0:36.335,lat1:36.405,lng0:127.285,lng1:127.395};
-// Facilities are illustrative and admin-only (D3: private by default).
-const FAC=[{id:'F1',en:'Hanwoo farm A',ko:'한우 농가 A',type:'cattle',lat:36.3810,lng:127.3220},{id:'F2',en:'Pig farm B',ko:'양돈 농가 B',type:'pig',lat:36.3920,lng:127.3410},{id:'F3',en:'Compost plant C',ko:'퇴비화 시설 C',type:'compost',lat:36.3480,lng:127.3180},{id:'F4',en:'Sewage plant D',ko:'하수처리 시설 D',type:'sewage',lat:36.3760,lng:127.3770}];
+// Facilities are illustrative and admin-only (D3: private by default). The live builds have none until a registry exists.
+const FAC=LIVE?[]:[{id:'F1',en:'Hanwoo farm A',ko:'한우 농가 A',type:'cattle',lat:36.3810,lng:127.3220},{id:'F2',en:'Pig farm B',ko:'양돈 농가 B',type:'pig',lat:36.3920,lng:127.3410},{id:'F3',en:'Compost plant C',ko:'퇴비화 시설 C',type:'compost',lat:36.3480,lng:127.3180},{id:'F4',en:'Sewage plant D',ko:'하수처리 시설 D',type:'sewage',lat:36.3760,lng:127.3770}];
 const lab=(list,v)=>{const x=list.find(o=>o[0]===v);return x?L(x[1],x[2]):(v??'')};
 
 /* ---------------- geometry ---------------- */
@@ -1111,16 +1121,17 @@ const sd=a=>{if(a.length<2)return 0;const m=a.reduce((x,y)=>x+y,0)/a.length;retu
 const kst=(t,o)=>new Date(t).toLocaleString(S.lang==='ko'?'ko-KR':'en-GB',{timeZone:'Asia/Seoul',...o});
 const fDT=t=>kst(t,{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit',hour12:false});
 const fT=t=>kst(t,{hour:'2-digit',minute:'2-digit',hour12:false});
+const kIdx=t=>Math.floor((t+9*HOUR)/DAY);
 const kDay=t=>new Date(t+9*HOUR).toISOString().slice(0,10);
 const kIso=t=>new Date(t+9*HOUR).toISOString().replace('T',' ').slice(0,19);
 
 /* ---------------- defaults ---------------- */
-const DEFAULT_SETTINGS={live:true,endDate:'2026-12-31',gap:20,daily:10,ppr:10,weekBonus:10,backHours:3,publicMinN:3,qcReview:30,qcExclude:60,
+const DEFAULT_SETTINGS={live:true,guests:true,trimMode:'both',trimBy:'nb',trimMin:5,trimR:3000,trimH:6,endDate:'2026-12-31',gap:30,daily:10,ppr:10,weekBonus:10,backHours:3,publicMinN:3,qcReview:30,qcExclude:60,
  announceEn:'Autumn survey runs until 31 Dec. Thank you for reporting!',announceKo:'가을 설문은 12월 31일까지 진행됩니다. 참여해 주셔서 감사합니다!',
  fields:{gender:'req',birthYear:'req',occupation:'req',area:'req',smoking:'opt'},mapStyle:'mono',vworldKey:'',idwRadius:600};
 const DEFAULT_RULES={
  speed:{on:true,w:35,p:4},straight:{on:true,w:30,p:5},novar:{on:true,w:15,p:8},contra:{on:true,w:30,p:0},gps:{on:true,w:20,p:100},mock:{on:true,w:60,p:0},
- area:{on:true,w:40,p:0},jump:{on:true,w:30,p:120},timer:{on:true,w:30,p:4},dup:{on:true,w:50,p:2},text:{on:true,w:10,p:0},outlier:{on:true,w:15,p:3},locedit:{on:true,w:15,p:300}};
+ area:{on:true,w:40,p:0},jump:{on:true,w:30,p:120},timer:{on:true,w:30,p:4},dup:{on:true,w:50,p:2},text:{on:true,w:10,p:0},outlier:{on:true,w:15,p:3},locedit:{on:true,w:15,p:300},trim:{on:true,w:60,p:5}};
 const RULE_META={
  speed:{en:'Too fast',ko:'응답이 너무 빠름',den:'Form finished faster than the minimum reading time (half for "no odor").',dko:'최소 응답 시간보다 빨리 제출 (무취는 절반 기준).',unit:'s'},
  straight:{en:'Straight-lining',ko:'동일 응답 반복',den:'Same intensity, smells, source and impact in a run of consecutive reports. "No odor" runs are exempt.',dko:'연속 제출에서 강도·냄새·출처·영향이 모두 동일. 무취 반복은 제외.',unit:'in a row'},
@@ -1134,6 +1145,7 @@ const RULE_META={
  dup:{en:'Duplicate',ko:'중복 제출',den:'Identical answers from the same person within a few minutes.',dko:'같은 참여자가 몇 분 안에 동일 응답.',unit:'min'},
  text:{en:'Gibberish text',ko:'무의미한 텍스트',den:'Note or "other" text is keyboard mashing or repeated characters.',dko:'메모나 기타 입력이 무의미한 글자 반복.',unit:''},
  locedit:{en:'Location set by hand',ko:'위치 수동 설정',den:'No GPS fix and the pin was placed by hand, or the pin was moved further than the limit from the GPS fix.',dko:'GPS 없이 핀을 수동 설정했거나 GPS 위치에서 기준 이상 옮김.',unit:'m'},
+ trim:{en:'Consistently extreme reporter',ko:'일관된 극단 응답자',den:'Person-level. Ranks participants by how far their reports sit, on average, above or below other people nearby or everyone (options below the list). The top and bottom share set here is flagged on all their reports. Nobody is trimmed until enough people qualify that the share is at least one person. Someone living next to a source can legitimately read high: check the list before relying on it.',dko:'참여자 단위. 주변 또는 전체 참여자와 비교해(아래 옵션) 평균적으로 얼마나 높거나 낮게 응답하는지 순위를 매기고, 설정한 상·하위 비율의 모든 응답에 플래그를 답니다. 비율이 1명 이상이 될 만큼 참여자가 모여야 적용됩니다. 발생원 바로 옆 주민은 정당하게 높을 수 있으니 목록을 확인하세요.',unit:'% each end'},
  outlier:{en:'Disagrees with neighbours',ko:'주변 응답과 불일치',den:'Differs by the limit or more from the median of 3+ other people within 500 m and 30 min. Review only.',dko:'500 m·30분 이내 3명 이상 응답의 중앙값과 기준 이상 차이. 검토용.',unit:'levels'}};
 const DEFAULT_MILESTONES=[
  {at:50,en:'Starbucks Caffè Americano (Tall) e-coupon',ko:'스타벅스 아메리카노 T 모바일 쿠폰',stock:200,ico:'coffee'},
@@ -1144,21 +1156,25 @@ const ADMINS={'admin@eco-survey.kr':{pw:'Demo!2026',role:'admin',name:'Lab admin
 const OTP='246810';
 
 /* ---------------- state ---------------- */
-const P0=store.get('eco2',{});
+const P0=store.get(SKEY,{});
 const S={
- lang:P0.lang||'en',mode:P0.mode||'participant',meId:P0.meId||'P-0001',
- scr:'home',onb:null,draft:null,rstep:1,sheet:null,sent:null,mapPeriod:'7d',mapSel:null,showMine:true,histOpen:null,meEdit:false,delArm:false,
+ lang:P0.lang||(LIVE?'ko':'en'),mode:LIVE?(BUILD==='a'?'admin':'participant'):P0.mode||'participant',meId:LIVE?null:P0.meId||'P-0001',
+ scr:'home',onb:BUILD==='p'?{step:'loading'}:null,draft:null,rstep:1,sheet:null,sent:null,mapPeriod:'7d',mapSel:null,showMine:true,histOpen:null,meEdit:false,delArm:false,
  admin:null,av:'overview',login:{email:'',pw:'',otp:'',step:1,fails:0,err:''},drawer:null,
  f:{from:'',to:'',gender:[],age:[],occ:[],area:[],imin:0,imax:5,qc:'all',q:'',page:0},
  x:{from:'',to:'',gender:[],age:[],occ:[],area:[],imin:0,imax:5,qc:'pass',groups:{core:true,odor:true,demo:true,qc:true,identity:false},precision:'exact',split:'one',format:'csv',codebook:true},
- ovPeriod:30,mapStyle:P0.mapStyle||null,layersP:{surface:true,cells:false,mine:true},am:{period:7,imin:0,gender:[],qc:'pass',surface:true,cells:false,points:true,fac:true,radius:600},
+ ovPeriod:30,mapStyle:P0.mapStyle||null,layersP:{surface:true,cells:false,mine:true},am:{period:7,from:'',to:'',h0:0,h1:24,dow:[],occ:[],age:[],imin:0,gender:[],qc:'pass',surface:true,cells:false,points:true,fac:!LIVE,radius:600,anim:{mode:'off',f:0,play:false,speed:1000}},
  settings:{...DEFAULT_SETTINGS,...(P0.settings||{}),fields:{...DEFAULT_SETTINGS.fields,...(P0.settings?.fields||{})}},
  rules:Object.fromEntries(Object.entries(DEFAULT_RULES).map(([k,v])=>[k,{...v,...(P0.rules?.[k]||{})}])),
  milestones:P0.milestones||DEFAULT_MILESTONES.map(m=>({...m})),
  myReports:P0.myReports||[],newPeople:P0.newPeople||[],overrides:P0.overrides||{},partEx:P0.partEx||{},claims:P0.claims||[],audit:P0.audit||[],
 };
-function persist(){store.set('eco2',{lang:S.lang,mode:S.mode,mapStyle:S.mapStyle,meId:S.meId,settings:S.settings,rules:S.rules,milestones:S.milestones,myReports:S.myReports,newPeople:S.newPeople,overrides:S.overrides,partEx:S.partEx,claims:S.claims,audit:S.audit})}
-function audit(action,detail){S.audit.unshift({at:Date.now(),who:S.admin?S.admin.email:'participant',action,detail});S.audit=S.audit.slice(0,200);persist()}
+// Live builds keep only view preferences on the device; data lives in Firestore (see LIVE BACKEND).
+function persist(){if(LIVE){store.set(SKEY,{lang:S.lang,mapStyle:S.mapStyle});if(BUILD==='a')liveSaveConfig();return}
+ store.set(SKEY,{lang:S.lang,mode:S.mode,mapStyle:S.mapStyle,meId:S.meId,settings:S.settings,rules:S.rules,milestones:S.milestones,myReports:S.myReports,newPeople:S.newPeople,overrides:S.overrides,partEx:S.partEx,claims:S.claims,audit:S.audit})}
+function audit(action,detail){const e={at:Date.now(),who:S.admin?S.admin.email:'participant',action,detail};
+ if(LIVE){if(BUILD==='a'&&S.admin)LV.db.collection('audit').add(e).catch(()=>{});return}
+ S.audit.unshift(e);S.audit=S.audit.slice(0,200);persist()}
 
 /* ---------------- synthetic dataset ---------------- */
 function rng(seed){return()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
@@ -1203,13 +1219,15 @@ function genSeed(){
  const c1=mkPerson(43);people.push(c1);for(let k=0;k<14;k++)reports.push(mkReport(c1,NOW0-(26-k*1.7)*DAY-2*HOUR,{inten:5,chars:['manure'],manure:'pig',src:'livestock',impact:'none',hed:-2,durMs:3200+Math.floor(R()*1500)}));
  const c2=mkPerson(44);people.push(c2);for(let k=0;k<10;k++)reports.push(mkReport(c2,randTime(),{inten:Math.floor(R()*6),durMs:1100+Math.floor(R()*1300)}));
  const c3=mkPerson(45);people.push(c3);for(let k=0;k<8;k++){const t=NOW0-(20-k*2)*DAY;reports.push(mkReport(c3,t,k%3===1?{acc:400+Math.floor(R()*900),mock:true}:k===5?{lat:33.5902,lng:130.4017}:{}))}
- const c4=mkPerson(46);people.push(c4);{let t=NOW0-3*DAY-10*HOUR;for(let k=0;k<12;k++){reports.push(mkReport(c4,t,{inten:k%4===3?2:3,chars:['compost'],src:'compost',impact:'windows',hed:-1,durMs:9000+Math.floor(R()*4000)}));t+=20*MIN+Math.floor(R()*40)*1000}}
+ const c4=mkPerson(46);people.push(c4);{let t=NOW0-3*DAY-10*HOUR;for(let k=0;k<12;k++){reports.push(mkReport(c4,t,{inten:k%4===3?2:3,chars:['compost'],src:'compost',impact:'windows',hed:-1,durMs:9000+Math.floor(R()*4000)}));t+=DEFAULT_SETTINGS.gap*MIN+Math.floor(R()*40)*1000}}
  const c5=mkPerson(47);people.push(c5);[[0,'health',null,[]],[1,'outdoor',null,['manure']],[5,'none',2,['manure']],[4,'none',2,['sewage']],[2,'slight',-1,['fuel']],[0,'windows',null,[]]].forEach(([i,imp,h,c],k)=>reports.push(mkReport(c5,NOW0-(12-k*2)*DAY-5*HOUR,{inten:i,impact:imp,hed:h,chars:c,note:k===2?'asdfasdf':k===4?'ㅋㅋㅋㅋㅋ':''})));
  reports.sort((a,b)=>a.t-b.t);
  return{people,reports};
 }
-let DB={people:[],reports:[]},QC={},PSTAT={};
-function buildDB(){if(!SEED)SEED=genSeed();DB.people=[...SEED.people,...S.newPeople];DB.reports=[...SEED.reports,...S.myReports].sort((a,b)=>a.t-b.t);DB.byP={};for(const p of DB.people)DB.byP[p.id]=p;runQC()}
+let DB={people:[],reports:[]},QC={},PSTAT={},TRIM={rows:[],k:0,N:0};
+// Live: no synthetic seed. Participant app adds other people's public map points (LV.pub, flagged pub:true).
+function buildDB(){if(!SEED)SEED=LIVE?{people:[],reports:[]}:genSeed();const own=new Set(S.myReports.map(r=>r.id));
+ DB.people=[...SEED.people,...S.newPeople];DB.reports=[...SEED.reports,...S.myReports,...(BUILD==='p'?LV.pub.filter(r=>!own.has(r.id)):[])].sort((a,b)=>a.t-b.t);DB.byP={};for(const p of DB.people)DB.byP[p.id]=p;runQC();if(BUILD==='a')liveReconcile()}
 
 /* ---------------- quality-control engine ---------------- */
 const sig=r=>[r.inten,[...r.chars].sort().join('+'),r.src||'',r.impact||''].join('|');
@@ -1242,10 +1260,25 @@ function runQC(){
    if(sig(a)===sig(b)&&gm<R.dup.p)add(b,'dup',`${gm.toFixed(1)} min after ${a.id}`)}
   if(chain.length-1>=R.timer.p)chain.forEach(r=>add(r,'timer',`${chain.length-1} gaps of ${g}–${g+1.5} min`));
  }
+ // trimming: person-level bias against neighbours (or everyone); reports are time-sorted, so scan a window
+ TRIM={rows:[],k:0,N:0};
+ if(R.trim.on){const st=S.settings,list=DB.reports,minN=Math.max(1,st.trimMin|0),W=(st.trimH||6)*HOUR,RAD=st.trimR||2000,all=list.filter(r=>!r.pub);
+  const gm=all.length?all.reduce((a,r)=>a+r.inten,0)/all.length:0;
+  const lb=t=>{let lo=0,hi=list.length;while(lo<hi){const m=(lo+hi)>>1;if(list[m].t<t)lo=m+1;else hi=m}return lo};
+  for(const [pid,mine] of Object.entries(byP)){if(pid.startsWith('X-'))continue;const res=[];
+   if(st.trimBy==='all')mine.forEach(r=>res.push(r.inten-gm));
+   else for(const r of mine){const nb=[],ps=new Set();for(let i=lb(r.t-W);i<list.length&&list[i].t<=r.t+W;i++){const o=list[i];if(o.pid!==pid&&distM(o,r)<=RAD){nb.push(o.inten);ps.add(o.pid)}}if(ps.size>=2)res.push(r.inten-median(nb))}
+   if(res.length>=minN)TRIM.rows.push({pid,bias:res.reduce((a,v)=>a+v,0)/res.length,n:res.length})}
+  TRIM.rows.sort((a,b)=>b.bias-a.bias);TRIM.N=TRIM.rows.length;TRIM.k=Math.floor(TRIM.N*R.trim.p/100);
+  const k=TRIM.k,cut=[...(st.trimMode!=='low'?TRIM.rows.slice(0,k).filter(x=>x.bias>0):[]),...(st.trimMode!=='high'?TRIM.rows.slice(TRIM.N-k).filter(x=>x.bias<0):[])];
+  for(const x of TRIM.rows){x.cut=cut.includes(x)}
+  for(const x of cut)byP[x.pid].forEach(r=>add(r,'trim',`${x.bias>0?'+':''}${x.bias.toFixed(2)} ${st.trimBy==='all'?'vs all':'vs nearby'} (n=${x.n}), ${x.bias>0?'top':'bottom'} ${R.trim.p}% of ${TRIM.N}`))}
  if(R.outlier.on){for(const r of DB.reports){const nb=DB.reports.filter(o=>o.pid!==r.pid&&Math.abs(o.t-r.t)<=30*MIN&&distM(o,r)<=500);const ps=new Set(nb.map(o=>o.pid));if(ps.size>=3){const m=median(nb.map(o=>o.inten));if(Math.abs(r.inten-m)>=R.outlier.p)add(r,'outlier',`${r.inten} vs median ${m} (n=${nb.length})`)}}}
  QC={};
- for(const r of DB.reports){const f=flags[r.id],score=Math.min(100,f.reduce((s,x)=>s+x.pts,0));
-  const auto=score>=S.settings.qcExclude?'exclude':score>=S.settings.qcReview?'review':'pass';
+ for(const r of DB.reports){if(r.pub){QC[r.id]={score:0,flags:[],auto:'pass',status:'pass',ov:null};continue}// already checked by the admin console
+  const f=flags[r.id],score=Math.min(100,f.reduce((s,x)=>s+x.pts,0));
+  // r.qc: verdict written by the admin console (authoritative); the phone's own score is only an estimate.
+  const auto=BUILD==='p'&&r.qc?r.qc:score>=S.settings.qcExclude?'exclude':score>=S.settings.qcReview?'review':'pass';
   const ov=S.overrides[r.id],pe=S.partEx[r.pid];
   const status=ov?ov.status:pe?'exclude':auto;
   QC[r.id]={score,flags:f,auto,status,ov:ov||(pe?{status:'exclude',reason:'Participant excluded',by:pe.by}:null)}}
@@ -1415,7 +1448,29 @@ const legendBar=note=>`<div class="lgd"><div class="lbar">${INT.map((x,i)=>`<spa
 /* ---- map configurations ---- */
 const PERIOD={'24h':DAY,'7d':7*DAY,'30d':30*DAY};
 const pubReports=()=>{const since=Date.now()-PERIOD[S.mapPeriod];return DB.reports.filter(r=>r.t>since&&QC[r.id].status==='pass')};
-function adminMapRows(){const a=S.am,since=Date.now()-a.period*DAY;return DB.reports.filter(r=>{const p=DB.byP[r.pid]||{},s=QC[r.id].status;return r.t>=since&&r.inten>=a.imin&&(a.qc==='passrev'?s!=='exclude':s==='pass')&&(!a.gender.length||a.gender.includes(p.gender))})}
+/* ---- admin analysis: filters (date, time of day, weekday, who) and time-lapse frames; all times KST ---- */
+const kHour=t=>new Date(t+9*HOUR).getUTCHours(),kDow=t=>new Date(t+9*HOUR).getUTCDay(),pad2=n=>String(n).padStart(2,'0');
+const DOWS=[[1,'Mon','월'],[2,'Tue','화'],[3,'Wed','수'],[4,'Thu','목'],[5,'Fri','금'],[6,'Sat','토'],[0,'Sun','일']];
+const TOD=[[0,6,'Night 0–6','밤 0–6시'],[6,12,'Morning 6–12','오전 6–12시'],[12,18,'Afternoon 12–18','오후 12–18시'],[18,24,'Evening 18–24','저녁 18–24시']];
+const inHours=(h,h0,h1)=>h0<=h1?h>=h0&&h<h1:h>=h0||h<h1;
+function amBase(){const a=S.am,from=a.from?new Date(a.from+'T00:00:00+09:00').getTime():a.period?Date.now()-a.period*DAY:0,to=a.to?new Date(a.to+'T23:59:59+09:00').getTime():Infinity,allDay=a.h0===0&&a.h1===24;
+ return DB.reports.filter(r=>{const p=DB.byP[r.pid]||{},s=QC[r.id].status;return r.t>=from&&r.t<=to&&r.inten>=a.imin&&(a.qc==='passrev'?s!=='exclude':s==='pass')
+  &&(!a.gender.length||a.gender.includes(p.gender))&&(!a.occ.length||a.occ.includes(p.occupation))&&(!a.age.length||(p.birthYear&&a.age.includes(ageBand(p.birthYear))))
+  &&(!a.dow.length||a.dow.includes(String(kDow(r.t))))&&(allDay||inHours(kHour(r.t),a.h0,a.h1))})}
+// Time-lapse frames: 3-hour window stepping by hour, weekday, or calendar day (last 120 days of the selection).
+function amFrames(base){const m=S.am.anim.mode;
+ if(m==='hour')return Array.from({length:24},(_,h)=>({label:`${pad2(h)}:00–${pad2((h+3)%24)}:00`,short:pad2(h),test:r=>inHours(kHour(r.t),h,(h+3)%24)}));
+ if(m==='dow')return DOWS.map(d=>({label:L(d[1],d[2]),short:L(d[1],d[2]),test:r=>kDow(r.t)===d[0]}));
+ if(m==='date'&&base.length){const d1=kIdx(base[base.length-1].t),d0=Math.max(kIdx(base[0].t),d1-119),out=[];
+  for(let d=d0;d<=d1;d++){const day=new Date(d*DAY).toISOString().slice(0,10);out.push({label:day,short:day.slice(5),test:r=>kIdx(r.t)===d})}return out}
+ return[]}
+function adminMapRows(){const base=amBase(),a=S.am.anim;if(a.mode==='off')return base;const fr=amFrames(base)[a.f];return fr?base.filter(fr.test):[]}
+let AMT=null;
+function amStop(){clearInterval(AMT);AMT=null;S.am.anim.play=false}
+function amPaint(){const a=S.am.anim,fr=amFrames(amBase()),m=MAPS.amap;if(m&&m.surface)MAPCFG.amap.update(m);
+ const lb=$('am-frame');if(lb)lb.textContent=fr[a.f]?fr[a.f].label:'';const n=$('am-n');if(n)n.textContent=adminMapRows().length;
+ document.querySelectorAll('[data-act="amFrame"]').forEach(el=>el.classList.toggle('on',Number(el.dataset.v)===a.f))}
+function amTick(){const a=S.am.anim,n=amFrames(amBase()).length;if(!n)return amStop();a.f=(a.f+1)%n;amPaint()}
 const MAPCFG={
  pmap:{cls:'lmap-p',probe:true,ctl:true,center:()=>youPos(),zoom:14.5,
   fallback:()=>`<div class="map-wrap">${mapSVG({reports:pubReports(),minN:S.settings.publicMinN,aspect:'4/5'})}</div>`,
@@ -1537,7 +1592,9 @@ function hbars(rows,{fmt=v=>v,max}={}){const mx=max||Math.max(1,...rows.map(r=>r
    TOP BAR
    ====================================================================== */
 function renderTop(){
- $('topbar').innerHTML=`<div class="brand"><span class="logo">${ic('mapMarker',20)}</span><span>Eco Survey<small>${L('ODOR REPORTING · v2.0 PROTOTYPE','냄새 알리미 · v2.0 프로토타입')}</small></span></div>
+ if(LIVE){$('topbar').innerHTML=`<div class="brand"><span class="logo">${ic('mapMarker',20)}</span><span>Eco Survey<small>${BUILD==='a'?L('ADMIN CONSOLE · TRIAL · v','관리자 콘솔 · 시범 운영 · v')+APPVER:L('ODOR REPORTING · TRIAL · v','냄새 알리미 · 시범 운영 · v')+APPVER}</small></span></div>
+  <span class="spacer"></span><span class="chip-syn">${L('LIVE DATA','실제 데이터')}</span><button class="tb-btn" data-act="lang">${ic('translate',16)}${S.lang==='ko'?'English':'한국어'}</button>`;return}
+ $('topbar').innerHTML=`<div class="brand"><span class="logo">${ic('mapMarker',20)}</span><span>Eco Survey<small>${L(`ODOR REPORTING · v${APPVER} PROTOTYPE`,`냄새 알리미 · v${APPVER} 프로토타입`)}</small></span></div>
  <div class="seg" role="group" aria-label="${L('Mode','모드')}"><button aria-pressed="${S.mode==='participant'}" data-act="mode" data-v="participant">${ic('cellphone',16)||''}${L('Participant app','참여자 앱')}</button><button aria-pressed="${S.mode==='admin'}" data-act="mode" data-v="admin">${ic('shieldCheckOutline',16)}${L('Admin console','관리자 콘솔')}</button></div>
  <span class="spacer"></span><span class="chip-syn">${L('SYNTHETIC DEMO DATA','합성 예시 데이터')}</span>
  <button class="tb-btn" data-act="lang">${ic('translate',16)}${S.lang==='ko'?'English':'한국어'}</button>`;
@@ -1549,7 +1606,8 @@ function renderTop(){
 const me=()=>DB.byP[S.meId];
 const myReports=()=>DB.reports.filter(r=>r.pid===S.meId);
 function cooldown(){const mine=myReports(),last=mine.length?mine[mine.length-1].sub:0,g=S.settings.gap*MIN,now=Date.now();
- const today=mine.filter(r=>kDay(r.sub)===kDay(now)).length;return{wait:Math.max(0,last+g-now),today,full:today>=S.settings.daily,last}}
+ let today=mine.filter(r=>kDay(r.sub)===kDay(now)).length;
+ if(LIVE&&LV.me){if(LV.me.dayIdx===kIdx(now))today=Math.max(today,LV.me.dayN||0)}return{wait:Math.max(0,last+g-now),today,full:today>=S.settings.daily,last}}
 const NOTES={
  signin:['U1','Sign in',['Kakao, Google and Apple (iOS). The buttons are placeholders; use the official brand assets.','The 2022 app offered Kakao and Google; Apple is required for an iOS release.','No password is stored by the lab.']],
  consent:['U2','Consent',['Two required consents: collection of location, time and answers; private storage of your name and profile.','14+ age confirmation (D5: confirm with the CNU privacy officer / IRB).','Notifications are optional and off by default.']],
@@ -1565,6 +1623,7 @@ const NOTES={
  me:['U11','Profile & data',['Edit profile, language, notifications.','Download my data (JSON) and delete my account: data-subject rights under PIPA.']],
 };
 function renderP(){
+ if(LIVE&&!S.onb&&!me())S.onb={step:'loading'};
  const st=S.onb?S.onb.step:S.draft?('report'+S.rstep):S.sent?'sent':S.scr;
  const n=NOTES[st]||NOTES.home;
  let inner='';
@@ -1644,16 +1703,19 @@ function pMe(){
  <div class="between"><span>${L('Notifications','알림')}</span><button class="switch" role="switch" aria-checked="${!!p.notify}" data-act="notify" aria-label="${L('Notifications','알림')}"></button></div></div>
  <div class="card pad stack"><div class="eyebrow">${L('Your data','내 데이터')}</div>
  <button class="btn ghost" data-act="myData">${ic('download',18)}${L('Download my data (JSON)','내 데이터 다운로드 (JSON)')}</button>
- ${S.delArm?`<div class="alert">${ic('alertOutline',18)}<span>${L('This deletes your profile and reports from the demo. Unclaimed rewards are lost.','프로필과 응답이 삭제되며 받지 않은 리워드는 사라집니다.')}</span></div><div class="row"><button class="btn ghost" data-act="delArm" data-v="0">${L('Keep account','유지')}</button><button class="btn danger" style="flex:1" data-act="deleteMe">${ic('delete',18)}${L('Delete permanently','영구 삭제')}</button></div>`
+ ${S.delArm?`<div class="alert">${ic('alertOutline',18)}<span>${L('This deletes your profile and reports. Unclaimed rewards are lost.','프로필과 응답이 삭제되며 받지 않은 리워드는 사라집니다.')}</span></div><div class="row"><button class="btn ghost" data-act="delArm" data-v="0">${L('Keep account','유지')}</button><button class="btn danger" style="flex:1" data-act="deleteMe">${ic('delete',18)}${L('Delete permanently','영구 삭제')}</button></div>`
  :`<button class="btn danger" data-act="delArm" data-v="1">${L('Delete my account','계정 삭제')}</button>`}
- <p class="small" style="margin:0">${L('Consent version','동의서 버전')} ${esc(p.consent||'v2.0')} · ${L('joined','가입')} ${kst(p.joined,{year:'numeric',month:'short',day:'numeric'})}</p></div>
- <div class="card pad stack"><div class="eyebrow">${L('Research team & demo','연구팀 · 데모')}</div>
+ <p class="small" style="margin:0">${L('Consent version','동의서 버전')} ${esc(p.consent||'v2.0')} · ${L('joined','가입')} ${kst(p.joined,{year:'numeric',month:'short',day:'numeric'})} · ${L('app','앱')} v${APPVER}</p></div>
+ ${LIVE?`<div class="card pad stack"><div class="eyebrow">${L('Account','계정')}</div>
+ <p class="small" style="margin:0">${LV.user&&!LV.user.isAnonymous?L('Signed in with Google','Google 계정으로 로그인')+' · '+esc(LV.user.email||''):L('Guest account on this phone. If you clear the browser data or change phones, you cannot get back into it.','이 휴대폰의 게스트 계정입니다. 브라우저 데이터를 지우거나 휴대폰을 바꾸면 다시 들어올 수 없습니다.')}</p>
+ ${window._bip?`<button class="btn ghost" data-act="install">${ic('cellphone',18)}${L('Install on home screen','홈 화면에 설치')}</button>`:/iPhone|iPad/.test(navigator.userAgent)&&!navigator.standalone?`<p class="small" style="margin:0">${L('To install: Safari → Share → Add to Home Screen.','설치: Safari → 공유 → 홈 화면에 추가')}</p>`:''}</div>
+ ${LV.user&&!LV.user.isAnonymous?`<button class="btn ghost" data-act="signOut">${ic('logout',18)}${L('Sign out','로그아웃')}</button>`:''}`:`<div class="card pad stack"><div class="eyebrow">${L('Research team & demo','연구팀 · 데모')}</div>
  <button class="btn dark" data-act="mode" data-v="admin">${ic('shieldCheckOutline',18)}${L('Open admin console','관리자 콘솔 열기')}</button>
  ${window._bip?`<button class="btn ghost" data-act="install">${ic('cellphone',18)}${L('Install on home screen','홈 화면에 설치')}</button>`:/iPhone|iPad/.test(navigator.userAgent)&&!navigator.standalone?`<p class="small" style="margin:0">${L('To install: Safari → Share → Add to Home Screen.','설치: Safari → 공유 → 홈 화면에 추가')}</p>`:''}
  <button class="btn ghost sm" data-act="newParticipant">${ic('plus',16)}${L('Start as a new participant','새 참여자로 시작')}</button>
  ${S.meId!=='P-0001'?`<button class="btn ghost sm" data-act="useExample">${L('Switch to the example participant','예시 참여자로 전환')}</button>`:''}
  <button class="btn ghost sm" data-act="resetDemo">${ic('restore',16)}${L('Reset demo data','데모 데이터 초기화')}</button></div>
- <button class="btn ghost" data-act="signOut">${ic('logout',18)}${L('Sign out','로그아웃')}</button>`;
+ <button class="btn ghost" data-act="signOut">${ic('logout',18)}${L('Sign out','로그아웃')}</button>`}`;
 }
 function profileFields(p){
  const f=S.settings.fields,yrs=[];for(let y=2012;y>=1930;y--)yrs.push(y);
@@ -1668,8 +1730,20 @@ function profileFields(p){
  ${f.smoking!=='off'?`<div class="field"><label>${L('Do you smoke?','흡연하시나요?')}${req('smoking')}</label>${chipRow('smoking',SMOKE)}<span class="small">${L('Smoking can change how strongly smells are perceived.','흡연은 냄새를 느끼는 정도에 영향을 줄 수 있습니다.')}</span></div>`:''}`;
 }
 function profileMissing(p){const f=S.settings.fields,miss=[];if(!(p.name||'').trim())miss.push(L('name','이름'));for(const k of ['gender','birthYear','occupation','area','smoking'])if(f[k]==='req'&&(k==='area'?!(provOf(p)&&distOf(p).trim()):!p[k]))miss.push({gender:L('gender','성별'),birthYear:L('birth year','출생 연도'),occupation:L('occupation','직업'),area:L('home area','거주 지역'),smoking:L('smoking','흡연')}[k]);return miss}
+// In-app browsers (KakaoTalk, Instagram, …) block Google sign-in; guest sign-in still works there.
+const INAPP=/KAKAOTALK|FBAN|FBAV|Instagram|Line\/|NAVER\(|DaumApps/i.test(navigator.userAgent||'');
 function pOnboard(){
  const o=S.onb;
+ const hero=(sz=64)=>`<span class="logo" style="width:${sz}px;height:${sz}px;border-radius:18px">${ic('mapMarker',sz*.56)}</span>`;
+ if(o.step==='loading')return`<div class="scroll" style="justify-content:center;align-items:center;gap:14px;padding:24px">${hero()}<p class="muted" style="margin:0">${L('Connecting…','연결 중…')}</p></div>`;
+ if(o.step==='error')return`<div class="scroll" style="justify-content:center;gap:16px;padding:24px">${hero()}<div class="alert">${ic('alertOutline',18)}<span>${esc(LV.err)}</span></div><button class="btn primary full" onclick="location.reload()">${L('Reload','새로고침')}</button></div>`;
+ if(LIVE&&o.step==='signin')return`<div class="scroll" style="justify-content:center;gap:18px;padding:24px"><div class="stack" style="align-items:flex-start;gap:14px">${hero()}
+ <h1 style="font-family:var(--f-display);font-stretch:115%;font-size:32px;line-height:1.1">${L('Report the odor you notice.','느낀 냄새를 알려 주세요.')}</h1><p class="muted" style="margin:0">${L('Your reports help the CNU research team understand odor in your neighbourhood. Each accepted report earns points toward rewards.','여러분의 응답은 충남대 연구팀이 우리 동네 냄새를 이해하는 데 쓰입니다. 승인된 응답마다 포인트가 쌓입니다.')}</p></div>
+ ${INAPP?`<div class="alert info">${ic('informationOutline',18)}<span>${L('Google sign-in does not work inside this app’s browser. Open the link in Chrome or Safari, or continue without an account.','이 앱의 내장 브라우저에서는 Google 로그인이 되지 않습니다. Chrome 또는 Safari에서 열거나, 계정 없이 계속하세요.')}${/KAKAOTALK/i.test(navigator.userAgent)?`<br><a class="link" href="kakaotalk://web/openExternal?url=${encodeURIComponent(location.href)}">${L('Open in the phone browser','휴대폰 브라우저에서 열기')}</a>`:''}</span></div>`:''}
+ <div class="stack">${INAPP?'':`<button class="btn ghost full" data-act="signin" data-v="google">${L('Continue with Google','Google로 계속하기')}</button>`}
+ ${S.settings.guests?`<button class="btn ${INAPP?'primary':'dark'} full" data-act="signin" data-v="guest">${L('Continue without an account','계정 없이 계속하기')}</button></div>
+ <p class="small" style="margin:0">${L('Without an account, your reports are tied to this phone and browser. Google lets you sign in again on another phone.','계정 없이 시작하면 응답이 이 휴대폰·브라우저에 연결됩니다. Google로 로그인하면 다른 휴대폰에서도 이어서 쓸 수 있습니다.')}</p>`:`</div><p class="small" style="margin:0">${L('This survey currently needs a Google account.','현재 이 설문은 Google 계정이 필요합니다.')}</p>`}
+ ${LV.err?`<div class="alert">${ic('alertOutline',18)}<span>${esc(LV.err)}</span></div>`:''}</div>`;
  if(o.step==='signin')return`<div class="scroll" style="justify-content:center;gap:18px;padding:24px"><div class="stack" style="align-items:flex-start;gap:14px"><span class="logo" style="width:64px;height:64px;border-radius:18px">${ic('mapMarker',36)}</span>
  <h1 style="font-family:var(--f-display);font-stretch:115%;font-size:32px;line-height:1.1">${L('Report the odor you notice.','느낀 냄새를 알려 주세요.')}</h1><p class="muted" style="margin:0">${L('Your reports help the CNU research team understand odor in your neighbourhood. Each accepted report earns points toward rewards.','여러분의 응답은 충남대 연구팀이 우리 동네 냄새를 이해하는 데 쓰입니다. 승인된 응답마다 포인트가 쌓입니다.')}</p></div>
  <div class="stack"><button class="btn full" style="background:#FEE500;color:#191600" data-act="signin" data-v="kakao">${L('Continue with Kakao','카카오로 계속하기')}</button><button class="btn ghost full" data-act="signin" data-v="google">${L('Continue with Google','Google로 계속하기')}</button><button class="btn dark full" data-act="signin" data-v="apple">${L('Continue with Apple','Apple로 계속하기')}</button></div>
@@ -1718,7 +1792,7 @@ function pReport(){
  return`<div class="overlay">${head}<div class="scroll" id="rscroll" style="padding-top:12px">${st>1?locLine:''}${body}</div>${foot?`<div class="footer">${foot}</div>`:''}</div>`;
 }
 function pSent(){
- const r=DB.reports.find(x=>x.id===S.sent),q=QC[r.id],ps=PSTAT[S.meId],nm=nextMilestone(ps.points),cd=cooldown();
+ const r=DB.reports.find(x=>x.id===S.sent);if(!r){S.sent=null;return''}const q=QC[r.id],ps=PSTAT[S.meId],nm=nextMilestone(ps.points),cd=cooldown();
  const unlocked=S.milestones.filter(m=>ps.points>=m.at&&!S.claims.some(c=>c.pid===S.meId&&c.at===m.at));
  return`<div class="overlay"><div class="scroll" style="justify-content:center;padding:24px;gap:16px">
  <div style="width:72px;height:72px;border-radius:20px;background:${q.status==='pass'?'var(--okt)':'var(--warnt)'};color:${q.status==='pass'?'var(--ok)':'var(--warn)'};display:grid;place-items:center">${ic(q.status==='pass'?'checkCircle':'timerSandEmpty',40)}</div>
@@ -1733,7 +1807,7 @@ function pSent(){
 }
 function pCool(){const cd=cooldown();return`<div class="scrim" data-act="closeSheet"></div><div class="sheet stack"><b style="font-size:17px">${cd.full?L('Daily limit reached','오늘 응답 한도 도달'):L('Please wait a little','잠시 기다려 주세요')}</b>
  <p class="muted" style="margin:0">${cd.full?L(`You can send up to ${S.settings.daily} reports a day. Thank you! Reporting resumes after midnight (KST).`,`하루 최대 ${S.settings.daily}건까지 보낼 수 있어요. 자정(KST) 이후 다시 가능합니다.`):L(`Reports are spaced ${S.settings.gap} minutes apart so one moment is not counted many times. Next report in ${Math.ceil(cd.wait/MIN)} min (at ${fT(cd.last+S.settings.gap*MIN)}).`,`같은 순간이 여러 번 집계되지 않도록 ${S.settings.gap}분 간격을 둡니다. ${Math.ceil(cd.wait/MIN)}분 후(${fT(cd.last+S.settings.gap*MIN)}) 가능합니다.`)}</p>
- <button class="btn primary" data-act="closeSheet">${L('OK','확인')}</button><button class="btn ghost sm" data-act="skipCool">${L('Demo only: skip the wait','데모 전용: 대기 건너뛰기')}</button></div>`}
+ <button class="btn primary" data-act="closeSheet">${L('OK','확인')}</button>${LIVE?'':`<button class="btn ghost sm" data-act="skipCool">${L('Demo only: skip the wait','데모 전용: 대기 건너뛰기')}</button>`}</div>`}
 
 /* ======================================================================
    ADMIN CONSOLE
@@ -1748,7 +1822,12 @@ function renderA(){
  <div class="who"><b>${esc(S.admin.name)}</b>${esc(S.admin.email)}<br><span class="pill ${isAdmin()?'blue':''}" style="margin:6px 0">${isAdmin()?L('Lab admin · full access','관리자 · 전체 권한'):L('Analyst · de-identified data','분석가 · 비식별 데이터')}</span><br><button class="tb-btn" style="margin-top:8px" data-act="aLogout">${ic('logout',16)}${L('Sign out','로그아웃')}</button></div></nav>
  <section class="main">${page}</section></div>${S.drawer?aDrawer():''}`;
 }
-function aLogin(){const l=S.login;return`<div class="login card"><div class="row" style="gap:12px;margin-bottom:18px"><span class="logo" style="width:44px;height:44px">${ic('shieldCheckOutline',24)}</span><div><div class="eyebrow">${L('Eco Survey · restricted','Eco Survey · 관리자 전용')}</div><h1 style="font-family:var(--f-display);font-stretch:112%;font-size:24px">${L('Administrator sign-in','관리자 로그인')}</h1></div></div>
+function aLogin(){const l=S.login;
+ if(LIVE)return`<div class="login card"><div class="row" style="gap:12px;margin-bottom:18px"><span class="logo" style="width:44px;height:44px">${ic('shieldCheckOutline',24)}</span><div><div class="eyebrow">${L('Eco Survey · restricted','Eco Survey · 관리자 전용')}</div><h1 style="font-family:var(--f-display);font-stretch:112%;font-size:24px">${L('Administrator sign-in','관리자 로그인')}</h1></div></div>
+ ${l.step===3?`<p class="muted">${L('Checking access…','권한 확인 중…')}</p>`:`<button class="btn primary full" data-act="aGoogle">${L('Sign in with Google','Google로 로그인')}</button>`}
+ ${l.err?`<div class="alert" style="margin-top:14px">${ic('alertOutline',18)}<span>${esc(l.err)}</span></div>`:''}
+ <p class="small" style="margin:14px 0 0">${L('Only Google accounts on the lab’s admin list can open this console. The database security rules enforce the list, so other accounts see no data.','연구실 관리자 목록에 있는 Google 계정만 열 수 있습니다. 데이터베이스 보안 규칙이 목록을 확인하므로 다른 계정은 데이터를 볼 수 없습니다.')}</p></div>`;
+ return`<div class="login card"><div class="row" style="gap:12px;margin-bottom:18px"><span class="logo" style="width:44px;height:44px">${ic('shieldCheckOutline',24)}</span><div><div class="eyebrow">${L('Eco Survey · restricted','Eco Survey · 관리자 전용')}</div><h1 style="font-family:var(--f-display);font-stretch:112%;font-size:24px">${L('Administrator sign-in','관리자 로그인')}</h1></div></div>
  <form id="loginForm" class="stack">${l.step===1?`<div class="field"><label for="lg-email">${L('Work e-mail','이메일')}</label><input class="input" id="lg-email" type="email" autocomplete="username" required value="${esc(l.email)}"></div>
  <div class="field"><label for="lg-pw">${L('Password','비밀번호')}</label><input class="input" id="lg-pw" type="password" autocomplete="current-password" required></div>`
  :`<div class="field"><label for="lg-otp">${L('6-digit code from your authenticator app','인증 앱의 6자리 코드')}</label><input class="input mono" id="lg-otp" inputmode="numeric" autocomplete="one-time-code" maxlength="6" required style="letter-spacing:.3em;font-size:20px"></div><p class="small" style="margin:0">${L('Signed in as','로그인 계정')} ${esc(l.email)} · <button type="button" class="link" data-act="loginBack">${L('change','변경')}</button></p>`}
@@ -1764,7 +1843,7 @@ function aOverview(){
  const gRows=GENDER.map(g=>{const ids=new Set(DB.people.filter(p=>p.gender===g[0]).map(p=>p.id)),list=acc.filter(r=>ids.has(r.pid));return{g,n:list.length,people:new Set(list.map(r=>r.pid)).size,mean:list.length?(list.reduce((s,r)=>s+r.inten,0)/list.length):null,strong:list.length?list.filter(r=>r.inten>=3).length/list.length:null}});
  const smells=topSmells(acc,8).map(([k,v])=>({k:L(SMELL[k].en,SMELL[k].ko),v}));
  const alerts=clusters(acc);
- return aPH(L('Overview','현황'),L('Accepted reports only, unless noted. Synthetic data generated for this prototype.','별도 표시가 없으면 승인된 응답만 집계합니다. 프로토타입용 합성 데이터입니다.'),`<div class="chips">${[7,30].map(p=>`<button class="chip" aria-pressed="${S.ovPeriod===p}" data-act="ovPeriod" data-v="${p}">${L(`Last ${p} days`,`최근 ${p}일`)}</button>`).join('')}</div>`)+
+ return aPH(L('Overview','현황'),(LIVE?L('Accepted reports only, unless noted. Live trial data.','별도 표시가 없으면 승인된 응답만 집계합니다. 시범 운영 실제 데이터입니다.'):L('Accepted reports only, unless noted. Synthetic data generated for this prototype.','별도 표시가 없으면 승인된 응답만 집계합니다. 프로토타입용 합성 데이터입니다.')),`<div class="chips">${[7,30].map(p=>`<button class="chip" aria-pressed="${S.ovPeriod===p}" data-act="ovPeriod" data-v="${p}">${L(`Last ${p} days`,`최근 ${p}일`)}</button>`).join('')}</div>`)+
  `<div class="kpis"><div class="card kpi"><span class="eyebrow">${L('Reports received','접수 응답')}</span><b class="num">${rs.length}</b><span>${new Set(rs.map(r=>r.pid)).size} ${L('participants','명 참여')}</span></div>
  <div class="card kpi"><span class="eyebrow">${L('Accepted','승인')}</span><b class="num">${acc.length}</b><span>${rs.length?Math.round(acc.length/rs.length*100):0}% ${L('of received','접수 대비')}</span></div>
  <div class="card kpi" data-act="av" data-v="quality" style="cursor:pointer"><span class="eyebrow">${L('In review','검토 대기')}</span><b class="num" style="color:var(--warn)">${rev.length}</b><span>${L('open data quality','품질 검토 열기')} ›</span></div>
@@ -1772,29 +1851,55 @@ function aOverview(){
  <div class="card kpi"><span class="eyebrow">${L('Median intensity','강도 중앙값')}</span><b class="num">${median(acc.map(r=>r.inten))??'—'}</b><span>${L('0–5 scale','0–5 척도')}</span></div></div>
  <div class="grid3"><div class="card panel"><h2>${L('Accepted reports per day','일별 승인 응답')}</h2><div class="sub">${L('KST calendar days','KST 기준')}</div>${lineChart(days,{label:L('reports','건')})}</div>
  <div class="card panel"><h2>${L('Intensity distribution','강도 분포')}</h2><div class="sub">${L('Korean direct-sensory scale, 0–5','직접관능법 0–5도')}</div>${intBars(dist)}</div></div>
- <div class="grid3"><div class="card panel"><div class="between"><div><h2>${L('Odor surface','냄새 분포')}</h2><div class="sub">${L('Interpolated from accepted reports, with facility rings at 500 / 1,000 / 2,000 m. Facilities are fictional examples.','승인 응답으로 보간한 분포와 시설 반경 500/1,000/2,000 m. 시설은 가상 예시입니다.')}</div></div><button class="btn ghost sm" data-act="av" data-v="map">${L('Open map','지도 열기')} ›</button></div><div class="mapslot" data-map="aov"></div><div style="margin-top:10px">${legendBar()}</div></div>
- <div class="stack" style="gap:16px"><div class="card panel"><h2>${L('Cluster alerts','군집 알림')}</h2><div class="sub">${L('3+ people report ≥ 3 within 500 m and 2 h','500 m·2시간 내 3명 이상이 3도 이상 보고')}</div>${alerts.length?alerts.slice(0,4).map(a=>`<div class="flag"><b>${ichip(a.med)} ${esc(areaName(a.area))} · ${fDT(a.t)}</b><span class="mono small">${a.n} ${L('reports','건')}</span><span>${L('Nearest facility','가장 가까운 시설')}: ${esc(L(a.fac.en,a.fac.ko))} (${(a.dist/1000).toFixed(1)} km) · ${esc(a.smell)}</span></div>`).join('<div style="height:8px"></div>'):`<p class="small">${L('No clusters in this period.','이 기간에 군집이 없습니다.')}</p>`}</div>
+ <div class="grid3"><div class="card panel"><div class="between"><div><h2>${L('Odor surface','냄새 분포')}</h2><div class="sub">${(LIVE?L('Interpolated from accepted reports.','승인 응답으로 보간한 분포.'):L('Interpolated from accepted reports, with facility rings at 500 / 1,000 / 2,000 m. Facilities are fictional examples.','승인 응답으로 보간한 분포와 시설 반경 500/1,000/2,000 m. 시설은 가상 예시입니다.'))}</div></div><button class="btn ghost sm" data-act="av" data-v="map">${L('Open map','지도 열기')} ›</button></div><div class="mapslot" data-map="aov"></div><div style="margin-top:10px">${legendBar()}</div></div>
+ <div class="stack" style="gap:16px"><div class="card panel"><h2>${L('Cluster alerts','군집 알림')}</h2><div class="sub">${L('3+ people report ≥ 3 within 500 m and 2 h','500 m·2시간 내 3명 이상이 3도 이상 보고')}</div>${alerts.length?alerts.slice(0,4).map(a=>`<div class="flag"><b>${ichip(a.med)} ${esc(areaName(a.area))} · ${fDT(a.t)}</b><span class="mono small">${a.n} ${L('reports','건')}</span><span>${a.fac?`${L('Nearest facility','가장 가까운 시설')}: ${esc(L(a.fac.en,a.fac.ko))} (${(a.dist/1000).toFixed(1)} km) · `:''}${esc(a.smell)}</span></div>`).join('<div style="height:8px"></div>'):`<p class="small">${L('No clusters in this period.','이 기간에 군집이 없습니다.')}</p>`}</div>
  <div class="card panel"><h2>${L('What people smell','보고된 냄새')}</h2><div class="sub">${L('Mentions in accepted reports (up to 3 per report)','승인 응답의 언급 수 (응답당 최대 3개)')}</div>${hbars(smells)}</div></div></div>
  <div class="card panel"><h2>${L('By gender','성별')}</h2><div class="sub">${L('Accepted reports in the selected period. Means are descriptive; groups differ in size.','선택 기간 승인 응답. 평균은 기술통계이며 집단 크기가 다릅니다.')}</div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>${L('Gender','성별')}</th><th class="r">${L('Participants','참여자')}</th><th class="r">${L('Reports','응답')}</th><th style="width:30%"></th><th class="r">${L('Mean intensity','평균 강도')}</th><th class="r">${L('Strong (≥ 3)','강함 이상')}</th></tr></thead><tbody>
  ${gRows.map(r=>`<tr><td>${esc(L(r.g[1],r.g[2]))}</td><td class="r num">${r.people}</td><td class="r num">${r.n}</td><td><div class="hb" style="grid-template-columns:1fr;padding:0"><div class="bar" style="width:${acc.length?r.n/acc.length*100:0}%"></div></div></td><td class="r num">${r.mean==null?'—':r.mean.toFixed(2)}</td><td class="r num">${r.strong==null?'—':Math.round(r.strong*100)+'%'}</td></tr>`).join('')}</tbody></table></div>
  <div class="row" style="margin-top:12px;gap:8px"><button class="btn ghost sm" data-act="quickExport" data-v="gender">${ic('download',16)}${L('Export accepted data, one file per gender','성별로 나눠 내보내기')}</button></div></div>`;
 }
+function amLapse(base,fr){const a=S.am.anim,chip=(v,l)=>`<button class="chip" aria-pressed="${a.mode===v}" data-act="amMode" data-v="${v}">${l}</button>`;
+ let strip='';
+ if(a.mode!=='off'){const st=fr.map(f=>{const l=base.filter(f.test);return{n:l.length,m:l.length?l.reduce((x,r)=>x+r.inten,0)/l.length:null}});
+  strip=`<div class="lapse">${fr.map((f,i)=>`<button class="lbar-b ${i===a.f?'on':''}" data-act="amFrame" data-v="${i}" data-tip="<b>${esc(f.label)}</b><br>${st[i].n?`${L('mean','평균')} ${st[i].m.toFixed(2)} · n ${st[i].n}`:L('no reports','응답 없음')}"><i style="height:${st[i].n?Math.max(6,st[i].m/5*100):3}%;background:${st[i].n?icol(Math.round(st[i].m)):'var(--line)'}"></i><span>${esc(f.short)}</span></button>`).join('')}</div>
+  <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn ghost sm" data-act="amStep" data-v="-1" aria-label="${L('Previous','이전')}">‹</button><button class="btn primary sm" data-act="amPlay">${a.play?L('Pause','일시정지'):L('Play','재생')}</button><button class="btn ghost sm" data-act="amStep" data-v="1" aria-label="${L('Next','다음')}">›</button>
+  <span class="small">${L('Speed','속도')}</span>${[[2000,'0.5×'],[1000,'1×'],[500,'2×']].map(([v,l])=>`<button class="chip" aria-pressed="${a.speed===v}" data-act="amSpeed" data-v="${v}">${l}</button>`).join('')}</div>`}
+ return`<div class="card panel stack" style="margin-bottom:16px"><div class="between" style="flex-wrap:wrap;gap:8px"><div><h2>${L('Time-lapse','시간 흐름 재생')}</h2><div class="sub">${L('Play the map through the day, the week, or day by day, using the filters above. Bar height and colour = mean level in each frame.','위 조건으로 하루·요일·날짜별 지도 변화를 재생합니다. 막대 높이와 색 = 구간별 평균 강도.')}</div></div>
+ <div class="fchips">${chip('off',L('Off','끄기'))}${chip('hour',L('Hour of day (3 h window)','시간대 (3시간 창)'))}${chip('dow',L('Day of week','요일별'))}${chip('date',L('Date by date','날짜별'))}</div></div>${strip}</div>`}
+// Group comparison for the current filters: mean level (bar), n and median in the tooltip.
+function amGroups(base){const by=(f,keys)=>keys.map(([k,lab])=>{const l=base.filter(r=>f(r)===k),v=l.length?l.reduce((x,r)=>x+r.inten,0)/l.length:0;
+  return{k:`${lab} · n ${l.length}`,v,c:l.length?icol(Math.round(v)):null,tip:l.length?`${L('mean','평균')} ${v.toFixed(2)} · ${L('median','중앙값')} ${median(l.map(r=>r.inten))} · n ${l.length}`:L('no reports','응답 없음')}});
+ const P=r=>DB.byP[r.pid]||{},fmt=v=>v?v.toFixed(1):'—';
+ const sec=(t,rows)=>`<div><div class="eyebrow" style="margin-bottom:6px">${t}</div>${hbars(rows,{fmt,max:5})}</div>`;
+ return`<div class="card panel stack" style="margin-top:16px"><div><h2>${L('Compare groups','집단 비교')}</h2><div class="sub">${L('Mean odor level (0–5) of the reports selected above, split four ways. Small groups (n under about 10) are unreliable.','위에서 선택한 응답의 평균 강도(0–5)를 네 가지로 나눴습니다. n이 10 미만인 집단은 신뢰도가 낮습니다.')}</div></div>
+ <div class="grid2" style="gap:18px">${sec(L('Time of day','시간대'),by(r=>TOD.find(t=>inHours(kHour(r.t),t[0],t[1]))[0],TOD.map(t=>[t[0],L(t[2],t[3])])))}
+ ${sec(L('Day of week','요일'),by(r=>kDow(r.t),DOWS.map(d=>[d[0],L(d[1],d[2])])))}
+ ${sec(L('Occupation','직업'),by(r=>P(r).occupation,OCC.map(o=>[o[0],L(o[1],o[2])])))}
+ ${sec(L('Age','연령'),by(r=>P(r).birthYear?ageBand(P(r).birthYear):null,AGEB.map(b=>[b,b])))}</div></div>`}
 function aMap(){
- const a=S.am,rows=adminMapRows(),ppl=new Set(rows.map(r=>r.pid)).size;
+ const a=S.am,base=amBase(),rows=adminMapRows(),ppl=new Set(rows.map(r=>r.pid)).size,fr=amFrames(base);
  const cells={};rows.forEach(r=>{const q=toM(r.lat,r.lng),k=hexKey(q.x,q.y);(cells[k]=cells[k]||[]).push(r)});
  const hot=Object.entries(cells).filter(([k,l])=>new Set(l.map(r=>r.pid)).size>=3).map(([k,l])=>{const c=hexCenter(k);return{k,lat:BOUNDS.lat1-c.y/MY,lng:BOUNDS.lng0+c.x/MX,n:l.length,ppl:new Set(l.map(r=>r.pid)).size,med:median(l.map(r=>r.inten)),top:topSmells(l,1)[0]}}).sort((x,y)=>y.med-x.med||y.n-x.n).slice(0,8);
  const chip=(act,k,v,on,label)=>`<button class="chip" aria-pressed="${on}" data-act="${act}" data-k="${k}" data-v="${v}">${label}</button>`;
  return aPH(L('Map','지도'),L('Odor surface interpolated from reports (inverse-distance weighting) on a Korean base map. Pan the map: the crosshair readout gives the level at the centre.','한국 배경지도 위에 응답을 역거리 가중으로 보간한 냄새 분포입니다. 지도를 움직이면 중심의 강도가 표시됩니다.'))+
  `<div class="card filters">
- <div class="fgroup"><span>${L('Period','기간')}</span><div class="fchips">${[[1,L('24 h','24시간')],[7,L('7 days','7일')],[30,L('30 days','30일')]].map(([v,l])=>chip('amset','period',v,a.period===v,l)).join('')}</div></div>
+ <div class="fgroup"><span>${L('Period','기간')}</span><div class="fchips">${[[1,L('24 h','24시간')],[7,L('7 days','7일')],[30,L('30 days','30일')],[90,L('90 days','90일')],[0,L('All','전체')]].map(([v,l])=>chip('amset','period',v,!a.from&&!a.to&&a.period===v,l)).join('')}</div>
+ <span class="row small" style="gap:6px">${L('or','또는')} <input class="input sm" type="date" id="am-from" data-fset="am.from" value="${a.from}" aria-label="${L('From','시작')}"> – <input class="input sm" type="date" id="am-to" data-fset="am.to" value="${a.to}" aria-label="${L('To','끝')}"></span></div>
+ <div class="fgroup"><span>${L('Time of day (KST)','시간대 (KST)')}</span><div class="fchips">${chip('amHours','',`0-24`,a.h0===0&&a.h1===24,L('All day','종일'))}${TOD.map(t=>chip('amHours','',`${t[0]}-${t[1]}`,a.h0===t[0]&&a.h1===t[1],esc(L(t[2],t[3])))).join('')}</div>
+ <span class="row small" style="gap:6px">${L('or','또는')} <select class="input sm" id="am-h0" data-fset="am.h0" data-num="1">${Array.from({length:24},(_,h)=>`<option value="${h}" ${a.h0===h?'selected':''}>${pad2(h)}:00</option>`).join('')}</select> – <select class="input sm" id="am-h1" data-fset="am.h1" data-num="1">${Array.from({length:24},(_,h)=>`<option value="${h+1}" ${a.h1===h+1?'selected':''}>${pad2(h+1)}:00</option>`).join('')}</select></span></div>
+ <div class="fgroup"><span>${L('Day of week','요일')}</span><div class="fchips">${chip('amDow','','all',!a.dow.length,L('All','전체'))}${chip('amDow','','wk',a.dow.join()==='1,2,3,4,5',L('Weekdays','평일'))}${chip('amDow','','we',a.dow.join()==='6,0',L('Weekend','주말'))}${DOWS.map(d=>chip('amtog','dow',d[0],a.dow.includes(String(d[0])),L(d[1],d[2]))).join('')}</div></div>
+ <div class="fgroup"><span>${L('Occupation','직업')}</span><div class="fchips">${OCC.map(o=>chip('amtog','occ',o[0],a.occ.includes(o[0]),esc(L(o[1],o[2])))).join('')}</div></div>
+ <div class="fgroup"><span>${L('Age','연령')}</span><div class="fchips">${AGEB.map(b=>chip('amtog','age',b,a.age.includes(b),b)).join('')}</div></div>
  <div class="fgroup"><span>${L('Quality','품질')}</span><div class="fchips">${chip('amset','qc','pass',a.qc==='pass',L('Accepted','승인'))}${chip('amset','qc','passrev',a.qc==='passrev',L('+ in review','+ 검토 중'))}</div></div>
  <div class="fgroup"><span>${L('Gender','성별')}</span><div class="fchips">${GENDER.map(g=>chip('amtog','gender',g[0],a.gender.includes(g[0]),esc(L(g[1],g[2])))).join('')}</div></div>
  <div class="fgroup"><span>${L('Minimum intensity','최소 강도')}</span><div class="fchips">${[0,1,2,3,4].map(i=>chip('amset','imin',i,a.imin===i,i+'+')).join('')}</div></div>
  <div class="fgroup"><span>${L('Layers','레이어')}</span><div class="fchips">${[['surface',L('Surface','분포면')],['cells',L('Cells','격자')],['points',L('Points','지점')],['fac',L('Facilities','시설')]].map(([k,l])=>chip('amlayer',k,1,!!a[k],l)).join('')}</div></div>
- <div class="fgroup"><span>${L('Search radius','탐색 반경')}</span><div class="fchips">${[300,600,1000,1500].map(v=>chip('amset','radius',v,a.radius===v,v+' m')).join('')}</div></div></div>
- <div class="grid3"><div class="card panel"><div class="mapslot" data-map="amap"></div><div style="margin-top:10px">${legendBar(L(`${rows.length} reports from ${ppl} people. IDW, power 2, radius ${a.radius} m; bands every half level, contour lines where the rounded level changes. Estimates of residents' perception, not measured concentration.`,`응답 ${rows.length}건, ${ppl}명. 역거리 가중(지수 2, 반경 ${a.radius} m), 0.5단계 구간과 등치선. 주민 인식의 추정치이며 측정 농도가 아닙니다.`))}</div></div>
+ <div class="fgroup"><span>${L('Search radius','탐색 반경')}</span><div class="fchips">${[300,600,1000,1500].map(v=>chip('amset','radius',v,a.radius===v,v+' m')).join('')}</div></div>
+ <div class="row" style="gap:8px;justify-content:space-between;flex-wrap:wrap"><span class="small"><b class="num">${base.length}</b> ${L('reports match these filters','건이 조건에 맞습니다')} · ${new Set(base.map(r=>r.pid)).size} ${L('people','명')}</span><span class="row" style="gap:8px"><button class="btn ghost sm" data-act="amCSV">${ic('download',16)}${L('Download these reports (CSV)','이 응답 내려받기 (CSV)')}</button><button class="btn ghost sm" data-act="amClear">${L('Clear filters','필터 초기화')}</button></span></div></div>
+ ${amLapse(base,fr)}
+ <div class="grid3"><div class="card panel"><div class="mapslot" data-map="amap"></div>${a.anim.mode!=='off'?`<div class="lapse-lbl"><b id="am-frame">${fr[a.anim.f]?esc(fr[a.anim.f].label):''}</b> · n <span id="am-n">${rows.length}</span></div>`:''}<div style="margin-top:10px">${legendBar(L(`${rows.length} reports from ${ppl} people. IDW, power 2, radius ${a.radius} m; bands every half level, contour lines where the rounded level changes. Estimates of residents' perception, not measured concentration.`,`응답 ${rows.length}건, ${ppl}명. 역거리 가중(지수 2, 반경 ${a.radius} m), 0.5단계 구간과 등치선. 주민 인식의 추정치이며 측정 농도가 아닙니다.`))}</div></div>
  <div class="card panel"><h2>${L('Hotspots','고농도 지점')}</h2><div class="sub">${L('250 m cells with 3+ people, highest median first','3명 이상 응답한 250 m 격자, 중앙값 순')}</div>
- ${hot.length?`<div class="tbl-wrap"><table class="tbl"><thead><tr><th>${L('Level','강도')}</th><th>${L('Area','지역')}</th><th class="r">n</th><th>${L('Smell','냄새')}</th><th></th></tr></thead><tbody>${hot.map(h=>`<tr><td>${ichip(Math.round(h.med))}</td><td>${esc(areaName(nearestArea(h)))}</td><td class="r num">${h.n} / ${h.ppl}</td><td class="small">${h.top?esc(L(SMELL[h.top[0]].en,SMELL[h.top[0]].ko)):'—'}</td><td><button class="btn ghost sm" data-act="flyTo" data-lat="${h.lat}" data-lng="${h.lng}">${L('Show','보기')}</button></td></tr>`).join('')}</tbody></table></div>`:`<p class="small">${L('No cell has reports from 3 or more people with these filters.','이 조건에서 3명 이상 응답한 격자가 없습니다.')}</p>`}</div></div>`;
+ ${hot.length?`<div class="tbl-wrap"><table class="tbl"><thead><tr><th>${L('Level','강도')}</th><th>${L('Area','지역')}</th><th class="r">n</th><th>${L('Smell','냄새')}</th><th></th></tr></thead><tbody>${hot.map(h=>`<tr><td>${ichip(Math.round(h.med))}</td><td>${esc(areaName(nearestArea(h)))}</td><td class="r num">${h.n} / ${h.ppl}</td><td class="small">${h.top?esc(L(SMELL[h.top[0]].en,SMELL[h.top[0]].ko)):'—'}</td><td><button class="btn ghost sm" data-act="flyTo" data-lat="${h.lat}" data-lng="${h.lng}">${L('Show','보기')}</button></td></tr>`).join('')}</tbody></table></div>`:`<p class="small">${L('No cell has reports from 3 or more people with these filters.','이 조건에서 3명 이상 응답한 격자가 없습니다.')}</p>`}</div></div>${amGroups(base)}`;
 }
 function clusters(acc){const since=Date.now()-3*DAY,hi=acc.filter(r=>r.inten>=3&&r.t>since).sort((a,b)=>b.t-a.t),used=new Set(),out=[];
  for(const r of hi){if(used.has(r.id))continue;const g=hi.filter(o=>!used.has(o.id)&&Math.abs(o.t-r.t)<=2*HOUR&&distM(o,r)<=500);if(new Set(g.map(o=>o.pid)).size>=3){g.forEach(o=>used.add(o.id));let fac=FAC[0],fd=1e9;FAC.forEach(f=>{const d=distM(f,r);if(d<fd){fd=d;fac=f}});const ts=topSmells(g,1)[0];out.push({t:r.t,n:g.length,med:Math.round(median(g.map(o=>o.inten))),area:nearestArea(r),fac,dist:fd,smell:ts?L(SMELL[ts[0]].en,SMELL[ts[0]].ko):''})}}return out}
@@ -1843,6 +1948,17 @@ function aDrawer(){const r=DB.reports.find(x=>x.id===S.drawer);if(!r)return'';co
  <div class="field"><label for="ov-reason">${L('Reason for a manual decision','수동 결정 사유')}</label><select class="input" id="ov-reason"><option>${L('Checked with participant','참여자 확인')}</option><option>${L('Consistent with nearby reports','주변 응답과 일치')}</option><option>${L('Careless or automated pattern','불성실·자동 패턴')}</option><option>${L('Test or duplicate entry','테스트·중복')}</option><option>${L('Other','기타')}</option></select></div>
  <div class="row" style="flex-wrap:wrap"><button class="btn primary sm" data-act="ov" data-v="pass">${ic('check',16)}${L('Include','포함')}</button><button class="btn danger sm" data-act="ov" data-v="exclude">${ic('eyeOff',16)}${L('Exclude','제외')}</button>${q.ov&&S.overrides[r.id]?`<button class="btn ghost sm" data-act="ov" data-v="reset">${ic('restore',16)}${L('Back to automatic','자동 판정으로')}</button>`:''}</div>
  <p class="small" style="margin:0">${L('Decisions never delete data. They are written to the audit log and can be reversed.','결정은 데이터를 삭제하지 않으며 감사 로그에 기록되고 되돌릴 수 있습니다.')}</p></div></div>`}
+function trimPanel(ro){const st=S.settings,R=S.rules.trim;
+ const chip=(k,v,l)=>`<button class="chip" aria-pressed="${st[k]===v}" data-act="sval" data-k="${k}" data-v="${v}" ${ro?'disabled':''}>${l}</button>`;
+ const num=(k,unit,min)=>`<span class="row" style="gap:4px"><input class="input sm mono" style="width:70px" type="number" min="${min}" id="tr-${k}" data-sset="${k}" value="${st[k]}" ${ro?'disabled':''}><span class="small">${unit}</span></span>`;
+ const top=TRIM.rows.filter(x=>x.cut),show=[...TRIM.rows.slice(0,5),...TRIM.rows.slice(-5).filter(x=>!TRIM.rows.slice(0,5).includes(x))];
+ return`<div class="card pad stack" style="margin:12px 0;background:var(--well)"><div class="between"><b>${L('Extreme-reporter trimming','극단 응답자 제외')}</b><span class="small">${R.on?L(`${R.p}% each end · ${TRIM.k} of ${TRIM.N} people per end`,`양 끝 ${R.p}% · ${TRIM.N}명 중 끝마다 ${TRIM.k}명`):L('off','꺼짐')}</span></div>
+ <div class="fgroup"><span>${L('Trim','제외 방향')}</span><div class="fchips">${chip('trimMode','both',L('High and low','높음·낮음'))}${chip('trimMode','high',L('High only','높음만'))}${chip('trimMode','low',L('Low only','낮음만'))}</div></div>
+ <div class="fgroup"><span>${L('Compare with','비교 대상')}</span><div class="fchips">${chip('trimBy','nb',L('People nearby','주변 응답자'))}${chip('trimBy','all',L('Everyone','전체'))}</div></div>
+ <div class="row" style="gap:14px;flex-wrap:wrap">${st.trimBy==='nb'?`<label class="small row" style="gap:6px">${L('Nearby =','주변 =')} ${num('trimR','m',100)} ${num('trimH',L('± hours','± 시간'),1)}</label>`:''}<label class="small row" style="gap:6px">${L('Needs','최소')} ${num('trimMin',L('compared reports','비교 응답'),1)}</label></div>
+ ${TRIM.N?`<div class="tbl-wrap"><table class="tbl"><thead><tr><th>${L('Participant','참여자')}</th><th class="r">${L('Bias','편차')}</th><th class="r">n</th><th></th></tr></thead><tbody>${show.map(x=>`<tr><td class="mono">${x.pid}</td><td class="r num">${x.bias>0?'+':''}${x.bias.toFixed(2)}</td><td class="r num">${x.n}</td><td>${x.cut?`<span class="pill ex">${L('Trimmed','제외됨')}</span>`:''}</td></tr>`).join('')}</tbody></table></div>
+ <p class="small" style="margin:0">${L('Bias = mean of (their level − median level of the comparison group). Highest and lowest five shown.','편차 = (본인 강도 − 비교 집단 중앙값)의 평균. 상·하위 5명 표시.')}${top.length?'':' '+L('Nobody is trimmed yet.','아직 제외된 사람이 없습니다.')}</p>`
+ :`<p class="small" style="margin:0">${L('No participant has enough compared reports yet.','비교 가능한 응답이 충분한 참여자가 아직 없습니다.')}</p>`}</div>`}
 function aQuality(){
  const all=DB.reports,c={pass:0,review:0,exclude:0};all.forEach(r=>c[QC[r.id].status]++);
  const hits={};Object.keys(DEFAULT_RULES).forEach(k=>hits[k]=0);all.forEach(r=>QC[r.id].flags.forEach(f=>hits[f.id]++));
@@ -1852,7 +1968,7 @@ function aQuality(){
  `<div class="kpis"><div class="card kpi"><span class="eyebrow">${L('Accepted','승인')}</span><b class="num" style="color:var(--ok)">${c.pass}</b><span>${Math.round(c.pass/all.length*100)}%</span></div><div class="card kpi"><span class="eyebrow">${L('In review','검토 중')}</span><b class="num" style="color:var(--warn)">${c.review}</b><span>${L('score','점수')} ${S.settings.qcReview}–${S.settings.qcExclude-1}</span></div><div class="card kpi"><span class="eyebrow">${L('Excluded','제외')}</span><b class="num" style="color:var(--err)">${c.exclude}</b><span>${L('score','점수')} ≥ ${S.settings.qcExclude} ${L('or manual','또는 수동')}</span></div><div class="card kpi"><span class="eyebrow">${L('People to review','검토 대상자')}</span><b class="num">${sus.length}</b><span>${L('40%+ flagged or avg ≥ 25','40% 이상 플래그 또는 평균 ≥ 25')}</span></div></div>
  <div class="grid3"><div class="card panel"><div class="between"><div><h2>${L('Checks','검사 규칙')}</h2><div class="sub">${ro?L('Read-only for analysts.','분석가는 읽기 전용입니다.'):L('Changes apply immediately to all reports and are logged.','변경 즉시 전체 응답에 적용되고 기록됩니다.')}</div></div>
  <div class="row small" style="gap:6px">${L('Review ≥','검토 ≥')}<input class="input sm mono" style="width:64px" type="number" min="1" max="99" id="qc-rev" data-sset="qcReview" value="${S.settings.qcReview}" ${ro?'disabled':''}>${L('Exclude ≥','제외 ≥')}<input class="input sm mono" style="width:64px" type="number" min="2" max="100" id="qc-ex" data-sset="qcExclude" value="${S.settings.qcExclude}" ${ro?'disabled':''}></div></div>
- <div class="rules">${Object.keys(DEFAULT_RULES).map(k=>{const r=S.rules[k],m=RULE_META[k];return`<div class="rule"><button class="switch" role="switch" aria-checked="${r.on}" aria-label="${esc(m.en)}" data-act="ruleOn" data-v="${k}" ${ro?'disabled':''}></button><div class="nm"><b>${esc(L(m.en,m.ko))}</b><span>${esc(L(m.den,m.dko))}</span></div>
+ ${trimPanel(ro)}<div class="rules">${Object.keys(DEFAULT_RULES).map(k=>{const r=S.rules[k],m=RULE_META[k];return`<div class="rule"><button class="switch" role="switch" aria-checked="${r.on}" aria-label="${esc(m.en)}" data-act="ruleOn" data-v="${k}" ${ro?'disabled':''}></button><div class="nm"><b>${esc(L(m.en,m.ko))}</b><span>${esc(L(m.den,m.dko))}</span></div>
  <label class="small">${m.unit?`<span class="row" style="gap:4px"><input class="input sm mono" style="width:62px" type="number" min="0" id="rp-${k}" data-rule="${k}" data-rk="p" value="${r.p}" ${ro?'disabled':''}>${esc(m.unit)}</span>`:'—'}</label>
  <label class="small wcol"><span class="row" style="gap:4px">+<input class="input sm mono" style="width:52px" type="number" min="0" max="100" id="rw-${k}" data-rule="${k}" data-rk="w" value="${r.w}" ${ro?'disabled':''}></span></label><span class="mono small hcol" style="text-align:right" data-tip="${L('reports flagged','플래그된 응답')}">${hits[k]}</span></div>`}).join('')}</div>
  ${ro?'':`<button class="btn ghost sm" data-act="rulesReset" style="margin-top:8px">${ic('restore',16)}${L('Restore default checks','기본값 복원')}</button>`}</div>
@@ -1943,8 +2059,11 @@ function aSettings(){
  const fld=(k,label)=>`<div class="between" style="padding:8px 0;border-top:1px solid var(--line)"><span>${label}</span><div class="fchips">${[['req','Required','필수'],['opt','Optional','선택'],['off','Off','끄기']].map(o=>`<button class="chip" aria-pressed="${s.fields[k]===o[0]}" data-act="fieldMode" data-k="${k}" data-v="${o[0]}" ${ro?'disabled':''}>${L(o[1],o[2])}</button>`).join('')}</div></div>`;
  return aPH(L('Survey settings','설문 설정'),ro?L('Read-only for analysts.','분석가는 읽기 전용입니다.'):L('Changes are saved immediately and logged.','변경은 즉시 저장되고 기록됩니다.'))+
  `<div class="grid2"><div class="card panel stack"><h2>${L('Survey status','설문 상태')}</h2><div class="between"><span class="led ${s.live?'live':'rev'}">${s.live?'LIVE':'PAUSED'}</span><button class="switch" role="switch" aria-checked="${s.live}" aria-label="${L('Survey live','설문 진행')}" data-act="live" ${ro?'disabled':''}></button></div>
+ <div class="between"><span>${L('Allow sign-up without an account (guest)','계정 없는 참여 허용 (게스트)')}</span><button class="switch" role="switch" aria-checked="${s.guests}" aria-label="${L('Allow guests','게스트 허용')}" data-act="guests" ${ro?'disabled':''}></button></div>
+ <p class="small" style="margin:0">${L('Turning this off stops new guest sign-ups and blocks reports from existing guest accounts. Use it if someone floods the survey with throw-away accounts.','끄면 새 게스트 가입이 막히고 기존 게스트 계정의 응답도 차단됩니다. 일회용 계정으로 응답이 쏟아질 때 사용하세요.')}</p>
  <label class="fgroup"><span>${L('Survey ends','종료일')}</span><input class="input sm" type="date" id="st-end" data-sset="endDate" value="${s.endDate}" ${ro?'disabled':''}></label>
- <div class="grid2" style="gap:12px">${num('gap',L('Gap between reports','응답 간격'),L('min','분'),1)}${num('daily',L('Daily limit','일일 한도'),L('reports','건'),1)}${num('backHours',L('Back-dating window','이전 시각 허용'),L('hours','시간'))}${num('publicMinN',L('Public map minimum','공개 지도 최소'),L('reports per cell','건/격자'),1)}${num('ppr',L('Points per accepted report','승인 응답당 포인트'),'pts',1)}${num('weekBonus',L('Weekly bonus (3 days)','주간 보너스 (3일)'),'pts')}</div></div>
+ <div class="grid2" style="gap:12px">${num('gap',L('Gap between reports','응답 간격'),L('min','분'),1)}${num('daily',L('Daily limit','일일 한도'),L('reports','건'),1)}${num('backHours',L('Back-dating window','이전 시각 허용'),L('hours','시간'))}${num('publicMinN',L('Public map minimum','공개 지도 최소'),L('reports per cell','건/격자'),1)}${num('ppr',L('Points per accepted report','승인 응답당 포인트'),'pts',1)}${num('weekBonus',L('Weekly bonus (3 days)','주간 보너스 (3일)'),'pts')}</div>
+ <p class="small" style="margin:0">${L('Gap and daily limit apply per account and are enforced by the database, so they hold even if someone bypasses the app.','응답 간격과 일일 한도는 계정마다 적용되며 데이터베이스가 강제하므로 앱을 우회해도 지켜집니다.')}</p></div>
  <div class="card panel stack"><h2>${L('Registration questions','등록 질문')}</h2><div class="sub">${L('Name is always required (needed for reward delivery and duplicate checks).','이름은 항상 필수입니다 (리워드 전달·중복 확인).')}</div>${fld('gender',L('Gender','성별'))}${fld('birthYear',L('Birth year','출생 연도'))}${fld('occupation',L('Occupation','직업'))}${fld('area',L('Home area','거주 지역'))}${fld('smoking',L('Smoking','흡연'))}
  <h2 style="margin-top:8px">${L('Announcement','공지')}</h2><label class="fgroup"><span>English</span><textarea class="input" id="st-aen" data-sset="announceEn" ${ro?'disabled':''}>${esc(s.announceEn)}</textarea></label><label class="fgroup"><span>한국어</span><textarea class="input" id="st-ako" data-sset="announceKo" ${ro?'disabled':''}>${esc(s.announceKo)}</textarea></label></div></div>
  <div class="card panel stack"><h2>${L('Map & location','지도 · 위치')}</h2>
@@ -1956,12 +2075,133 @@ function aSettings(){
 }
 
 /* ======================================================================
+   LIVE BACKEND (Firebase Auth + Firestore; live builds only)
+   config/app · participants/{uid} · reports/{id} · pub/{id} (public map points) · claims/{id} · audit/{id}
+   Who may read or write what is enforced by firestore.rules, not by this code.
+   ====================================================================== */
+const LV={user:null,auth:null,db:null,me:null,pub:[],pubIds:null,uidOf:{},pubOf:{},unsub:[],loaded:{},err:'',cfg:'',dirty:false,rt:null,ct:null,qt:null};
+const rnd=n=>Array.from(crypto.getRandomValues(new Uint8Array(n)),b=>'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[b&31]).join('');
+const clean=o=>JSON.parse(JSON.stringify(o));
+const DELF=()=>firebase.firestore.FieldValue.delete();
+// Public map point: ~100 m grid, opaque participant id, no uid and no answers beyond intensity and smell.
+const pubOf=(r,pid)=>({pid,t:r.t,lat:Math.round(r.lat*1000)/1000,lng:Math.round(r.lng*1000)/1000,inten:r.inten,chars:r.chars||[]});
+// Every document read from Firestore passes through these: other people's phones wrote it, so coerce types, keep only
+// known vocabulary and drop documents with malformed ids (ids are placed in HTML attributes unescaped).
+const nNum=v=>Number.isFinite(+v)?+v:0,nStr=(v,n)=>typeof v==='string'?v.slice(0,n):'',nEnum=(list,v)=>list.some(o=>o[0]===v)?v:null;
+const nOne=(v,a)=>a.includes(v)?v:undefined,QCS=['pass','review','exclude'];
+const nOv=o=>o&&QCS.includes(o.status)?{status:o.status,reason:nStr(o.reason,300),by:nStr(o.by,120),at:nNum(o.at)}:undefined;
+function normR(id,x){if(!/^R-[A-Z0-9]{1,24}$/.test(id)||!/^P-[A-Z0-9]{1,12}$/.test(x.pid))return null;
+ return{id,pid:x.pid,uid:nStr(x.uid,128),t:nNum(x.t),sub:nNum(x.sub),lat:nNum(x.lat),lng:nNum(x.lng),acc:x.acc==null?null:nNum(x.acc),
+  locSrc:nOne(x.locSrc,['gps','adjusted','manual','sim'])||null,adjM:x.adjM==null?null:nNum(x.adjM),mock:!!x.mock,inten:Math.max(0,Math.min(5,Math.round(nNum(x.inten)))),
+  chars:(Array.isArray(x.chars)?x.chars:[]).filter(c=>SMELL[c]).slice(0,3),manure:nEnum(MANURE,x.manure),other:nStr(x.other,200),
+  hed:x.hed==null?null:Math.max(-2,Math.min(2,Math.round(nNum(x.hed)))),dur:nEnum(DURATION,x.dur),freq:nEnum(FREQ,x.freq),src:nEnum(SOURCE,x.src),impact:nEnum(IMPACT,x.impact),
+  note:nStr(x.note,500),durMs:nNum(x.durMs),ver:nStr(x.ver,12),qc:nOne(x.qc,QCS),ov:nOv(x.ov),reviewReq:x.reviewReq?nNum(x.reviewReq):undefined}}
+function normP(x){if(!/^P-[A-Z0-9]{1,12}$/.test(x.id))return null;const by=Math.round(nNum(x.birthYear));
+ return{id:x.id,uid:nStr(x.uid,128),pubId:/^[A-Z0-9]{10}$/.test(x.pubId)?x.pubId:null,name:nStr(x.name,40),gender:nEnum(GENDER,x.gender),birthYear:by>=1900&&by<=2026?by:null,
+  occupation:nEnum(OCC,x.occupation),province:PROVM[x.province]?x.province:null,district:nStr(x.district,30),smoking:nEnum(SMOKE,x.smoking),joined:nNum(x.joined),
+  consent:nStr(x.consent,10),provider:nOne(x.provider,['google','guest'])||null,notify:!!x.notify,
+  lastAt:x.lastAt&&x.lastAt.toMillis?x.lastAt.toMillis():null,dayIdx:x.dayIdx==null?null:nNum(x.dayIdx),dayN:nNum(x.dayN),ex:x.ex?{by:nStr(x.ex.by,120),at:nNum(x.ex.at)}:undefined}}
+function normC(x){if(!/^C-[A-Z0-9]{1,24}$/.test(x.id)||!/^P-[A-Z0-9]{1,12}$/.test(x.pid))return null;
+ return{id:x.id,pid:x.pid,uid:nStr(x.uid,128),at:nNum(x.at),at_t:nNum(x.at_t),status:nOne(x.status,['requested','issued','denied'])||'requested',code:nStr(x.code,40),exp:nStr(x.exp,10),reason:nStr(x.reason,120)}}
+function normPub(id,x){if(!/^R-[A-Z0-9]{1,24}$/.test(id)||!/^[A-Z0-9]{10}$/.test(x.pid))return null;
+ return{id,pid:'X-'+x.pid,pub:true,t:nNum(x.t),lat:nNum(x.lat),lng:nNum(x.lng),inten:Math.max(0,Math.min(5,Math.round(nNum(x.inten)))),chars:(Array.isArray(x.chars)?x.chars:[]).filter(c=>SMELL[c]).slice(0,3)}}
+const docs=(q,f)=>q.docs.map(f).filter(Boolean);
+const ovFrom=list=>{const o={};for(const r of list){if(r.ov)o[r.id]=r.ov;else if(r.reviewReq)o[r.id]={status:'review',reason:'Participant asked for review',by:'participant',at:r.reviewReq}}return o};
+const lvRender=()=>{LV.dirty=true;clearTimeout(LV.rt);LV.rt=setTimeout(render,40)};
+function liveFail(e){console.error(e);if(e)toast(e.code==='permission-denied'?L('The server refused this change.','서버가 변경을 거부했습니다.'):L('Server error: ','서버 오류: ')+(e.code||e.message))}
+const liveSet=(c,id,d)=>LV.db.collection(c).doc(id).set(clean(d)).catch(liveFail);
+const liveUpd=(c,id,d)=>LV.db.collection(c).doc(id).update(d).catch(liveFail);
+function authErr(e){const c=(e&&e.code)||'';
+ return c==='auth/network-request-failed'?L('No connection. Try again.','연결이 없습니다. 다시 시도하세요.')
+ :c==='auth/unauthorized-domain'?L('This web address is not yet allowed to sign in (Firebase → Authentication → Authorized domains).','이 주소는 아직 로그인이 허용되지 않았습니다.')
+ :c==='auth/operation-not-allowed'||c==='auth/admin-restricted-operation'?L('This sign-in method is not switched on yet.','이 로그인 방식이 아직 켜져 있지 않습니다.')
+ :(e&&e.message)||String(e)}
+function liveInit(){if(!LIVE)return;
+ if(!window.firebase||!FBCFG){LV.err=L('Cannot reach the server. Check the connection and reload.','서버에 연결할 수 없습니다. 연결을 확인하고 새로고침하세요.');if(BUILD==='p')S.onb={step:'error'};else S.login.err=LV.err;return render()}
+ firebase.initializeApp(FBCFG);LV.auth=firebase.auth();LV.db=firebase.firestore();
+ if(FBCFG.emulator){LV.auth.useEmulator('http://127.0.0.1:9099',{disableWarnings:true});LV.db.useEmulator('127.0.0.1',8080)}
+ if(BUILD==='p'){LV.db.enablePersistence({synchronizeTabs:true}).catch(()=>{});LV.db.doc('config/app').onSnapshot(s=>{applyConfig(s.data());lvRender()},()=>{})}
+ LV.auth.getRedirectResult().catch(e=>{LV.err=S.login.err=authErr(e);render()});
+ LV.auth.onAuthStateChanged(u=>{LV.unsub.forEach(f=>f());LV.unsub=[];LV.loaded={};LV.user=u;(BUILD==='a'?adminSession:partSession)(u)});
+}
+function liveSignIn(v){LV.err=S.login.err='';
+ if(v==='guest')return LV.auth.signInAnonymously().catch(e=>{LV.err=authErr(e);render()});
+ const pr=new firebase.auth.GoogleAuthProvider();pr.setCustomParameters({prompt:'select_account'});
+ LV.auth.signInWithPopup(pr).catch(e=>{
+  if(e.code==='auth/popup-blocked'||e.code==='auth/operation-not-supported-in-this-environment')return LV.auth.signInWithRedirect(pr).catch(x=>{LV.err=S.login.err=authErr(x);render()});
+  if(e.code==='auth/popup-closed-by-user'||e.code==='auth/cancelled-popup-request')return;
+  LV.err=S.login.err=authErr(e);render()})}
+function applyConfig(c){c=c||{};
+ S.settings={...DEFAULT_SETTINGS,...(c.settings||{}),fields:{...DEFAULT_SETTINGS.fields,...(c.settings?.fields||{})}};
+ S.rules=Object.fromEntries(Object.entries(DEFAULT_RULES).map(([k,v])=>[k,{...v,...(c.rules?.[k]||{})}]));
+ S.milestones=c.milestones||DEFAULT_MILESTONES.map(m=>({...m}));LV.cfg=cfgJSON()}
+const cfgJSON=()=>JSON.stringify({settings:S.settings,rules:S.rules,milestones:S.milestones});
+// Admin edits to settings, checks and milestones all end in persist(); write config/app once they settle.
+function liveSaveConfig(){if(!S.admin||!LV.loaded.config)return;clearTimeout(LV.ct);LV.ct=setTimeout(()=>{const j=cfgJSON();if(j===LV.cfg)return;LV.cfg=j;LV.db.doc('config/app').set(JSON.parse(j)).catch(liveFail)},600)}
+
+/* participant: own profile, reports and claims; everyone's public map points */
+function partSession(u){
+ Object.assign(S,{myReports:[],newPeople:[],claims:[],overrides:{},partEx:{},meId:null,draft:null,sent:null,sheet:null,scr:'home'});LV.pub=[];LV.me=null;
+ if(!u){S.onb={step:'signin'};return lvRender()}
+ LV.err='';S.onb={step:'loading'};render();
+ const d=LV.db,on=(ref,fn)=>LV.unsub.push(ref.onSnapshot(x=>{if(fn(x)!==false)lvRender()},liveFail));
+ on(d.collection('participants').doc(u.uid),s=>{if(!s.exists&&s.metadata.fromCache)return false;
+  const p=s.exists?normP(s.data()):null;LV.me=p;S.newPeople=p?[p]:[];S.meId=p?p.id:null;S.partEx=p&&p.ex?{[p.id]:p.ex}:{};
+  if(p&&S.onb&&S.onb.step==='loading')S.onb=null;
+  if(!p&&(!S.onb||S.onb.step==='loading'))S.onb={step:'consent',c1:false,c2:false,c3:false,c4:false,c5:false,p:{name:u.displayName||'',gender:null,birthYear:null,occupation:null,province:null,district:'',smoking:null},err:''}});
+ on(d.collection('reports').where('uid','==',u.uid),q=>{S.myReports=docs(q,x=>normR(x.id,x.data()));S.overrides=ovFrom(S.myReports)});
+ on(d.collection('claims').where('uid','==',u.uid),q=>{S.claims=docs(q,x=>normC(x.data())).sort((a,b)=>a.at_t-b.at_t)});
+ on(d.collection('pub').where('t','>',Date.now()-31*DAY),q=>{LV.pub=docs(q,x=>normPub(x.id,x.data()))});
+}
+function liveSubmit(r){const d=LV.db,b=d.batch(),me=LV.me||{},di=kIdx(Date.now());b.set(d.collection('reports').doc(r.id),clean(r));
+ // gap and daily limit are enforced by firestore.rules through these counters
+ b.update(d.collection('participants').doc(LV.user.uid),{lastAt:firebase.firestore.FieldValue.serverTimestamp(),dayIdx:di,dayN:me.dayIdx===di?(me.dayN||0)+1:1,lastRid:r.id});
+ // The phone publishes a map point only if its own check passes; the admin console corrects this later (liveReconcile).
+ if(QC[r.id]&&QC[r.id].status==='pass'&&LV.me&&LV.me.pubId)b.set(d.collection('pub').doc(r.id),pubOf(r,LV.me.pubId));
+ b.commit().catch(e=>{if(e&&e.code==='permission-denied'){if(S.sent===r.id)S.sent=null;toast(L(`Not accepted by the server: wait ${S.settings.gap} min between reports, at most ${S.settings.daily} a day, or the survey is paused.`,`서버가 받지 않았습니다: 응답 간격 ${S.settings.gap}분, 하루 ${S.settings.daily}건 제한, 또는 설문 일시 중지.`));lvRender()}else liveFail(e)})}
+async function liveDeleteMe(){const u=LV.user,d=LV.db;
+ try{const b=d.batch();S.myReports.forEach(r=>{b.delete(d.collection('pub').doc(r.id));b.delete(d.collection('reports').doc(r.id))});
+  S.claims.forEach(c=>b.delete(d.collection('claims').doc(c.id)));b.delete(d.collection('participants').doc(u.uid));await b.commit();
+  S.delArm=false;toast(L('Account and data deleted.','계정과 데이터를 삭제했습니다.'));
+  try{await u.delete()}catch(e){await LV.auth.signOut()}}
+ catch(e){liveFail(e)}}
+
+/* admin: everything; the reads fail with permission-denied unless the account is on the allowlist in firestore.rules */
+function adminSession(u){
+ Object.assign(S,{admin:null,myReports:[],newPeople:[],claims:[],overrides:{},partEx:{},audit:[],drawer:null});LV.pubIds=null;LV.uidOf={};LV.pubOf={};
+ if(!u){S.login.step=1;return lvRender()}
+ if(u.isAnonymous)return LV.auth.signOut();
+ S.login.step=3;S.login.err='';render();
+ const d=LV.db,need=['config','participants','reports','claims','pub','audit'];
+ const deny=e=>{if(e&&e.code==='permission-denied'){LV.unsub.forEach(f=>f());LV.unsub=[];S.admin=null;S.login.step=1;
+   S.login.err=L(`${u.email} is not on the admin list. Ask the lab administrator to add it.`,`${u.email} 계정은 관리자 목록에 없습니다. 연구실 관리자에게 추가를 요청하세요.`);LV.auth.signOut().catch(()=>{});render()}else liveFail(e)};
+ const on=(k,ref,fn)=>LV.unsub.push(ref.onSnapshot(x=>{fn(x);LV.loaded[k]=true;
+  if(!S.admin&&need.every(z=>LV.loaded[z])){S.admin={email:u.email,role:'admin',name:u.displayName||u.email};S.login.step=1;audit('sign-in',u.email)}lvRender()},deny));
+ on('config',d.doc('config/app'),s=>applyConfig(s.data()));
+ on('participants',d.collection('participants'),q=>{LV.uidOf={};LV.pubOf={};S.partEx={};S.newPeople=docs(q,x=>{const p=normP(x.data());if(!p)return null;LV.uidOf[p.id]=x.id;LV.pubOf[p.id]=p.pubId;if(p.ex)S.partEx[p.id]=p.ex;return p})});
+ on('reports',d.collection('reports'),q=>{S.myReports=docs(q,x=>normR(x.id,x.data()));S.overrides=ovFrom(S.myReports)});
+ on('claims',d.collection('claims'),q=>{S.claims=docs(q,x=>normC(x.data())).sort((a,b)=>a.at_t-b.at_t)});
+ on('pub',d.collection('pub'),q=>{LV.pubIds=new Set(q.docs.map(x=>x.id))});
+ on('audit',d.collection('audit').orderBy('at','desc').limit(200),q=>{S.audit=q.docs.map(x=>{const a=x.data();return{at:nNum(a.at),who:nStr(a.who,120),action:nStr(a.action,60),detail:nStr(a.detail,300)}})});
+}
+// The admin console is the authoritative quality check: it writes each report's automatic verdict (qc) back so the
+// participant's phone shows it, and keeps pub/ equal to the set of accepted reports.
+function liveReconcile(){if(!S.admin||!LV.pubIds||!['participants','reports','pub','config'].every(k=>LV.loaded[k]))return;
+ clearTimeout(LV.qt);LV.qt=setTimeout(()=>{const d=LV.db,b=d.batch(),want=new Set();let n=0;
+  for(const r of S.myReports){const q=QC[r.id];if(!q)continue;
+   if(r.qc!==q.auto&&n<450){b.update(d.collection('reports').doc(r.id),{qc:q.auto});n++}
+   if(q.status==='pass'&&LV.pubOf[r.pid]){want.add(r.id);if(!LV.pubIds.has(r.id)&&n<450){b.set(d.collection('pub').doc(r.id),pubOf(r,LV.pubOf[r.pid]));n++}}}
+  for(const id of LV.pubIds)if(!want.has(id)&&n<450){b.delete(d.collection('pub').doc(id));n++}
+  if(n)b.commit().catch(liveFail)},1500)}
+
+/* ======================================================================
    RENDER + ACTIONS
    ====================================================================== */
 function render(){
+ if(LV.dirty){LV.dirty=false;buildDB()}
  const ae=document.activeElement,fid=ae&&ae.id,sel=ae&&ae.selectionStart!=null?[ae.selectionStart,ae.selectionEnd]:null;
  const ps=$('pscroll')?.scrollTop,rs=$('rscroll')?.scrollTop;
- document.documentElement.lang=S.lang;document.body.classList.toggle('pm',S.mode==='participant');renderTop();S.mode==='participant'?renderP():renderA();mountMaps();updateGeoUI();
+ document.documentElement.lang=S.lang;document.body.classList.toggle('pm',S.mode==='participant');document.body.classList.toggle('live',LIVE);renderTop();S.mode==='participant'?renderP():renderA();mountMaps();updateGeoUI();
  if(ps&&$('pscroll'))$('pscroll').scrollTop=ps;if(rs&&$('rscroll'))$('rscroll').scrollTop=rs;
  if(fid){const el=$(fid);if(el){el.focus({preventScroll:true});if(sel&&el.setSelectionRange)try{el.setSelectionRange(sel[0],sel[1])}catch(e){}}}
 }
@@ -1975,9 +2215,11 @@ function submitDraft(){
   if(d.chars.includes('manure')&&!d.manure)d.manure='unsure'}
  if(d.locSrc==='pending'){d.err=L('Waiting for GPS. Try again in a moment, or drag the pin to set your location.','GPS를 기다리는 중입니다. 잠시 후 다시 시도하거나 핀을 옮겨 위치를 정하세요.');S.rstep=1;return render()}
  const now=Date.now(),t=d.when==='earlier'?now-d.back*MIN:now;
- const r={id:'R-Y'+String(now).slice(-7),pid:S.meId,t,sub:now,lat:d.lat,lng:d.lng,acc:d.acc,locSrc:d.locSrc,adjM:d.adjM,mock:false,inten:d.inten,chars:d.inten>0?d.chars:[],manure:d.chars.includes('manure')?d.manure:null,other:d.chars.includes('other')?d.other.trim():'',
-  hed:d.inten>0?d.hed:null,dur:d.dur,freq:d.freq,src:d.src,impact:d.impact,note:d.note.trim(),durMs:now-d.t0,ver:'2.0.0'};
+ const r={id:LIVE?'R-'+now.toString(36).toUpperCase()+rnd(3):'R-Y'+String(now).slice(-7),pid:S.meId,t,sub:now,lat:d.lat,lng:d.lng,acc:d.acc,locSrc:d.locSrc,adjM:d.adjM,mock:false,inten:d.inten,chars:d.inten>0?d.chars:[],manure:d.chars.includes('manure')?d.manure:null,other:d.chars.includes('other')?d.other.trim():'',
+  hed:d.inten>0?d.hed:null,dur:d.dur,freq:d.freq,src:d.src,impact:d.impact,note:d.note.trim(),durMs:now-d.t0,ver:APPVER};
+ if(LIVE)r.uid=LV.user.uid;
  S.myReports.push(r);persist();buildDB();S.draft=null;S.sent=r.id;render();
+ if(LIVE)liveSubmit(r);
 }
 const ACT={
  mode:el=>{S.mode=el.dataset.v;S.drawer=null;if(S.mode==='admin')geoStop();else if(GEO.want)geoStart();persist();render();scrollTo(0,0)},
@@ -1987,7 +2229,16 @@ const ACT={
  recenter:()=>{const d=S.draft;if(!d)return;if(GEO.real){d.lat=+GEO.lat.toFixed(6);d.lng=+GEO.lng.toFixed(6);d.acc=GEO.acc;d.locSrc='gps';d.adjM=null;MAPS.rmap&&MAPS.rmap.map.setView([d.lat,d.lng],16.5);updateGeoUI()}else{GEO.why='';geoStart();toast(L('Looking for GPS…','GPS를 찾는 중…'))}},
  layerP:el=>{const k=el.dataset.v;S.layersP[k]=!S.layersP[k];render()},
  install:()=>{const e=window._bip;if(!e)return;e.prompt();e.userChoice&&e.userChoice.finally(()=>{window._bip=null;render()})},
- amset:el=>{const k=el.dataset.k,v=el.dataset.v;S.am[k]=['period','imin','radius'].includes(k)?Number(v):v;render()},
+ amset:el=>{const k=el.dataset.k,v=el.dataset.v;S.am[k]=['period','imin','radius'].includes(k)?Number(v):v;if(k==='period'){S.am.from='';S.am.to=''}render()},
+ amHours:el=>{const [a,b]=el.dataset.v.split('-').map(Number);S.am.h0=a;S.am.h1=b;render()},
+ amDow:el=>{S.am.dow=el.dataset.v==='wk'?['1','2','3','4','5']:el.dataset.v==='we'?['6','0']:[];render()},
+ amClear:()=>{amStop();Object.assign(S.am,{period:30,from:'',to:'',h0:0,h1:24,dow:[],occ:[],age:[],gender:[],imin:0});render()},
+ amMode:el=>{amStop();S.am.anim.mode=el.dataset.v;S.am.anim.f=0;render()},
+ amPlay:()=>{const a=S.am.anim;if(a.play){amStop();render();return}a.play=true;AMT=setInterval(amTick,a.speed);render()},
+ amFrame:el=>{amStop();S.am.anim.f=Number(el.dataset.v);render()},
+ amStep:el=>{amStop();const n=amFrames(amBase()).length;if(n)S.am.anim.f=(S.am.anim.f+Number(el.dataset.v)+n)%n;render()},
+ amSpeed:el=>{S.am.anim.speed=Number(el.dataset.v);if(S.am.anim.play){clearInterval(AMT);AMT=setInterval(amTick,S.am.anim.speed)}render()},
+ amCSV:()=>{const x=S.x,cols=exportCols(x),rows=amBase().map(r=>{const p=DB.byP[r.pid]||{},o={};cols.forEach(c=>o[c[1]]=c[4](r,x,p));return o});audit('export',`analysis selection · ${rows.length} rows`);saveFile(`eco_survey_selection_${kDay(Date.now())}.csv`,toCSV(rows,cols))},
  amtog:el=>{const a=S.am[el.dataset.k],v=el.dataset.v,i=a.indexOf(v);i>=0?a.splice(i,1):a.push(v);render()},
  amlayer:el=>{const k=el.dataset.k;S.am[k]=!S.am[k];render()},
  flyTo:el=>{const m=MAPS.amap;if(m)m.map.flyTo([Number(el.dataset.lat),Number(el.dataset.lng)],15.5,{duration:.6});m&&m.el.scrollIntoView({behavior:'smooth',block:'center'})},
@@ -2011,31 +2262,33 @@ const ACT={
  mapSel:el=>{S.mapSel=el.dataset.k||null;render()},
  toggleMine:()=>{S.showMine=!S.showMine;render()},
  histOpen:el=>{S.histOpen=S.histOpen===el.dataset.v?null:el.dataset.v;render()},
- askReview:el=>{const id=el.dataset.v;S.overrides[id]={status:'review',reason:'Participant asked for review',by:'participant',at:Date.now()};audit('review request',id);buildDB();toast(L('Review requested. A researcher will check it.','검토를 요청했습니다.'));render()},
- claim:el=>{const at=Number(el.dataset.v);S.claims.push({id:'C-'+Date.now(),pid:S.meId,at,at_t:Date.now(),status:'requested'});persist();toast(L('Reward requested. You will be notified when the code is ready.','리워드를 신청했습니다. 코드가 준비되면 알려 드려요.'));render()},
+ askReview:el=>{const id=el.dataset.v;S.overrides[id]={status:'review',reason:'Participant asked for review',by:'participant',at:Date.now()};if(LIVE)liveUpd('reports',id,{reviewReq:Date.now()});audit('review request',id);buildDB();toast(L('Review requested. A researcher will check it.','검토를 요청했습니다.'));render()},
+ claim:el=>{const at=Number(el.dataset.v),c={id:'C-'+Date.now().toString(36).toUpperCase()+(LIVE?rnd(3):''),pid:S.meId,at,at_t:Date.now(),status:'requested'};S.claims.push(c);if(LIVE){c.uid=LV.user.uid;liveSet('claims',c.id,c)}persist();toast(L('Reward requested. You will be notified when the code is ready.','리워드를 신청했습니다. 코드가 준비되면 알려 드려요.'));render()},
  copy:el=>{const v=el.dataset.v;if(navigator.clipboard)navigator.clipboard.writeText(v).then(()=>toast(L('Code copied','코드 복사됨')),()=>toast(v));else toast(v)},
  meEdit:el=>{S.meEdit=el.dataset.v==='1';S.pf={...me()};render()},
  pf:el=>{const tgt=S.onb?S.onb.p:S.pf;if(!tgt)return;const k=el.dataset.k;tgt[k]=el.dataset.v;if(S.onb)S.onb.err='';const nm=$('pf-name');if(nm)tgt.name=nm.value;const ds=$('pf-district');if(ds)tgt.district=ds.value;render()},
  saveProfile:()=>{const p=S.pf;p.name=$('pf-name').value.trim();if($('pf-district'))p.district=$('pf-district').value.trim();const miss=profileMissing(p);if(miss.length)return toast(L('Missing: ','입력 필요: ')+miss.join(', '));
-  const target=DB.byP[S.meId];Object.assign(target,{name:p.name,gender:p.gender,birthYear:p.birthYear,occupation:p.occupation,province:provOf(p),district:distOf(p).trim(),smoking:p.smoking});const np=S.newPeople.find(x=>x.id===S.meId);if(np)Object.assign(np,target);persist();S.meEdit=false;toast(L('Profile saved','저장했습니다'));render()},
- notify:()=>{const p=me();p.notify=!p.notify;const np=S.newPeople.find(x=>x.id===S.meId);if(np)np.notify=p.notify;persist();render()},
+  const target=DB.byP[S.meId];Object.assign(target,{name:p.name,gender:p.gender,birthYear:p.birthYear,occupation:p.occupation,province:provOf(p),district:distOf(p).trim(),smoking:p.smoking});const np=S.newPeople.find(x=>x.id===S.meId);if(np)Object.assign(np,target);if(LIVE)liveUpd('participants',LV.user.uid,{name:target.name,gender:target.gender,birthYear:target.birthYear,occupation:target.occupation,province:target.province,district:target.district,smoking:target.smoking});persist();S.meEdit=false;toast(L('Profile saved','저장했습니다'));render()},
+ notify:()=>{const p=me();p.notify=!p.notify;const np=S.newPeople.find(x=>x.id===S.meId);if(np)np.notify=p.notify;if(LIVE)liveUpd('participants',LV.user.uid,{notify:p.notify});persist();render()},
  myData:()=>{const p=me();saveFile(`eco_survey_my_data_${p.id}.json`,JSON.stringify({profile:p,reports:myReports(),points:PSTAT[p.id],claims:S.claims.filter(c=>c.pid===p.id)},null,2))},
  delArm:el=>{S.delArm=el.dataset.v==='1';render()},
- deleteMe:()=>{if(S.meId==='P-0001'){S.myReports=[];S.claims=S.claims.filter(c=>c.pid!=='P-0001')}else{S.newPeople=S.newPeople.filter(p=>p.id!==S.meId);S.myReports=S.myReports.filter(r=>r.pid!==S.meId);S.claims=S.claims.filter(c=>c.pid!==S.meId)}
+ deleteMe:()=>{if(LIVE)return liveDeleteMe();if(S.meId==='P-0001'){S.myReports=[];S.claims=S.claims.filter(c=>c.pid!=='P-0001')}else{S.newPeople=S.newPeople.filter(p=>p.id!==S.meId);S.myReports=S.myReports.filter(r=>r.pid!==S.meId);S.claims=S.claims.filter(c=>c.pid!==S.meId)}
   S.meId='P-0001';S.delArm=false;persist();buildDB();S.onb={step:'signin'};toast(L('Account deleted (demo).','계정을 삭제했습니다 (데모).'));render()},
- signOut:()=>{S.onb={step:'signin'};render()},
+ signOut:()=>{if(LIVE)return LV.auth.signOut();S.onb={step:'signin'};render()},
  newParticipant:()=>{S.draft=null;S.sent=null;S.onb={step:'signin'};render()},
  useExample:()=>{S.meId='P-0001';S.onb=null;S.scr='home';persist();buildDB();render()},
  cancelOnb:()=>{S.onb=null;S.scr='home';render()},
  resetDemo:()=>{try{localStorage.removeItem('eco2')}catch(e){}location.reload()},
- signin:el=>{S.onb={step:'consent',provider:el.dataset.v,c1:false,c2:false,c3:false,c4:false,p:{name:'',gender:null,birthYear:null,occupation:null,province:null,district:'',smoking:null},err:''};render()},
+ signin:el=>{if(LIVE)return liveSignIn(el.dataset.v);S.onb={step:'consent',provider:el.dataset.v,c1:false,c2:false,c3:false,c4:false,p:{name:'',gender:null,birthYear:null,occupation:null,province:null,district:'',smoking:null},err:''};render()},
  onbNext:()=>{S.onb.step='profile';geoStart();render()},
  onbFinish:()=>{const o=S.onb;o.p.name=($('pf-name')?.value||'').trim();if($('pf-district'))o.p.district=$('pf-district').value.trim();const miss=profileMissing(o.p);if(miss.length){o.err=L('Please answer: ','다음 항목을 입력하세요: ')+miss.join(', ');return render()}
-  const n=Math.max(47,...DB.people.map(p=>Number(p.id.slice(2))))+1,id='P-'+String(n).padStart(4,'0');
-  const p={id,...o.p,birthYear:o.p.birthYear?Number(o.p.birthYear):null,joined:Date.now(),consent:'v2.0',provider:o.provider,notify:o.c4};S.newPeople.push(p);S.meId=id;S.onb=null;S.scr='home';persist();buildDB();toast(L('Welcome! You can report now.','환영합니다! 이제 응답할 수 있어요.'));render()},
+  const n=Math.max(47,...DB.people.map(p=>Number(p.id.slice(2))))+1,id=LIVE?'P-'+rnd(6):'P-'+String(n).padStart(4,'0');
+  const p={id,...o.p,birthYear:o.p.birthYear?Number(o.p.birthYear):null,joined:Date.now(),consent:'v2.0',provider:o.provider,notify:!!o.c4};
+  if(LIVE){Object.assign(p,{uid:LV.user.uid,provider:LV.user.isAnonymous?'guest':'google',pubId:rnd(10)});LV.me=p;liveSet('participants',p.uid,p)}S.newPeople.push(p);S.meId=id;S.onb=null;S.scr='home';persist();buildDB();toast(L('Welcome! You can report now.','환영합니다! 이제 응답할 수 있어요.'));render()},
  // admin
- av:el=>{S.av=el.dataset.v;S.drawer=null;render();scrollTo(0,0)},
- aLogout:()=>{audit('sign-out',S.admin.email);S.admin=null;S.login={email:'',pw:'',otp:'',step:1,fails:0,err:''};render()},
+ av:el=>{amStop();S.av=el.dataset.v;S.drawer=null;render();scrollTo(0,0)},
+ aGoogle:()=>liveSignIn('google'),
+ aLogout:()=>{audit('sign-out',S.admin.email);if(LIVE)return LV.auth.signOut();S.admin=null;S.login={email:'',pw:'',otp:'',step:1,fails:0,err:''};render()},
  loginBack:()=>{S.login.step=1;S.login.err='';render()},
  ovPeriod:el=>{S.ovPeriod=Number(el.dataset.v);render()},
  quickExport:()=>{Object.assign(S.x,{qc:'pass',split:'gender',format:'csv',codebook:true});S.av='export';render();scrollTo(0,0)},
@@ -2045,14 +2298,16 @@ const ACT={
  page:el=>{S.f.page+=Number(el.dataset.v);render()},
  openR:el=>{S.drawer=el.dataset.v;render()},
  closeDrawer:()=>{S.drawer=null;render()},
- ov:el=>{const id=S.drawer,v=el.dataset.v,reason=$('ov-reason')?.value||'';if(v==='reset'){delete S.overrides[id];audit('decision reset',id)}else{S.overrides[id]={status:v,reason,by:S.admin.email,at:Date.now()};audit(v==='pass'?'include':'exclude',`${id} · ${reason}`)}persist();buildDB();render()},
+ ov:el=>{const id=S.drawer,v=el.dataset.v,reason=$('ov-reason')?.value||'';if(v==='reset'){delete S.overrides[id];audit('decision reset',id)}else{S.overrides[id]={status:v,reason,by:S.admin.email,at:Date.now()};audit(v==='pass'?'include':'exclude',`${id} · ${reason}`)}if(LIVE)liveUpd('reports',id,v==='reset'?{ov:DELF(),reviewReq:DELF()}:{ov:S.overrides[id]});persist();buildDB();render()},
  ruleOn:el=>{const k=el.dataset.v;S.rules[k].on=!S.rules[k].on;audit('check '+(S.rules[k].on?'on':'off'),k);persist();buildDB();render()},
  rulesReset:()=>{S.rules=JSON.parse(JSON.stringify(DEFAULT_RULES));S.settings.qcReview=30;S.settings.qcExclude=60;audit('checks reset','defaults');persist();buildDB();render()},
- partEx:el=>{const id=el.dataset.v;if(el.dataset.on==='1'){S.partEx[id]={by:S.admin.email,at:Date.now()};audit('exclude participant',id)}else{delete S.partEx[id];audit('restore participant',id)}persist();buildDB();render()},
+ partEx:el=>{const id=el.dataset.v;if(el.dataset.on==='1'){S.partEx[id]={by:S.admin.email,at:Date.now()};audit('exclude participant',id)}else{delete S.partEx[id];audit('restore participant',id)}if(LIVE)liveUpd('participants',LV.uidOf[id],{ex:S.partEx[id]||DELF()});persist();buildDB();render()},
  doExport:()=>doExport(),
  claimOk:el=>{const c=S.claims.find(x=>x.id===el.dataset.v);const m=S.milestones.find(x=>x.at===c.at);c.status='issued';c.code=(m&&/starbucks/i.test(m.en)?'SB':'EC')+'-'+Math.random().toString(36).slice(2,6).toUpperCase()+'-'+Math.random().toString(36).slice(2,6).toUpperCase();
-  c.exp=kDay(Date.now()+90*DAY);if(m&&m.stock>0)m.stock--;audit('reward issued',`${c.pid} · ${c.at} pts`);persist();render()},
- claimNo:el=>{const c=S.claims.find(x=>x.id===el.dataset.v);c.status='denied';c.reason=L('Reports did not pass review','검토 미통과');audit('reward denied',`${c.pid} · ${c.at} pts`);persist();render()},
+  c.exp=kDay(Date.now()+90*DAY);if(m&&m.stock>0)m.stock--;if(LIVE)liveUpd('claims',c.id,{status:c.status,code:c.code,exp:c.exp});audit('reward issued',`${c.pid} · ${c.at} pts`);persist();render()},
+ claimNo:el=>{const c=S.claims.find(x=>x.id===el.dataset.v);c.status='denied';c.reason=L('Reports did not pass review','검토 미통과');if(LIVE)liveUpd('claims',c.id,{status:c.status,reason:c.reason});audit('reward denied',`${c.pid} · ${c.at} pts`);persist();render()},
+ sval:el=>{if(!isAdmin())return;const k=el.dataset.k;S.settings[k]=el.dataset.v;audit('setting',`${k}=${el.dataset.v}`);persist();buildDB();render()},
+ guests:()=>{if(!isAdmin())return;S.settings.guests=!S.settings.guests;audit('guest sign-up '+(S.settings.guests?'allowed':'blocked'),'');persist();render()},
  live:()=>{S.settings.live=!S.settings.live;audit('survey '+(S.settings.live?'resumed':'paused'),'');persist();render()},
  fieldMode:el=>{S.settings.fields[el.dataset.k]=el.dataset.v;audit('registration field',`${el.dataset.k}=${el.dataset.v}`);persist();render()},
 };
@@ -2060,7 +2315,7 @@ document.addEventListener('click',e=>{const el=e.target.closest('[data-act]');if
 document.addEventListener('change',e=>{const el=e.target;
  if(el.dataset.basemap){S.mapStyle=el.value;persist();Object.values(MAPS).forEach(m=>setBase(m));return}
  if(el.dataset.oc){S.onb[el.dataset.oc]=el.checked;return render()}
- if(el.dataset.pf){const tgt=S.onb?S.onb.p:S.pf;tgt[el.dataset.pf]=el.value||null;const nm=$('pf-name');if(nm)tgt.name=nm.value;return}
+ if(el.dataset.pf){const tgt=S.onb?S.onb.p:S.pf;if(!tgt)return;tgt[el.dataset.pf]=el.value||null;const nm=$('pf-name');if(nm)tgt.name=nm.value;return}
  if(el.dataset.dr){S.draft[el.dataset.dr]=el.dataset.dr==='back'?Number(el.value):el.value;return render()}
  if(el.dataset.fset){const [o,k]=el.dataset.fset.split('.');S[o][k]=el.dataset.num?Number(el.value):el.value;S[o].page=0;return render()}
  if(el.dataset.xg){S.x.groups[el.dataset.xg]=el.checked;return render()}
@@ -2085,7 +2340,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(S.drawer){S.draw
 
 /* ---------------- boot ---------------- */
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();window._bip=e;if(S.scr==='me')render()});
-buildDB();render();
+buildDB();render();liveInit();
 try{navigator.permissions&&navigator.permissions.query({name:'geolocation'}).then(p=>{if(p.state==='granted'&&S.mode==='participant')geoStart()}).catch(()=>{})}catch(e){}
 setInterval(()=>{if(S.mode==='participant'&&!S.draft&&!S.onb&&S.scr==='home'&&!document.activeElement?.matches('input,textarea,select'))render()},30000);
 </script>
