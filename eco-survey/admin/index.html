@@ -869,7 +869,14 @@ textarea.input{resize:vertical;min-height:72px}
 .rung .dot{position:relative;z-index:1;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--well);color:var(--ink3);font-family:var(--f-mono);font-weight:700;font-size:12px}
 .rung.done .dot{background:var(--lime);color:var(--limed)}
 .coupon{border:1px dashed var(--ink3);border-radius:12px;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--bg)}
-.coupon code{font-family:var(--f-mono);font-weight:700;letter-spacing:.08em}
+.rw{border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:12px;background:var(--surf)}
+.rw.off{opacity:.62}
+.rwi{width:40px;height:40px;border-radius:10px;background:var(--lime);color:var(--limed);display:grid;place-items:center;flex:none}
+.rwf{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.rwc{border-top:1px dashed var(--line);padding-top:10px;display:flex;flex-direction:column;gap:8px}
+.tabbar button{position:relative}
+.tbadge{position:absolute;top:0;left:calc(50% + 6px);width:9px;height:9px;border-radius:50%;background:var(--err);box-shadow:0 0 0 2px var(--surf)}
+.coupon code{font-family:var(--f-mono);font-weight:700;letter-spacing:.08em;overflow-wrap:anywhere}
 
 .stats3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .stat{background:var(--bg);border-radius:12px;padding:10px}
@@ -1020,7 +1027,7 @@ const NOW0=Math.floor(Date.now()/MIN)*MIN;
 const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 // Build flavour, set by build.py: 'demo' = synthetic artifact; 'p' = live participant app; 'a' = live admin console (Firebase).
 // App version: shown in the header and on the Profile screen, stored on every report, and used as the offline-cache name.
-const APPVER='2.3.1';
+const APPVER='2.4.0';
 const BUILD='a',LIVE=BUILD!=='demo',FBCFG={"apiKey": "AIzaSyDHMB2I-YCAXivzPs9O_bNHAScwwInysSY", "authDomain": "eco-survey-331bb.firebaseapp.com", "projectId": "eco-survey-331bb", "storageBucket": "eco-survey-331bb.firebasestorage.app", "messagingSenderId": "392355803426", "appId": "1:392355803426:web:0fb02f4ba643e432d2757b"};
 const SKEY=LIVE?'eco-live-'+BUILD:'eco2';
 
@@ -1145,11 +1152,25 @@ const RULE_META={
  locedit:{en:'Location set by hand',ko:'위치 수동 설정',den:'No GPS fix and the pin was placed by hand, or the pin was moved further than the limit from the GPS fix.',dko:'GPS 없이 핀을 수동 설정했거나 GPS 위치에서 기준 이상 옮김.',unit:'m'},
  trim:{en:'Consistently extreme reporter',ko:'일관된 극단 응답자',den:'Person-level. Ranks participants by how far their reports sit, on average, above or below other people nearby or everyone (options below the list). The top and bottom share set here is flagged on all their reports. Nobody is trimmed until enough people qualify that the share is at least one person. Someone living next to a source can legitimately read high: check the list before relying on it.',dko:'참여자 단위. 주변 또는 전체 참여자와 비교해(아래 옵션) 평균적으로 얼마나 높거나 낮게 응답하는지 순위를 매기고, 설정한 상·하위 비율의 모든 응답에 플래그를 답니다. 비율이 1명 이상이 될 만큼 참여자가 모여야 적용됩니다. 발생원 바로 옆 주민은 정당하게 높을 수 있으니 목록을 확인하세요.',unit:'% each end'},
  outlier:{en:'Disagrees with neighbours',ko:'주변 응답과 불일치',den:'Differs by the limit or more from the median of 3+ other people within 500 m and 30 min. Review only.',dko:'500 m·30분 이내 3명 이상 응답의 중앙값과 기준 이상 차이. 검토용.',unit:'levels'}};
+// Reward types (config/app, everyone reads). kind: 'code' = a voucher number from the reward's code list, 'link' = a coupon
+// web link from the list, 'manual' = no list (the admin hands it over and writes a message). auto: issued as soon as the
+// participant's accepted points reach the milestone; otherwise an admin issues it. rid never changes, so claims stay linked
+// when points or names are edited. stock: unused codes left (kept equal to the list by the admin console) or, for 'manual', by hand.
 const DEFAULT_MILESTONES=[
- {at:50,en:'Starbucks Caffè Americano (Tall) e-coupon',ko:'스타벅스 아메리카노 T 모바일 쿠폰',stock:200,ico:'coffee'},
- {at:150,en:'Starbucks Caffè Latte + cake set',ko:'스타벅스 카페라떼 + 케이크 세트',stock:80,ico:'coffee'},
- {at:300,en:'Convenience-store voucher ₩10,000',ko:'편의점 상품권 1만원',stock:50,ico:'ticketPercentOutline'},
- {at:500,en:'Culture gift voucher ₩30,000',ko:'문화상품권 3만원',stock:20,ico:'giftOutline'}];
+ {rid:'A50',at:50,en:'Starbucks Caffè Americano (Tall) e-coupon',ko:'스타벅스 아메리카노 T 모바일 쿠폰',kind:'code',auto:true,howEn:'Show the code at any Starbucks counter, or add it in the Starbucks app.',howKo:'스타벅스 매장 계산대에서 코드를 보여 주거나 스타벅스 앱에 등록하세요.',stock:200,ico:'coffee',on:true},
+ {rid:'A150',at:150,en:'Starbucks Caffè Latte + cake set',ko:'스타벅스 카페라떼 + 케이크 세트',kind:'code',auto:true,howEn:'Show the code at any Starbucks counter.',howKo:'스타벅스 매장 계산대에서 코드를 보여 주세요.',stock:80,ico:'coffee',on:true},
+ {rid:'A300',at:300,en:'Convenience-store voucher ₩10,000',ko:'편의점 상품권 1만원',kind:'link',auto:true,howEn:'Open the link to get the mobile voucher.',howKo:'링크를 열어 모바일 상품권을 받으세요.',stock:50,ico:'ticketPercentOutline',on:true},
+ {rid:'A500',at:500,en:'Culture gift voucher ₩30,000',ko:'문화상품권 3만원',kind:'code',auto:false,howEn:'Register the PIN on the culture-voucher website.',howKo:'문화상품권 사이트에서 PIN을 등록하세요.',stock:20,ico:'giftOutline',on:true}];
+const MS_KINDS=['code','link','manual'],MS_ICONS=['giftOutline','coffee','ticketPercentOutline','silverwareForkKnife','star','trophyOutline','qrcode'];
+// Reward types come from config/app, which only admins write; still coerce every field (rid fills in for older configs).
+function normMs(list){const used=new Set();
+ return(Array.isArray(list)?list:DEFAULT_MILESTONES).map(m=>{m=m||{};const at=Math.max(1,Math.round(Number(m.at)||0)),kind=MS_KINDS.includes(m.kind)?m.kind:'code';
+  let rid=/^[A-Z0-9]{1,8}$/.test(m.rid)?m.rid:'A'+at;while(used.has(rid))rid=(rid+'X').slice(-8);used.add(rid);
+  return{rid,at,en:String(m.en??'').slice(0,80),ko:String(m.ko??'').slice(0,80),kind,auto:kind!=='manual'&&m.auto!==false,howEn:String(m.howEn??'').slice(0,300),howKo:String(m.howKo??'').slice(0,300),
+   stock:Math.max(0,Math.round(Number(m.stock)||0)),ico:MS_ICONS.includes(m.ico)?m.ico:'giftOutline',on:m.on!==false}}).sort((a,b)=>a.at-b.at)}
+// Demo only: made-up codes so automatic issuing can be tried without a server.
+function demoVouchers(){const out=[],t=Date.now()-30*DAY,code=()=>Array.from({length:3},()=>Math.random().toString(36).slice(2,6).toUpperCase().padEnd(4,'X')).join('-');
+ [['A50',12],['A150',6],['A300',4]].forEach(([rid,n])=>{for(let i=0;i<n;i++)out.push({id:'V-DEMO'+rid+i,rid,code:rid==='A300'?'https://example.com/coupon/DEMO-'+code():'DEMO-'+code(),exp:kDay(Date.now()+120*DAY),st:'free',add_t:t+i})});return out}
 const ADMINS={'admin@eco-survey.kr':{pw:'Demo!2026',role:'admin',name:'Lab administrator'},'analyst@eco-survey.kr':{pw:'Demo!2026',role:'analyst',name:'Data analyst'}};
 const OTP='246810';
 
@@ -1164,12 +1185,12 @@ const S={
  ovPeriod:30,mapStyle:P0.mapStyle||null,layersP:{surface:true,cells:false,mine:true},am:{period:7,from:'',to:'',h0:0,h1:24,dow:[],occ:[],age:[],imin:0,gender:[],qc:'pass',surface:true,cells:false,points:true,fac:!LIVE,radius:600,anim:{mode:'off',f:0,play:false,speed:1000}},
  settings:{...DEFAULT_SETTINGS,...(P0.settings||{}),fields:{...DEFAULT_SETTINGS.fields,...(P0.settings?.fields||{})}},
  rules:Object.fromEntries(Object.entries(DEFAULT_RULES).map(([k,v])=>[k,{...v,...(P0.rules?.[k]||{})}])),
- milestones:P0.milestones||DEFAULT_MILESTONES.map(m=>({...m})),
+ milestones:normMs(P0.milestones),vouchers:LIVE?null:P0.vouchers||demoVouchers(),pool:{},cin:{},codesOpen:null,
  myReports:P0.myReports||[],newPeople:P0.newPeople||[],overrides:P0.overrides||{},partEx:P0.partEx||{},claims:P0.claims||[],audit:P0.audit||[],
 };
 // Live builds keep only view preferences on the device; data lives in Firestore (see LIVE BACKEND).
 function persist(){if(LIVE){store.set(SKEY,{lang:S.lang,mapStyle:S.mapStyle});if(BUILD==='a')liveSaveConfig();return}
- store.set(SKEY,{lang:S.lang,mode:S.mode,mapStyle:S.mapStyle,meId:S.meId,settings:S.settings,rules:S.rules,milestones:S.milestones,myReports:S.myReports,newPeople:S.newPeople,overrides:S.overrides,partEx:S.partEx,claims:S.claims,audit:S.audit})}
+ store.set(SKEY,{lang:S.lang,mode:S.mode,mapStyle:S.mapStyle,meId:S.meId,settings:S.settings,rules:S.rules,milestones:S.milestones,vouchers:S.vouchers,myReports:S.myReports,newPeople:S.newPeople,overrides:S.overrides,partEx:S.partEx,claims:S.claims,audit:S.audit})}
 function audit(action,detail){const e={at:Date.now(),who:S.admin?S.admin.email:'participant',action,detail};
  if(LIVE){if(BUILD==='a'&&S.admin)LV.db.collection('audit').add(e).catch(()=>{});return}
  S.audit.unshift(e);S.audit=S.audit.slice(0,200);persist()}
@@ -1225,7 +1246,7 @@ function genSeed(){
 let DB={people:[],reports:[]},QC={},PSTAT={},TRIM={rows:[],k:0,N:0};
 // Live: no synthetic seed. Participant app adds other people's public map points (LV.pub, flagged pub:true).
 function buildDB(){if(!SEED)SEED=LIVE?{people:[],reports:[]}:genSeed();const own=new Set(S.myReports.map(r=>r.id));
- DB.people=[...SEED.people,...S.newPeople];DB.reports=[...SEED.reports,...S.myReports,...(BUILD==='p'?LV.pub.filter(r=>!own.has(r.id)):[])].sort((a,b)=>a.t-b.t);DB.byP={};for(const p of DB.people)DB.byP[p.id]=p;runQC();if(BUILD==='a')liveReconcile()}
+ DB.people=[...SEED.people,...S.newPeople];DB.reports=[...SEED.reports,...S.myReports,...(BUILD==='p'?LV.pub.filter(r=>!own.has(r.id)):[])].sort((a,b)=>a.t-b.t);DB.byP={};for(const p of DB.people)DB.byP[p.id]=p;runQC();if(BUILD==='a')liveReconcile();if(BUILD!=='a')setTimeout(autoClaim,0);if(BUILD==='a'||!LIVE)setTimeout(autoIssue,0)}
 
 /* ---------------- quality-control engine ---------------- */
 const sig=r=>[r.inten,[...r.chars].sort().join('+'),r.src||'',r.impact||''].join('|');
@@ -1617,7 +1638,7 @@ const NOTES={
  sent:['U6','Sent',['Points stay pending until the automatic checks pass; flagged reports wait for review.','Shows progress to the next milestone and when the next report is allowed.']],
  map:['U7','Community map',['Live Korean base map: OpenStreetMap with Korean place names, or the VWorld national map once an API key is set (D7).','Interpolated surface (IDW, power 2, 600 m radius) of accepted reports, drawn in half-level bands with contour lines.','A spot is drawn only where 3+ different people reported within the radius, so one person cannot be located from the surface.','The crosshair readout gives the level, n and nearest distance at the map centre, in whole levels only.']],
  history:['U9','My reports',['Status per report: accepted, in review, not counted.','"Not counted" gives a neutral reason and a way to ask for review; flag details stay admin-only.']],
- rewards:['U10','Points & rewards',[`10 points per accepted report, +10 for reporting on 3 different days in a week.`,'Milestones unlock a reward; the first is a Starbucks coupon at 50 points (5 surveys).','Claims are approved by an admin (D4), then the coupon code appears here.','Reward names and prices are illustrative.']],
+ rewards:['U10','Points & rewards',[`10 points per accepted report, +10 for reporting on 3 different days in a week.`,'Reaching a milestone files the claim by itself; there is no claim button.','Rewards set to Automatic get the next unused code from the list the admin pasted; others wait for an admin. The code appears here with how to use it.','Reward names, codes and prices in the demo are illustrative.']],
  me:['U11','Profile & data',['Edit profile, language, notifications.','Download my data (JSON) and delete my account: data-subject rights under PIPA.']],
 };
 function renderP(){
@@ -1641,10 +1662,10 @@ function pHeader(){const p=me();const titles={home:L('Eco Survey','환경모아'
  return`<div class="app-h"><div class="t"><span class="eyebrow">${S.scr==='home'?(GEO.real?areaName(nearestArea({lat:GEO.lat,lng:GEO.lng})):homeName(p)):L('Eco Survey','환경모아')}</span><b>${titles[S.scr]}</b></div>
  <button class="icon-btn" data-act="announce" aria-label="${L('Announcements','공지')}">${ic('bellOutline',20)}</button><button class="avatar" data-act="scr" data-v="me" aria-label="${L('Profile','내 정보')}">${esc((p.name||'?').slice(0,1))}</button></div>`}
 function pTabs(){const t=[['home','homeOutline',L('Home','홈')],['map','mapOutline',L('Map','지도')],['report','plus',L('Report','알리기')],['history','history',L('History','기록')],['rewards','giftOutline',L('Rewards','리워드')]];
- return`<nav class="tabbar">${t.map(([k,i,l])=>k==='report'?`<button data-act="startReport" aria-label="${l}"><span class="fab">${ic('plus',28)}</span>${l}</button>`:`<button data-act="scr" data-v="${k}" ${S.scr===k?'aria-current="page"':''}>${ic(i,24)}${l}</button>`).join('')}</nav>`}
-function nextMilestone(pts){return S.milestones.find(m=>pts<m.at)||null}
+ return`<nav class="tabbar">${t.map(([k,i,l])=>k==='report'?`<button data-act="startReport" aria-label="${l}"><span class="fab">${ic('plus',28)}</span>${l}</button>`:`<button data-act="scr" data-v="${k}" ${S.scr===k?'aria-current="page"':''}>${ic(i,24)}${l}${k==='rewards'&&unseen()?`<span class="tbadge" aria-label="${L('new','새 리워드')}"></span>`:''}</button>`).join('')}</nav>`}
+function nextMilestone(pts){return S.milestones.find(m=>m.on!==false&&pts<m.at)||null}
 function pHome(){
- const p=me(),ps=PSTAT[p.id],cd=cooldown(),nm=nextMilestone(ps.points),prev=[...S.milestones].reverse().find(m=>ps.points>=m.at);
+ const p=me(),ps=PSTAT[p.id],cd=cooldown(),nm=nextMilestone(ps.points),prev=[...S.milestones].reverse().find(m=>m.on!==false&&ps.points>=m.at);
  const [cla,clo]=youPos(),since=Date.now()-DAY,near=DB.reports.filter(r=>r.t>since&&QC[r.id].status==='pass'&&distM(r,{lat:cla,lng:clo})<1500);
  const med=median(near.map(r=>r.inten)),peak=near.length?Math.max(...near.map(r=>r.inten)):null;
  const last=myReports().slice(-1)[0];
@@ -1653,7 +1674,7 @@ function pHome(){
  <div class="quick">${INT.map((x,i)=>`<button data-act="startReport" data-i="${i}" aria-label="${i} ${esc(L(x.en,x.ko))}"><i style="background:${icol(i)};color:${x.ink}">${i}</i><span>${esc(L(x.en,x.ko)).replace(' ','<br>')}</span></button>`).join('')}</div>
  <div class="between small"><span class="row" style="gap:6px">${ic('timerOutline',16)}${cd.wait>0?L(`Next report in ${Math.ceil(cd.wait/MIN)} min`,`${Math.ceil(cd.wait/MIN)}분 후 다음 응답 가능`):L('Ready to report','지금 응답 가능')}</span><span class="mono">${cd.today} / ${S.settings.daily} ${L('today','오늘')}</span></div>
  <div class="between small" style="border-top:1px solid var(--line);padding-top:10px"><span class="row" style="gap:8px;min-width:0"><span class="led geo-led"></span><span class="geo-txt mono" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span></span>${GEO.state==='idle'?`<button class="btn ghost sm" data-act="gpsOn">${ic('crosshairsGps',16)}${L('Turn on GPS','GPS 켜기')}</button>`:''}</div></div>
- <div class="card pad points stack" data-act="scr" data-v="rewards" style="cursor:pointer"><div class="between"><span class="eyebrow" style="color:var(--limed)">${L('Your points','내 포인트')}</span>${ps.pending?`<span class="small" style="color:var(--limed)">+${ps.pending} ${L('pending','대기')}</span>`:''}</div>
+ <div class="card pad points stack" data-act="scr" data-v="rewards" style="cursor:pointer"><div class="between"><span class="eyebrow" style="color:var(--limed)">${L('Your points','내 포인트')}</span>${unseen()?`<span class="pill ok">${ic('giftOutline',14)}${L('Reward ready','리워드 도착')}</span>`:''}${ps.pending?`<span class="small" style="color:var(--limed)">+${ps.pending} ${L('pending','대기')}</span>`:''}</div>
  <div class="row" style="align-items:flex-end;gap:8px"><span class="big num">${ps.points}</span><span style="font-weight:700;padding-bottom:4px">pts</span></div>
  ${nm?`<div class="meter"><i style="width:${Math.min(100,(ps.points-(prev?prev.at:0))/(nm.at-(prev?prev.at:0))*100)}%"></i></div><div class="between small" style="color:var(--limed)"><span>${L('Next','다음')}: <b>${esc(L(nm.en,nm.ko))}</b></span><span class="mono">${ps.points}/${nm.at}</span></div><div class="small" style="color:var(--limed)">${L(`${Math.ceil((nm.at-ps.points)/S.settings.ppr)} more accepted report(s) to go`,`승인된 응답 ${Math.ceil((nm.at-ps.points)/S.settings.ppr)}건 더 필요`)}</div>`:`<div class="small" style="color:var(--limed)">${L('All milestones reached. Thank you!','모든 마일스톤 달성. 감사합니다!')}</div>`}</div>
  <div class="card pad"><div class="between"><div><div class="eyebrow">${L('Near you · last 24 h','내 주변 · 최근 24시간')}</div><b>${GEO.real?L('Your position','현재 위치'):homeName(p)} ${L('+ 1.5 km','반경 1.5 km')}</b></div><button class="link" data-act="scr" data-v="map">${L('Map','지도')} ›</button></div>
@@ -1678,18 +1699,33 @@ function pHistory(){
  <div class="mono">${r.id} · ${areaName(nearestArea(r))}</div>
  ${q.status==='exclude'?`<div class="alert warn">${ic('informationOutline',16)}<span>${L('This report did not pass the automatic checks and earns no points. If you think this is wrong, ask for a review.','자동 검사를 통과하지 못해 포인트가 지급되지 않았습니다. 잘못되었다면 검토를 요청하세요.')}</span></div><button class="btn ghost sm" data-act="askReview" data-v="${r.id}">${L('Ask for review','검토 요청')}</button>`:q.status==='review'?`<div class="alert info">${ic('timerSandEmpty',16)}<span>${L('A researcher will check this report. Points are added if it is accepted.','연구원이 확인 후 승인되면 포인트가 지급됩니다.')}</span></div>`:''}</div>`:''}`}).join(''):`<div class="pad small">${L('No reports yet. Your reports will appear here.','아직 응답이 없습니다.')}</div>`}</div>`;
 }
+// Issued rewards the participant has not opened yet: dot on the Rewards tab, pill on the home card.
+const SEEN='eco-seen-rewards';
+function unseen(){if(!S.meId)return 0;const s=store.get(SEEN,[]);return S.claims.filter(c=>c.pid===S.meId&&c.status==='issued'&&!s.includes(c.id)).length}
+const httpsUrl=v=>/^https:\/\/[^\s"'<>]+$/.test(v||'');
+function msOf(c){return S.milestones.find(m=>m.rid===c.rid)||(!c.rid?S.milestones.find(m=>m.at===c.at):null)||null}
+function claimBox(c,m){const k=c.kind||(m&&m.kind)||'code',how=m?L(m.howEn,m.howKo):'',exp=c.exp?` · ${L('valid until','유효기간')} ${esc(c.exp)}`:'';
+ const box=k==='link'&&httpsUrl(c.code)?`<div class="coupon"><div><div class="small">${L('Coupon link','쿠폰 링크')}${exp}</div><a class="btn primary sm" style="margin-top:6px" href="${esc(c.code)}" target="_blank" rel="noopener noreferrer">${ic('giftOutline',16)}${L('Open coupon','쿠폰 열기')}</a></div><button class="icon-btn" data-act="copy" data-v="${esc(c.code)}" aria-label="${L('Copy link','링크 복사')}">${ic('contentCopy',18)}</button></div>`
+  :k==='manual'?(c.code?`<div class="alert info">${ic('informationOutline',18)}<span>${esc(c.code)}</span></div>`:'')
+  :c.code?`<div class="coupon"><div><div class="small">${L('Voucher code','쿠폰 번호')}${exp}</div><code>${esc(c.code)}</code></div><button class="icon-btn" data-act="copy" data-v="${esc(c.code)}" aria-label="${L('Copy code','코드 복사')}">${ic('contentCopy',18)}</button></div>`:'';
+ return`<span class="led ok">${L('Issued','발급 완료')}</span>${box}${how?`<span class="small">${esc(how)}</span>`:''}`}
+function claimState(c,m){
+ if(c.status==='issued')return claimBox(c,m);
+ if(c.status==='denied')return`<span class="led ex">${L('Not approved','미승인')}${c.reason?': '+esc(c.reason):''}</span>`;
+ if(m&&m.auto&&m.kind!=='manual')return m.stock>0?`<span class="led blue">${L('Being issued','발급 중')}</span><span class="small">${L('Your code appears here automatically.','코드가 이곳에 자동으로 표시됩니다.')}</span>`
+  :`<span class="led rev">${L('Waiting for new codes','새 코드 대기 중')}</span><span class="small">${L('You keep your place. The code appears here when the lab adds more.','순서는 유지됩니다. 연구실이 코드를 추가하면 이곳에 표시됩니다.')}</span>`;
+ return`<span class="led rev">${L('Claimed · a researcher issues it within 48 h','신청됨 · 48시간 내 연구원이 발급')}</span>`}
 function pRewards(){
- const ps=PSTAT[S.meId],claims=S.claims.filter(c=>c.pid===S.meId);
+ const ps=PSTAT[S.meId],claims=S.claims.filter(c=>c.pid===S.meId),seen=store.get(SEEN,[]),iss=claims.filter(c=>c.status==='issued').map(c=>c.id);
+ if(iss.some(id=>!seen.includes(id)))store.set(SEEN,[...new Set([...seen,...iss])].slice(-200));
+ const mine=m=>claims.find(x=>x.rid===m.rid||(!x.rid&&x.at===m.at));
  return`<div class="card pad points stack"><span class="eyebrow" style="color:var(--limed)">${L('Points balance','포인트')}</span><div class="row" style="align-items:flex-end;gap:8px"><span class="big num">${ps.points}</span><span style="font-weight:700;padding-bottom:4px">pts</span></div>
  <div class="small" style="color:var(--limed)">${ps.acc} ${L('accepted reports','승인 응답')} × ${S.settings.ppr} + ${ps.bonus} ${L('weekly bonus','주간 보너스')}${ps.pending?` · +${ps.pending} ${L('pending review','검토 대기')}`:''}</div></div>
- <div class="card pad"><div class="eyebrow">${L('Milestones','마일스톤')}</div><div class="ladder" style="margin-top:6px">${S.milestones.map(m=>{const done=ps.points>=m.at,c=claims.find(x=>x.at===m.at);
-  return`<div class="rung ${done?'done':''}"><div class="dot">${done?ic(m.ico||'giftOutline',22):m.at}</div><div class="stack" style="gap:6px"><div class="between"><b style="font-size:13.5px">${esc(L(m.en,m.ko))}</b><span class="mono small">${m.at} pts</span></div>
-  ${!done?`<div class="meter blue"><i style="width:${Math.min(100,ps.points/m.at*100)}%"></i></div><span class="small">${L(`${Math.ceil((m.at-ps.points)/S.settings.ppr)} more report(s)`,`응답 ${Math.ceil((m.at-ps.points)/S.settings.ppr)}건 더`)}</span>`
-  :!c?`<button class="btn primary sm" data-act="claim" data-v="${m.at}">${ic('giftOutline',16)}${L('Claim reward','리워드 받기')}</button>`
-  :c.status==='requested'?`<span class="led rev">${L('Requested · approval within 48 h','신청됨 · 48시간 내 승인')}</span>`
-  :c.status==='denied'?`<span class="led ex">${L('Not approved','미승인')}: ${esc(c.reason||'')}</span>`
-  :`<div class="coupon"><div><div class="small">${L('Coupon code','쿠폰 코드')} · ${L('valid until','유효기간')} ${esc(c.exp)}</div><code>${esc(c.code)}</code></div><button class="icon-btn" data-act="copy" data-v="${esc(c.code)}" aria-label="${L('Copy code','코드 복사')}">${ic('contentCopy',18)||ic('check',18)}</button></div>`}</div></div>`}).join('')}</div></div>
- <div class="alert info">${ic('informationOutline',18)}<span>${L('Only reports that pass the quality checks earn points. Rewards are limited by stock; codes are illustrative.','품질 검사를 통과한 응답만 포인트가 쌓입니다. 리워드는 수량 한정이며 코드는 예시입니다.')}</span></div>`;
+ <div class="card pad"><div class="eyebrow">${L('Milestones','마일스톤')}</div><div class="ladder" style="margin-top:6px">${S.milestones.filter(m=>m.on!==false||mine(m)).map(m=>{const done=ps.points>=m.at,c=mine(m);
+  return`<div class="rung ${done||c?'done':''}"><div class="dot">${done||c?ic(m.ico||'giftOutline',22):m.at}</div><div class="stack" style="gap:6px"><div class="between"><b style="font-size:13.5px">${esc(L(m.en,m.ko))}</b><span class="mono small">${m.at} pts</span></div>
+  ${c?claimState(c,m):!done?`<div class="meter blue"><i style="width:${Math.min(100,ps.points/m.at*100)}%"></i></div><span class="small">${L(`${Math.ceil((m.at-ps.points)/S.settings.ppr)} more report(s)`,`응답 ${Math.ceil((m.at-ps.points)/S.settings.ppr)}건 더`)}</span>`
+  :`<span class="led blue">${L('Reached · claiming…','달성 · 신청 중…')}</span>`}</div></div>`}).join('')}</div></div>
+ <div class="alert info">${ic('informationOutline',18)}<span>${L('Only reports that pass the quality checks earn points. When you reach a milestone, the reward is claimed for you and the code appears here.','품질 검사를 통과한 응답만 포인트가 쌓입니다. 마일스톤에 도달하면 리워드가 자동으로 신청되고 코드가 이곳에 표시됩니다.')}${LIVE?'':' '+L('Demo codes are not real.','데모 코드는 실제 쿠폰이 아닙니다.')}</span></div>`;
 }
 function pMe(){
  const p=me(),f=S.settings.fields;
@@ -1791,14 +1827,14 @@ function pReport(){
 }
 function pSent(){
  const r=DB.reports.find(x=>x.id===S.sent);if(!r){S.sent=null;return''}const q=QC[r.id],ps=PSTAT[S.meId],nm=nextMilestone(ps.points),cd=cooldown();
- const unlocked=S.milestones.filter(m=>ps.points>=m.at&&!S.claims.some(c=>c.pid===S.meId&&c.at===m.at));
+ const fresh=S.claims.filter(c=>c.pid===S.meId&&c.at_t>=r.sub-5000),fm=fresh.length?msOf(fresh[0]):null;
  return`<div class="overlay"><div class="scroll" style="justify-content:center;padding:24px;gap:16px">
  <div style="width:72px;height:72px;border-radius:20px;background:${q.status==='pass'?'var(--okt)':'var(--warnt)'};color:${q.status==='pass'?'var(--ok)':'var(--warn)'};display:grid;place-items:center">${ic(q.status==='pass'?'checkCircle':'timerSandEmpty',40)}</div>
  <h1 style="font-family:var(--f-display);font-stretch:112%;font-size:28px">${L('Thank you. Report sent.','감사합니다. 제출했어요.')}</h1>
  <div class="card pad stack"><div class="between">${ichip(r.inten)}<span class="led ${QCLAB[q.status][2]}">${L(QCLAB[q.status][0],QCLAB[q.status][1])}</span></div>
  <div class="small">${fDT(r.t)} · ${areaName(nearestArea(r))}${r.chars.length?' · '+r.chars.map(c=>esc(L(SMELL[c].en,SMELL[c].ko))).join(', '):''}</div>
  <div class="small">${q.status==='pass'?L(`+${S.settings.ppr} points added. Weather and wind for this time are added by the server.`,`+${S.settings.ppr} 포인트 지급. 이 시각의 날씨·풍향은 서버가 추가합니다.`):q.status==='review'?L(`+${S.settings.ppr} points pending a researcher's check.`,`연구원 확인 후 +${S.settings.ppr} 포인트 지급 예정.`):L('This report did not pass the automatic checks, so it earns no points.','자동 검사를 통과하지 못해 포인트가 지급되지 않습니다.')}</div></div>
- ${unlocked.length?`<div class="card pad points stack"><b>${ic('trophyOutline',20)} ${L('Milestone reached!','마일스톤 달성!')}</b><span>${esc(L(unlocked[0].en,unlocked[0].ko))}</span><button class="btn dark" data-act="goRewards">${L('Claim in Rewards','리워드에서 받기')}</button></div>`
+ ${fm?`<div class="card pad points stack"><b>${ic('trophyOutline',20)} ${L('Milestone reached!','마일스톤 달성!')}</b><span>${esc(L(fm.en,fm.ko))}</span><span class="small">${fresh[0].status==='issued'?L('Your code is ready.','코드가 도착했습니다.'):L('Your reward has been claimed for you.','리워드가 자동으로 신청되었습니다.')}</span><button class="btn dark" data-act="goRewards">${L('Open Rewards','리워드 보기')}</button></div>`
  :nm?`<div class="card pad stack"><div class="between small"><span>${L('Next reward','다음 리워드')}: <b>${esc(L(nm.en,nm.ko))}</b></span><span class="mono">${ps.points}/${nm.at}</span></div><div class="meter blue"><i style="width:${ps.points/nm.at*100}%"></i></div></div>`:''}
  <p class="small" style="margin:0">${ic('timerOutline',16)} ${L(`Next report possible at ${fT(cd.last+S.settings.gap*MIN)} (every ${S.settings.gap} min, up to ${S.settings.daily} a day).`,`다음 응답 가능 시각 ${fT(cd.last+S.settings.gap*MIN)} (${S.settings.gap}분 간격, 하루 ${S.settings.daily}회).`)}</p></div>
  <div class="footer"><button class="btn primary" data-act="closeSent">${L('Done','완료')}</button></div></div>`;
@@ -2039,18 +2075,90 @@ function aParticipants(){
  ${list.map(({p,s})=>`<tr><td class="mono">${p.id}${p.id===S.meId?` <span class="pill blue">${L('you','나')}</span>`:''}${S.partEx[p.id]?` <span class="pill ex">${L('excluded','제외')}</span>`:''}</td><td>${esc(pname(p))}</td><td>${lab(GENDER,p.gender)}</td><td class="num">${p.birthYear?ageBand(p.birthYear):'—'}</td><td>${lab(OCC,p.occupation)}</td><td>${homeName(p)}</td><td class="r num">${s.n}</td><td class="r num">${s.acc}</td><td class="r num">${s.points}</td><td class="r mono" style="color:${s.avgScore>=25?'var(--warn)':'inherit'}">${s.avgScore}</td><td class="mono small">${s.last?fDT(s.last):'—'}</td></tr>`).join('')}</tbody></table></div></div>`;
 }
 function aRewards(){
- const ro=!isAdmin(),q=S.claims.slice().reverse();
- return aPH(L('Rewards','리워드'),L('Points come only from accepted reports. A milestone unlocks a reward the participant can claim; an admin approves it and the code is delivered in the app.','포인트는 승인 응답에서만 쌓입니다. 마일스톤 달성 시 참여자가 신청하고 관리자가 승인하면 앱으로 코드가 전달됩니다.'))+
- `<div class="grid2"><div class="card panel"><h2>${L('Claims','신청')}</h2><div class="sub">${L('Approve within 48 h (proposal for D4)','48시간 내 승인 (D4 제안)')}</div>
- ${q.length?`<div class="tbl-wrap"><table class="tbl"><thead><tr><th>${L('Participant','참여자')}</th><th>${L('Reward','리워드')}</th><th>${L('Status','상태')}</th><th></th></tr></thead><tbody>${q.map(c=>{const p=DB.byP[c.pid]||{id:c.pid},s=PSTAT[c.pid]||{};const m=S.milestones.find(x=>x.at===c.at)||{en:'?',ko:'?'};
-  return`<tr><td class="mono">${c.pid}<div class="small">${esc(pname(p))} · ${s.acc??0} ${L('accepted','승인')} · QC ${s.avgScore??0}</div></td><td>${esc(L(m.en,m.ko))}<div class="small mono">${fDT(c.at_t)}</div></td><td>${c.status==='requested'?`<span class="pill blue">${L('Requested','신청')}</span>`:c.status==='issued'?`<span class="pill ok">${L('Issued','발급')}</span><div class="small mono">${esc(c.code)}</div>`:`<span class="pill ex">${L('Denied','거절')}</span>`}</td>
-  <td>${c.status==='requested'?`<div class="row" style="gap:6px"><button class="btn primary sm" data-act="claimOk" data-v="${c.id}" ${ro?'disabled':''}>${L('Approve','승인')}</button><button class="btn ghost sm" data-act="claimNo" data-v="${c.id}" ${ro?'disabled':''}>${L('Deny','거절')}</button></div>`:''}</td></tr>`}).join('')}</tbody></table></div>`
- :`<p class="small">${L('No claims yet. In the participant app, submit one more report as the example participant and claim the coffee coupon.','신청 없음. 참여자 앱에서 예시 참여자로 응답 1건을 더 제출하고 커피 쿠폰을 신청해 보세요.')}</p>`}</div>
- <div class="card panel"><h2>${L('Milestone ladder','마일스톤')}</h2><div class="sub">${L(`${S.settings.ppr} pts per accepted report; +${S.settings.weekBonus} for 3 different days in a week`,`승인 응답당 ${S.settings.ppr}점, 주 3일 참여 시 +${S.settings.weekBonus}`)}</div>
- <div class="tbl-wrap"><table class="tbl"><thead><tr><th>${L('Points','포인트')}</th><th>≈ ${L('reports','응답')}</th><th>${L('Reward (EN)','리워드 (영문)')}</th><th>${L('Reward (KO)','리워드 (국문)')}</th><th class="r">${L('Stock','재고')}</th><th class="r">${L('Reached','달성')}</th></tr></thead><tbody>
- ${S.milestones.map((m,i)=>`<tr><td><input class="input sm mono" style="width:76px" type="number" min="10" step="10" id="ms-at-${i}" data-ms="${i}" data-mk="at" value="${m.at}" ${ro?'disabled':''}></td><td class="num">${Math.ceil(m.at/S.settings.ppr)}</td><td><input class="input sm" id="ms-en-${i}" data-ms="${i}" data-mk="en" value="${esc(m.en)}" ${ro?'disabled':''}></td><td><input class="input sm" id="ms-ko-${i}" data-ms="${i}" data-mk="ko" value="${esc(m.ko)}" ${ro?'disabled':''}></td><td class="r"><input class="input sm mono" style="width:70px" type="number" min="0" id="ms-st-${i}" data-ms="${i}" data-mk="stock" value="${m.stock}" ${ro?'disabled':''}></td><td class="r num">${DB.people.filter(p=>PSTAT[p.id].points>=m.at).length}</td></tr>`).join('')}</tbody></table></div>
- <p class="small">${L('Reward names and values are illustrative until the budget and supplier are decided (D4).','예산과 공급처가 정해지기 전까지 리워드 이름과 금액은 예시입니다 (D4).')}</p></div></div>`;
+ const ro=!isAdmin(),cl=S.claims.slice().reverse(),open=cl.filter(c=>c.status==='requested'),closed=cl.filter(c=>c.status!=='requested').slice(0,150);
+ const row=c=>{const p=DB.byP[c.pid]||{id:c.pid},s=PSTAT[c.pid]||{points:0},m=msOf(c),nm=m?L(m.en,m.ko):(L(c.en,c.ko)||'?');
+  const st=c.status==='requested'?`<span class="pill blue">${L('Waiting','대기')}</span>${!m?'':!claimOk(c)?`<div class="small" style="color:var(--warn)">${S.partEx[c.pid]?L('Participant excluded','참여자 제외됨'):L(`Points ${s.points} of ${m.at}`,`포인트 ${s.points}/${m.at}`)}</div>`:m.auto&&m.kind!=='manual'&&!freeCodes(m.rid).length?`<div class="small" style="color:var(--warn)">${L('No unused codes left','남은 코드 없음')}</div>`:''}`
+   :c.status==='issued'?`<span class="pill ok">${L('Issued','발급')}</span><div class="small mono" style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(c.code||'—')}</div><div class="small">${c.by==='auto'?L('automatic','자동'):esc((c.by||'').split('@')[0])}${c.iss_t?' · '+fDT(c.iss_t):''}</div>`
+   :`<span class="pill ex">${L('Denied','거절')}</span><div class="small">${esc(c.reason||'')}</div>`;
+  const act=c.status!=='requested'?'':`<div class="row" style="gap:6px;flex-wrap:wrap"><input class="input sm" style="min-width:160px;flex:1" id="cin-${c.id}" data-cin="${c.id}" value="${esc(S.cin[c.id]||'')}" placeholder="${m&&m.kind==='manual'?L('Message, e.g. where to collect it','안내 메시지 (예: 수령 장소)'):L('Blank = next code from the list','비우면 목록의 다음 코드')}" ${ro?'disabled':''}><button class="btn primary sm" data-act="claimOk" data-v="${c.id}" ${ro?'disabled':''}>${L('Issue','발급')}</button><button class="btn ghost sm" data-act="claimNo" data-v="${c.id}" ${ro?'disabled':''}>${L('Deny','거절')}</button></div>`;
+  return`<tr><td class="mono">${c.pid}<div class="small">${esc(pname(p))} · ${s.points} pts</div></td><td>${esc(nm)}<div class="small">${m?(m.auto&&m.kind!=='manual'?L('Automatic','자동'):L('Admin issues','관리자 발급'))+' · ':''}${fDT(c.at_t)}</div></td><td>${st}</td><td>${act}</td></tr>`};
+ const claimsCard=`<div class="card panel"><h2>${L('Claims','신청')}</h2><div class="sub">${L(`${open.length} waiting · ${cl.filter(c=>c.status==='issued').length} issued. Issue gives the code typed in the box, or the next unused code from the reward's list when the box is empty. To deny, type the reason in the box first.`,`대기 ${open.length} · 발급 ${cl.filter(c=>c.status==='issued').length}. 발급을 누르면 칸에 입력한 코드, 비어 있으면 리워드 목록의 다음 미사용 코드가 지급됩니다. 거절 사유는 칸에 먼저 입력하세요.`)}</div>
+ <div class="alert info" style="margin-bottom:12px">${ic('flash',18)}<span>${L('Automatic issuing runs inside this admin console. While any admin has it open, claims for "Automatic" rewards are issued within seconds. Claims made while no console is open are issued the next time one opens.','자동 발급은 이 관리자 콘솔 안에서 실행됩니다. 관리자 한 명이라도 콘솔을 열어 두면 "자동" 리워드 신청은 몇 초 안에 발급됩니다. 콘솔이 닫혀 있는 동안 들어온 신청은 다음에 콘솔을 열 때 발급됩니다.')}</span></div>
+ ${cl.length?`<div class="tbl-wrap"><table class="tbl"><thead><tr><th>${L('Participant','참여자')}</th><th>${L('Reward','리워드')}</th><th>${L('Status','상태')}</th><th>${L('Issue or deny','발급 / 거절')}</th></tr></thead><tbody>${[...open,...closed].map(row).join('')}</tbody></table></div>`
+ :`<p class="small">${LIVE?L('No claims yet. A claim appears here as soon as a participant reaches a milestone.','신청 없음. 참여자가 마일스톤에 도달하면 바로 여기에 표시됩니다.'):L('No claims yet. In the participant app, submit one more report as the example participant: the coffee coupon is claimed and issued automatically.','신청 없음. 참여자 앱에서 예시 참여자로 응답 1건을 더 제출하면 커피 쿠폰이 자동으로 신청·발급됩니다.')}</p>`}</div>`;
+ const card=(m,i)=>{const ps=poolStat(m.rid),pool=m.kind!=='manual',reached=DB.people.filter(p=>(PSTAT[p.id]||{}).points>=m.at).length,nCl=S.claims.filter(c=>msOf(c)===m).length,show=S.codesOpen===m.rid;
+  const fld=(k,lab,attrs='')=>`<label class="fgroup"><span>${lab}</span><input class="input sm" id="ms-${k}-${i}" data-ms="${i}" data-mk="${k}" value="${esc(m[k])}" ${attrs} ${ro?'disabled':''}></label>`;
+  const chips=(k,opts,dis)=>`<div class="chips">${opts.map(([v,l])=>`<button class="chip" data-act="msSet" data-ms="${i}" data-mk="${k}" data-v="${v}" aria-pressed="${String(m[k])===v}" ${ro||dis?'disabled':''}>${l}</button>`).join('')}</div>`;
+  const today=kDay(Date.now()),ord={free:0,issued:1,void:2},vl=show?(S.vouchers||[]).filter(v=>v.rid===m.rid).sort((a,b)=>ord[a.st]-ord[b.st]||a.add_t-b.add_t):[];
+  return`<div class="rw ${m.on===false?'off':''}">
+  <div class="between" style="gap:10px;flex-wrap:wrap"><div class="row" style="gap:10px;min-width:0"><span class="rwi">${ic(m.ico,22)}</span><div style="min-width:0"><b>${esc(L(m.en,m.ko))||L('(no name)','(이름 없음)')}</b><div class="small">${m.at} pts ≈ ${Math.ceil(m.at/S.settings.ppr)} ${L('accepted reports','승인 응답')} · ${L('reached by','달성')} ${reached} · ${L('claims','신청')} ${nCl}</div></div></div>
+   <div class="row" style="gap:6px">${chips('on',[['true',L('Active','사용')],['false',L('Off','중지')]])}<button class="btn ghost sm" data-act="msDel" data-v="${i}" ${ro?'disabled':''} aria-label="${L('Delete reward','리워드 삭제')}">${ic('trashCanOutline',16)}</button></div></div>
+  <div class="rwf">${fld('at',L('Points needed','필요 포인트'),'type="number" min="1" step="10"')}${fld('en',L('Name (English)','이름 (영문)'))}${fld('ko',L('Name (Korean)','이름 (국문)'))}</div>
+  <div class="rwf"><div class="fgroup"><span>${L('What the participant gets','지급 방식')}</span>${chips('kind',[['code',L('Voucher code','쿠폰 번호')],['link',L('Coupon link','쿠폰 링크')],['manual',L('No code (hand over)','코드 없음 (직접 전달)')]])}</div>
+   <div class="fgroup"><span>${L('Issuing','발급')}</span>${chips('auto',[['true',L('Automatic','자동')],['false',L('Admin issues','관리자 발급')]],m.kind==='manual')}</div>
+   <div class="fgroup"><span>${L('Icon','아이콘')}</span><div class="chips">${MS_ICONS.map(k=>`<button class="chip" data-act="msSet" data-ms="${i}" data-mk="ico" data-v="${k}" aria-pressed="${m.ico===k}" aria-label="${k}" ${ro?'disabled':''}>${ic(k,18)}</button>`).join('')}</div></div></div>
+  <div class="rwf">${fld('howEn',L('How to use it (English)','사용 방법 (영문)'))}${fld('howKo',L('How to use it (Korean)','사용 방법 (국문)'))}${pool?'':fld('stock',L('Stock left','남은 수량'),'type="number" min="0"')}</div>
+  ${pool?`<div class="rwc"><div class="between" style="gap:8px;flex-wrap:wrap"><b style="font-size:13px">${m.kind==='link'?L('Coupon links','쿠폰 링크 목록'):L('Voucher codes','쿠폰 번호 목록')}</b><span class="row small" style="gap:8px"><span><b class="num" style="color:${ps.free?'var(--ok)':'var(--err)'}">${ps.free}</b> ${L('unused','미사용')} · ${ps.issued} ${L('issued','발급')}${ps.expired?` · ${ps.expired} ${L('expired','만료')}`:''}${ps.void?` · ${ps.void} ${L('removed','삭제')}`:''}</span><button class="btn ghost sm" data-act="codesOpen" data-v="${m.rid}">${show?L('Hide list','목록 닫기'):L('Show list','목록 보기')}</button></span></div>
+   <textarea class="input sm" rows="3" id="pool-${m.rid}" data-pool="${m.rid}" placeholder="${m.kind==='link'?'https://…&#10;https://…, 2027-03-31':'ABCD-1234-5678&#10;EFGH-5678-9012, 2027-03-31'}" ${ro?'disabled':''}>${esc(S.pool[m.rid]||'')}</textarea>
+   <div class="between" style="gap:8px;flex-wrap:wrap"><span class="small" style="flex:1;min-width:200px">${L('Paste one per line; an expiry date after a comma is optional. Each code is given to one person only.','한 줄에 하나씩 붙여 넣으세요. 쉼표 뒤 유효기간은 선택입니다. 코드 하나는 한 사람에게만 지급됩니다.')}</span><button class="btn primary sm" data-act="addCodes" data-v="${m.rid}" ${ro?'disabled':''}>${ic('plus',16)}${L('Add to list','목록에 추가')}</button></div>
+   ${!show?'':vl.length?`<div class="tbl-wrap" style="max-height:280px;overflow:auto"><table class="tbl"><thead><tr><th>${L('Code','코드')}</th><th>${L('Valid until','유효기간')}</th><th>${L('Status','상태')}</th><th></th></tr></thead><tbody>${vl.slice(0,300).map(v=>`<tr><td class="mono" style="max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(v.code)}</td><td class="mono small">${esc(v.exp||'—')}</td><td>${v.st==='free'?(v.exp&&v.exp<today?`<span class="pill rev">${L('Expired','만료')}</span>`:`<span class="pill">${L('Unused','미사용')}</span>`):v.st==='issued'?`<span class="pill ok">${L('Issued','발급')}</span> <span class="small mono">${esc(v.pid)}</span>`:`<span class="pill ex">${L('Removed','삭제')}</span>`}</td><td>${v.st==='free'?`<button class="btn ghost sm" data-act="voidCode" data-v="${v.id}" ${ro?'disabled':''}>${L('Remove','삭제')}</button>`:''}</td></tr>`).join('')}</tbody></table></div>${vl.length>300?`<span class="small">${L(`Showing 300 of ${vl.length}.`,`${vl.length}개 중 300개 표시.`)}</span>`:''}`:`<span class="small">${L('The list is empty.','목록이 비어 있습니다.')}</span>`}
+  </div>`:''}
+  </div>`};
+ const typesCard=`<div class="card panel"><div class="between" style="gap:12px;flex-wrap:wrap;align-items:flex-start"><div style="flex:1;min-width:240px"><h2>${L('Reward types','리워드 종류')}</h2><div class="sub">${L(`Points: ${S.settings.ppr} per accepted report, +${S.settings.weekBonus} for reporting on 3 different days in a week (Survey settings). Participants see the name, icon and "how to use" text; changes reach phones at once. A new reward starts switched off.`,`포인트: 승인 응답당 ${S.settings.ppr}점, 주 3일 참여 시 +${S.settings.weekBonus} (설문 설정). 참여자에게는 이름, 아이콘, 사용 방법이 보이며 변경은 바로 반영됩니다. 새 리워드는 중지 상태로 시작합니다.`)}</div></div><button class="btn primary sm" data-act="msAdd" ${ro?'disabled':''}>${ic('plus',16)}${L('Add reward','리워드 추가')}</button></div>
+ <div class="stack" style="gap:12px">${S.milestones.map(card).join('')||`<p class="small">${L('No rewards yet.','리워드가 없습니다.')}</p>`}</div>
+ ${LIVE?'':`<p class="small" style="margin-top:10px">${L('Demo: reward names, prices and codes are illustrative (D4).','데모: 리워드 이름, 금액, 코드는 예시입니다 (D4).')}</p>`}</div>`;
+ return aPH(L('Rewards','리워드'),L('Points come only from accepted reports. When a participant reaches a milestone, the claim is filed by itself. Set up each reward below and paste its voucher codes; "Automatic" rewards hand out the next unused code straight away.','포인트는 승인 응답에서만 쌓입니다. 참여자가 마일스톤에 도달하면 신청이 자동으로 접수됩니다. 아래에서 리워드를 설정하고 쿠폰 코드를 붙여 넣으세요. "자동" 리워드는 다음 미사용 코드를 바로 지급합니다.'))+
+ `<div class="stack" style="gap:16px">${claimsCard}${typesCard}</div>`;
 }
+/* ---------------- rewards: claims and issuing ----------------
+   Codes live in vouchers/ (admins only). A participant sees a code only once it is copied into their own claim. */
+function freeCodes(rid){const t=kDay(Date.now());return(S.vouchers||[]).filter(v=>v.rid===rid&&v.st==='free'&&(!v.exp||v.exp>=t)).sort((a,b)=>a.add_t-b.add_t||(a.id<b.id?-1:1))}
+function poolStat(rid){const l=(S.vouchers||[]).filter(v=>v.rid===rid),t=kDay(Date.now());
+ return{free:l.filter(v=>v.st==='free'&&(!v.exp||v.exp>=t)).length,expired:l.filter(v=>v.st==='free'&&v.exp&&v.exp<t).length,issued:l.filter(v=>v.st==='issued').length,void:l.filter(v=>v.st==='void').length}}
+// The console's own count decides: accepted reports only (its quality verdicts and decisions), and not excluded.
+function claimOk(c){const m=msOf(c),s=PSTAT[c.pid];return!!(m&&s&&!S.partEx[c.pid]&&s.points>=m.at)}
+// Stock shown to participants = unused codes in the list (for code and link rewards).
+function syncStock(){if(!S.vouchers||(LIVE&&!S.admin))return;let ch=false;
+ for(const m of S.milestones)if(m.kind!=='manual'){const f=poolStat(m.rid).free;if(m.stock!==f){m.stock=f;ch=true}}if(ch)persist()}
+const claimId=(pid,rid)=>'C-'+pid.slice(2)+rid;
+// Participant phone: a reached milestone files its claim (one per reward; the id is fixed by participant and reward).
+function autoClaim(){if(BUILD==='a'||S.mode!=='participant'||!S.meId||S.onb||!PSTAT[S.meId]||S.partEx[S.meId])return;
+ if(LIVE&&(!LV.claimsIn||!LV.user))return;const pts=PSTAT[S.meId].points;let n=0;
+ for(const m of S.milestones){if(m.on===false||pts<m.at)continue;const id=claimId(S.meId,m.rid);
+  if(S.claims.some(c=>c.pid===S.meId&&(c.id===id||c.rid===m.rid||(!c.rid&&c.at===m.at)))||LV.tried.has(id))continue;
+  const c={id,pid:S.meId,rid:m.rid,at:m.at,at_t:Date.now(),status:'requested'};S.claims.push(c);LV.tried.add(id);n++;
+  if(LIVE){c.uid=LV.user.uid;LV.db.collection('claims').doc(id).set(clean(c)).catch(e=>console.warn('claim',id,e&&e.code))}}
+ if(n){if(!LIVE){persist();autoIssue()}render()}}
+// Gives one claim a code: the typed one, else the next unused code from the reward's list (manual rewards: the typed message).
+// Live: a transaction, so two open consoles can never hand out the same code or issue a claim twice.
+async function issueClaim(c,typed,by){const m=msOf(c);if(!m||c.status!=='requested')return false;
+ let v=null,code=String(typed||'').trim().slice(0,300);
+ if(!code&&m.kind!=='manual'){v=freeCodes(m.rid)[0];if(!v)return false;code=v.code}
+ const upd={status:'issued',code,exp:v&&v.exp||'',kind:m.kind,en:m.en,ko:m.ko,iss_t:Date.now(),by},vu={st:'issued',cid:c.id,pid:c.pid,iss_t:upd.iss_t,by};
+ if(LIVE){const d=LV.db,cr=d.collection('claims').doc(c.id),vr=v&&d.collection('vouchers').doc(v.id);
+  try{await d.runTransaction(async tx=>{const cs=await tx.get(cr);if(!cs.exists||cs.data().status!=='requested')throw new Error('taken');
+    if(vr){const vs=await tx.get(vr);if(!vs.exists||vs.data().st!=='free')throw new Error('taken')}
+    tx.update(cr,upd);if(vr)tx.update(vr,vu)})}
+  catch(e){if(e.message!=='taken')liveFail(e);return false}}
+ Object.assign(c,upd);if(v)Object.assign(v,vu);if(m.kind==='manual'&&m.stock>0)m.stock--;
+ audit(by==='auto'?'reward issued (auto)':'reward issued',`${c.pid} · ${m.en}${v?' · '+v.id:''}`);syncStock();persist();return true}
+// Admin console (and the demo): every waiting claim for an Automatic reward is issued once the points and a code are there.
+let issuing=false;
+async function autoIssue(){if(issuing)return;if(LIVE&&(!S.admin||!['claims','vouchers','participants','reports','config'].every(k=>LV.loaded[k])))return;
+ issuing=true;let n=0;
+ try{syncStock();for(const c of S.claims.filter(x=>x.status==='requested')){const m=msOf(c);if(!m||!m.auto||m.kind==='manual'||!claimOk(c))continue;if(await issueClaim(c,'','auto'))n++}}
+ finally{issuing=false}if(n)render()}
+function addCodes(rid){if(!isAdmin())return;const m=S.milestones.find(x=>x.rid===rid);if(!m)return;
+ const have=new Set((S.vouchers||[]).filter(v=>v.rid===rid).map(v=>v.code)),add=[];let bad=0,dup=0;
+ for(let line of String(S.pool[rid]||'').split(/\r?\n/)){line=line.trim();if(!line)continue;
+  const mm=line.match(/^(.*?)[\s,;|]+(\d{4}-\d{2}-\d{2})$/),code=(mm?mm[1]:line).trim(),exp=mm?mm[2]:'';
+  if(!code||code.length>300||(m.kind==='link'&&!httpsUrl(code))){bad++;continue}
+  if(have.has(code)){dup++;continue}have.add(code);add.push({id:'V-'+rnd(12),rid,code,exp,st:'free',add_t:Date.now()+add.length})}
+ const skipped=dup||bad?L(` (${dup} already in the list, ${bad} not valid${m.kind==='link'?': links must start with https://':''})`,` (중복 ${dup}, 형식 오류 ${bad})`):'';
+ if(!add.length)return toast(L('Nothing added','추가된 코드 없음')+skipped);
+ S.vouchers=[...(S.vouchers||[]),...add];S.pool[rid]='';
+ if(LIVE){const d=LV.db;for(let i=0;i<add.length;i+=400){const b=d.batch();add.slice(i,i+400).forEach(v=>b.set(d.collection('vouchers').doc(v.id),clean(v)));b.commit().catch(liveFail)}}
+ audit('codes added',`${rid} · ${add.length}`);syncStock();persist();toast(L(`${add.length} added`,`${add.length}개 추가`)+skipped);buildDB();render()}
 function aSettings(){
  const ro=!isAdmin(),s=S.settings;
  const num=(k,label,unit,min=0)=>`<label class="fgroup"><span>${label}</span><span class="row" style="gap:6px"><input class="input sm mono" style="width:90px" type="number" min="${min}" id="st-${k}" data-sset="${k}" value="${s[k]}" ${ro?'disabled':''}><span class="small">${unit}</span></span></label>`;
@@ -2077,7 +2185,7 @@ function aSettings(){
    config/app · participants/{uid} · reports/{id} · pub/{id} (public map points) · claims/{id} · audit/{id}
    Who may read or write what is enforced by firestore.rules, not by this code.
    ====================================================================== */
-const LV={user:null,auth:null,db:null,me:null,pub:[],pubIds:null,uidOf:{},pubOf:{},unsub:[],loaded:{},err:'',cfg:'',dirty:false,rt:null,ct:null,qt:null};
+const LV={tried:new Set(),claimsIn:false,user:null,auth:null,db:null,me:null,pub:[],pubIds:null,uidOf:{},pubOf:{},unsub:[],loaded:{},err:'',cfg:'',dirty:false,rt:null,ct:null,qt:null};
 const rnd=n=>Array.from(crypto.getRandomValues(new Uint8Array(n)),b=>'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[b&31]).join('');
 const clean=o=>JSON.parse(JSON.stringify(o));
 const DELF=()=>firebase.firestore.FieldValue.delete();
@@ -2100,7 +2208,10 @@ function normP(x){if(!/^P-[A-Z0-9]{1,12}$/.test(x.id))return null;const by=Math.
   consent:nStr(x.consent,10),provider:nOne(x.provider,['google','guest'])||null,notify:!!x.notify,
   lastAt:x.lastAt&&x.lastAt.toMillis?x.lastAt.toMillis():null,dayIdx:x.dayIdx==null?null:nNum(x.dayIdx),dayN:nNum(x.dayN),ex:x.ex?{by:nStr(x.ex.by,120),at:nNum(x.ex.at)}:undefined}}
 function normC(x){if(!/^C-[A-Z0-9]{1,24}$/.test(x.id)||!/^P-[A-Z0-9]{1,12}$/.test(x.pid))return null;
- return{id:x.id,pid:x.pid,uid:nStr(x.uid,128),at:nNum(x.at),at_t:nNum(x.at_t),status:nOne(x.status,['requested','issued','denied'])||'requested',code:nStr(x.code,40),exp:nStr(x.exp,10),reason:nStr(x.reason,120)}}
+ return{id:x.id,pid:x.pid,uid:nStr(x.uid,128),rid:/^[A-Z0-9]{1,8}$/.test(x.rid)?x.rid:'',at:nNum(x.at),at_t:nNum(x.at_t),status:nOne(x.status,['requested','issued','denied'])||'requested',
+  code:nStr(x.code,300),exp:/^\d{4}-\d{2}-\d{2}$/.test(x.exp)?x.exp:'',kind:nOne(x.kind,MS_KINDS)||'',en:nStr(x.en,80),ko:nStr(x.ko,80),reason:nStr(x.reason,120),iss_t:nNum(x.iss_t),by:nStr(x.by,120)}}
+function normV(id,x){if(!/^V-[A-Z0-9]{1,24}$/.test(id))return null;
+ return{id,rid:nStr(x.rid,8),code:nStr(x.code,300),exp:/^\d{4}-\d{2}-\d{2}$/.test(x.exp)?x.exp:'',st:nOne(x.st,['free','issued','void'])||'free',cid:nStr(x.cid,30),pid:nStr(x.pid,16),add_t:nNum(x.add_t),iss_t:nNum(x.iss_t),by:nStr(x.by,120)}}
 function normPub(id,x){if(!/^R-[A-Z0-9]{1,24}$/.test(id)||!/^[A-Z0-9]{10}$/.test(x.pid))return null;
  return{id,pid:'X-'+x.pid,pub:true,t:nNum(x.t),lat:nNum(x.lat),lng:nNum(x.lng),inten:Math.max(0,Math.min(5,Math.round(nNum(x.inten)))),chars:(Array.isArray(x.chars)?x.chars:[]).filter(c=>SMELL[c]).slice(0,3)}}
 const docs=(q,f)=>q.docs.map(f).filter(Boolean);
@@ -2132,7 +2243,7 @@ function liveSignIn(v){LV.err=S.login.err='';
 function applyConfig(c){c=c||{};
  S.settings={...DEFAULT_SETTINGS,...(c.settings||{}),fields:{...DEFAULT_SETTINGS.fields,...(c.settings?.fields||{})}};
  S.rules=Object.fromEntries(Object.entries(DEFAULT_RULES).map(([k,v])=>[k,{...v,...(c.rules?.[k]||{})}]));
- S.milestones=c.milestones||DEFAULT_MILESTONES.map(m=>({...m}));LV.cfg=cfgJSON()}
+ S.milestones=normMs(c.milestones);LV.cfg=cfgJSON()}
 const cfgJSON=()=>JSON.stringify({settings:S.settings,rules:S.rules,milestones:S.milestones});
 // Admin edits to settings, checks and milestones all end in persist(); write config/app once they settle.
 function liveSaveConfig(){if(!S.admin||!LV.loaded.config)return;clearTimeout(LV.ct);LV.ct=setTimeout(()=>{const j=cfgJSON();if(j===LV.cfg)return;LV.cfg=j;LV.db.doc('config/app').set(JSON.parse(j)).catch(liveFail)},600)}
@@ -2140,7 +2251,7 @@ function liveSaveConfig(){if(!S.admin||!LV.loaded.config)return;clearTimeout(LV.
 /* participant: own profile, reports and claims; everyone's public map points */
 function partSession(u){
  Object.assign(S,{myReports:[],newPeople:[],claims:[],overrides:{},partEx:{},meId:null,draft:null,sent:null,sheet:null,scr:'home'});LV.pub=[];LV.me=null;
- LV.deleting=false;
+ LV.deleting=false;LV.claimsIn=false;LV.tried=new Set();
  if(!u){S.onb={step:'signin'};return lvRender()}
  LV.err='';S.onb={step:'loading'};render();
  const d=LV.db,on=(ref,fn)=>LV.unsub.push(ref.onSnapshot(x=>{if(fn(x)!==false)lvRender()},liveFail));
@@ -2155,7 +2266,7 @@ function partSession(u){
   if(p&&S.onb&&S.onb.step==='loading')S.onb=null;
   if(!p&&(!S.onb||S.onb.step==='loading'))S.onb={step:'consent',c1:false,c2:false,c3:false,c4:false,c5:false,p:{name:u.displayName||'',gender:null,birthYear:null,occupation:null,province:null,district:'',smoking:null},err:''}}
  on(d.collection('reports').where('uid','==',u.uid),q=>{S.myReports=docs(q,x=>normR(x.id,x.data()));S.overrides=ovFrom(S.myReports)});
- on(d.collection('claims').where('uid','==',u.uid),q=>{S.claims=docs(q,x=>normC(x.data())).sort((a,b)=>a.at_t-b.at_t)});
+ on(d.collection('claims').where('uid','==',u.uid),q=>{S.claims=docs(q,x=>normC(x.data())).sort((a,b)=>a.at_t-b.at_t);LV.claimsIn=true});
  on(d.collection('pub').where('t','>',Date.now()-31*DAY),q=>{LV.pub=docs(q,x=>normPub(x.id,x.data()))});
 }
 function liveSubmit(r){const d=LV.db,b=d.batch(),me=LV.me||{},di=kIdx(Date.now());b.set(d.collection('reports').doc(r.id),clean(r));
@@ -2173,11 +2284,11 @@ async function liveDeleteMe(){const u=LV.user,d=LV.db;
 
 /* admin: everything; the reads fail with permission-denied unless the account is on the allowlist in firestore.rules */
 function adminSession(u){
- Object.assign(S,{admin:null,myReports:[],newPeople:[],claims:[],overrides:{},partEx:{},audit:[],drawer:null});LV.pubIds=null;LV.uidOf={};LV.pubOf={};
+ Object.assign(S,{admin:null,myReports:[],newPeople:[],claims:[],vouchers:null,overrides:{},partEx:{},audit:[],drawer:null});LV.pubIds=null;LV.uidOf={};LV.pubOf={};
  if(!u){S.login.step=1;return lvRender()}
  if(u.isAnonymous)return LV.auth.signOut();
  S.login.step=3;S.login.err='';render();
- const d=LV.db,need=['config','participants','reports','claims','pub','audit'];
+ const d=LV.db,need=['config','participants','reports','claims','vouchers','pub','audit'];
  const deny=e=>{if(e&&e.code==='permission-denied'){LV.unsub.forEach(f=>f());LV.unsub=[];S.admin=null;S.login.step=1;
    S.login.err=L(`${u.email} is not on the admin list. Ask the lab administrator to add it.`,`${u.email} 계정은 관리자 목록에 없습니다. 연구실 관리자에게 추가를 요청하세요.`);LV.auth.signOut().catch(()=>{});render()}else liveFail(e)};
  const on=(k,ref,fn)=>LV.unsub.push(ref.onSnapshot(x=>{fn(x);LV.loaded[k]=true;
@@ -2186,6 +2297,7 @@ function adminSession(u){
  on('participants',d.collection('participants'),q=>{LV.uidOf={};LV.pubOf={};S.partEx={};S.newPeople=docs(q,x=>{const p=normP(x.data());if(!p)return null;LV.uidOf[p.id]=x.id;LV.pubOf[p.id]=p.pubId;if(p.ex)S.partEx[p.id]=p.ex;return p})});
  on('reports',d.collection('reports'),q=>{S.myReports=docs(q,x=>normR(x.id,x.data()));S.overrides=ovFrom(S.myReports)});
  on('claims',d.collection('claims'),q=>{S.claims=docs(q,x=>normC(x.data())).sort((a,b)=>a.at_t-b.at_t)});
+ on('vouchers',d.collection('vouchers'),q=>{S.vouchers=docs(q,x=>normV(x.id,x.data()))});
  on('pub',d.collection('pub'),q=>{LV.pubIds=new Set(q.docs.map(x=>x.id))});
  on('audit',d.collection('audit').orderBy('at','desc').limit(200),q=>{S.audit=q.docs.map(x=>{const a=x.data();return{at:nNum(a.at),who:nStr(a.who,120),action:nStr(a.action,60),detail:nStr(a.detail,300)}})});
 }
@@ -2268,7 +2380,6 @@ const ACT={
  toggleMine:()=>{S.showMine=!S.showMine;render()},
  histOpen:el=>{S.histOpen=S.histOpen===el.dataset.v?null:el.dataset.v;render()},
  askReview:el=>{const id=el.dataset.v;S.overrides[id]={status:'review',reason:'Participant asked for review',by:'participant',at:Date.now()};if(LIVE)liveUpd('reports',id,{reviewReq:Date.now()});audit('review request',id);buildDB();toast(L('Review requested. A researcher will check it.','검토를 요청했습니다.'));render()},
- claim:el=>{const at=Number(el.dataset.v),c={id:'C-'+Date.now().toString(36).toUpperCase()+(LIVE?rnd(3):''),pid:S.meId,at,at_t:Date.now(),status:'requested'};S.claims.push(c);if(LIVE){c.uid=LV.user.uid;liveSet('claims',c.id,c)}persist();toast(L('Reward requested. You will be notified when the code is ready.','리워드를 신청했습니다. 코드가 준비되면 알려 드려요.'));render()},
  copy:el=>{const v=el.dataset.v;if(navigator.clipboard)navigator.clipboard.writeText(v).then(()=>toast(L('Code copied','코드 복사됨')),()=>toast(v));else toast(v)},
  meEdit:el=>{S.meEdit=el.dataset.v==='1';S.pf={...me()};render()},
  pf:el=>{const tgt=S.onb?S.onb.p:S.pf;if(!tgt)return;const k=el.dataset.k;tgt[k]=el.dataset.v;if(S.onb)S.onb.err='';const nm=$('pf-name');if(nm)tgt.name=nm.value;const ds=$('pf-district');if(ds)tgt.district=ds.value;render()},
@@ -2308,9 +2419,21 @@ const ACT={
  rulesReset:()=>{S.rules=JSON.parse(JSON.stringify(DEFAULT_RULES));S.settings.qcReview=30;S.settings.qcExclude=60;audit('checks reset','defaults');persist();buildDB();render()},
  partEx:el=>{const id=el.dataset.v;if(el.dataset.on==='1'){S.partEx[id]={by:S.admin.email,at:Date.now()};audit('exclude participant',id)}else{delete S.partEx[id];audit('restore participant',id)}if(LIVE)liveUpd('participants',LV.uidOf[id],{ex:S.partEx[id]||DELF()});persist();buildDB();render()},
  doExport:()=>doExport(),
- claimOk:el=>{const c=S.claims.find(x=>x.id===el.dataset.v);const m=S.milestones.find(x=>x.at===c.at);c.status='issued';c.code=(m&&/starbucks/i.test(m.en)?'SB':'EC')+'-'+Math.random().toString(36).slice(2,6).toUpperCase()+'-'+Math.random().toString(36).slice(2,6).toUpperCase();
-  c.exp=kDay(Date.now()+90*DAY);if(m&&m.stock>0)m.stock--;if(LIVE)liveUpd('claims',c.id,{status:c.status,code:c.code,exp:c.exp});audit('reward issued',`${c.pid} · ${c.at} pts`);persist();render()},
- claimNo:el=>{const c=S.claims.find(x=>x.id===el.dataset.v);c.status='denied';c.reason=L('Reports did not pass review','검토 미통과');if(LIVE)liveUpd('claims',c.id,{status:c.status,reason:c.reason});audit('reward denied',`${c.pid} · ${c.at} pts`);persist();render()},
+ claimOk:el=>{if(!isAdmin())return;const c=S.claims.find(x=>x.id===el.dataset.v),m=c&&msOf(c);if(!c)return;const typed=(S.cin[c.id]||'').trim();
+  if(m&&m.kind==='link'&&typed&&!httpsUrl(typed))return toast(L('A coupon link must start with https://','쿠폰 링크는 https:// 로 시작해야 합니다.'));
+  issueClaim(c,typed,S.admin.email).then(ok=>{if(ok){delete S.cin[c.id];toast(L('Issued','발급했습니다'))}else if(c.status==='requested')toast(L('No unused code left for this reward. Add codes to its list, or type one in the box.','이 리워드의 남은 코드가 없습니다. 목록에 코드를 추가하거나 칸에 직접 입력하세요.'));render()})},
+ claimNo:el=>{if(!isAdmin())return;const c=S.claims.find(x=>x.id===el.dataset.v);if(!c||c.status!=='requested')return;c.status='denied';c.reason=(S.cin[c.id]||'').trim().slice(0,120)||L('Reports did not pass review','검토 미통과');delete S.cin[c.id];
+  if(LIVE)liveUpd('claims',c.id,{status:c.status,reason:c.reason,iss_t:Date.now(),by:S.admin.email});audit('reward denied',`${c.pid} · ${c.rid||c.at}`);persist();render()},
+ msSet:el=>{if(!isAdmin())return;const m=S.milestones[Number(el.dataset.ms)],k=el.dataset.mk,v=el.dataset.v;if(!m)return;
+  m[k]=k==='on'||k==='auto'?v==='true':v;if(k==='kind'&&v==='manual')m.auto=false;audit('reward',`${m.rid} ${k}=${v}`);syncStock();persist();buildDB();render()},
+ msAdd:()=>{if(!isAdmin())return;const top=S.milestones.length?S.milestones[S.milestones.length-1].at:0;
+  S.milestones.push({rid:'M'+rnd(5),at:top+100,en:'New reward',ko:'새 리워드',kind:'code',auto:true,howEn:'',howKo:'',stock:0,ico:'giftOutline',on:false});audit('reward added','');persist();buildDB();render()},
+ msDel:el=>{if(!isAdmin())return;const i=Number(el.dataset.v),m=S.milestones[i];if(!m)return;
+  if(S.claims.some(c=>msOf(c)===m)||(S.vouchers||[]).some(v=>v.rid===m.rid))return toast(L('This reward has claims or codes. Switch it off instead.','신청 또는 코드가 있는 리워드입니다. 대신 중지하세요.'));
+  S.milestones.splice(i,1);audit('reward deleted',`${m.rid} ${m.en}`);persist();buildDB();render()},
+ codesOpen:el=>{S.codesOpen=S.codesOpen===el.dataset.v?null:el.dataset.v;render()},
+ addCodes:el=>addCodes(el.dataset.v),
+ voidCode:el=>{if(!isAdmin())return;const v=(S.vouchers||[]).find(x=>x.id===el.dataset.v);if(!v||v.st!=='free')return;v.st='void';if(LIVE)liveUpd('vouchers',v.id,{st:'void'});audit('code removed',`${v.rid} · ${v.id}`);syncStock();persist();render()},
  sval:el=>{if(!isAdmin())return;const k=el.dataset.k;S.settings[k]=el.dataset.v;audit('setting',`${k}=${el.dataset.v}`);persist();buildDB();render()},
  guests:()=>{if(!isAdmin())return;S.settings.guests=!S.settings.guests;audit('guest sign-up '+(S.settings.guests?'allowed':'blocked'),'');persist();render()},
  live:()=>{S.settings.live=!S.settings.live;audit('survey '+(S.settings.live?'resumed':'paused'),'');persist();render()},
@@ -2328,10 +2451,12 @@ document.addEventListener('change',e=>{const el=e.target;
  if(el.dataset.sset){if(!isAdmin())return;const k=el.dataset.sset,num=typeof DEFAULT_SETTINGS[k]==='number';let v=num?Number(el.value):el.value;if(num&&!Number.isFinite(v))return;
   if(k==='qcExclude'&&v<=S.settings.qcReview)v=S.settings.qcReview+1;if(k==='qcReview'&&v>=S.settings.qcExclude)v=S.settings.qcExclude-1;S.settings[k]=v;audit('setting',k==='vworldKey'?'vworldKey=***':`${k}=${v}`);persist();buildDB();if(k==='mapStyle'||k==='vworldKey'){S.mapStyle=null;Object.values(MAPS).forEach(m=>setBase(m))}return render()}
  if(el.dataset.rule){if(!isAdmin())return;const v=Number(el.value);if(!Number.isFinite(v)||v<0)return;S.rules[el.dataset.rule][el.dataset.rk]=v;audit('check value',`${el.dataset.rule}.${el.dataset.rk}=${v}`);persist();buildDB();return render()}
- if(el.dataset.ms){if(!isAdmin())return;const m=S.milestones[Number(el.dataset.ms)],k=el.dataset.mk;m[k]=['at','stock'].includes(k)?Math.max(0,Number(el.value)||0):el.value;if(k==='at')S.milestones.sort((a,b)=>a.at-b.at);audit('milestone',`${k}=${el.value}`);persist();buildDB();return render()}
+ if(el.dataset.ms){if(!isAdmin())return;const m=S.milestones[Number(el.dataset.ms)],k=el.dataset.mk;if(!m)return;m[k]=k==='at'?Math.max(1,Math.round(Number(el.value)||0)):k==='stock'?Math.max(0,Math.round(Number(el.value)||0)):el.value.slice(0,k.startsWith('how')?300:80);if(k==='at')S.milestones.sort((a,b)=>a.at-b.at);audit('reward',`${m.rid} ${k}=${el.value}`);persist();buildDB();return render()}
 });
 document.addEventListener('input',e=>{const el=e.target;
  if(el.dataset.dr==='note'||el.dataset.dr==='other'){S.draft[el.dataset.dr]=el.value;return}
+ if(el.dataset.pool){S.pool[el.dataset.pool]=el.value;return}
+ if(el.dataset.cin){S.cin[el.dataset.cin]=el.value;return}
  if(el.id==='pf-name'||el.id==='pf-district'){const tgt=S.onb?S.onb.p:S.pf;if(tgt)tgt[el.id==='pf-name'?'name':'district']=el.value;return}
  if(el.dataset.fset==='f.q'){S.f.q=el.value;S.f.page=0;clearTimeout(window._qt);window._qt=setTimeout(render,250)}
 });
