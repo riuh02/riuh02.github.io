@@ -1022,7 +1022,7 @@ const NOW0=Math.floor(Date.now()/MIN)*MIN;
 const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 // Build flavour, set by build.py: 'demo' = synthetic artifact; 'p' = live participant app; 'a' = live admin console (Firebase).
 // App version: shown in the header and on the Profile screen, stored on every report, and used as the offline-cache name.
-const APPVER='2.3.0';
+const APPVER='2.3.1';
 const BUILD='p',LIVE=BUILD!=='demo',FBCFG={"apiKey": "AIzaSyDHMB2I-YCAXivzPs9O_bNHAScwwInysSY", "authDomain": "eco-survey-331bb.firebaseapp.com", "projectId": "eco-survey-331bb", "storageBucket": "eco-survey-331bb.firebasestorage.app", "messagingSenderId": "392355803426", "appId": "1:392355803426:web:0fb02f4ba643e432d2757b"};
 const SKEY=LIVE?'eco-live-'+BUILD:'eco2';
 
@@ -2142,13 +2142,20 @@ function liveSaveConfig(){if(!S.admin||!LV.loaded.config)return;clearTimeout(LV.
 /* participant: own profile, reports and claims; everyone's public map points */
 function partSession(u){
  Object.assign(S,{myReports:[],newPeople:[],claims:[],overrides:{},partEx:{},meId:null,draft:null,sent:null,sheet:null,scr:'home'});LV.pub=[];LV.me=null;
+ LV.deleting=false;
  if(!u){S.onb={step:'signin'};return lvRender()}
  LV.err='';S.onb={step:'loading'};render();
  const d=LV.db,on=(ref,fn)=>LV.unsub.push(ref.onSnapshot(x=>{if(fn(x)!==false)lvRender()},liveFail));
- on(d.collection('participants').doc(u.uid),s=>{if(!s.exists&&s.metadata.fromCache)return false;
-  const p=s.exists?normP(s.data()):null;LV.me=p;S.newPeople=p?[p]:[];S.meId=p?p.id:null;S.partEx=p&&p.ex?{[p.id]:p.ex}:{};
+ const pref=d.collection('participants').doc(u.uid);
+ on(pref,s=>{if(!s.exists&&s.metadata.fromCache)return false;
+  // A listener can briefly report "no profile" right after the profile is written (stale watch state). A profile
+  // already seen in this session is only dropped once the server confirms it is gone; otherwise the person would
+  // be sent back to sign-up and get a second participant code.
+  if(!s.exists&&LV.me&&!LV.deleting){pref.get({source:'server'}).then(x=>{if(!x.exists&&LV.user===u){LV.me=null;S.newPeople=[];S.meId=null;S.onb=null;partProfile(u,null);lvRender()}}).catch(()=>{});return false}
+  partProfile(u,s.exists?normP(s.data()):null)});
+ function partProfile(u,p){LV.me=p;S.newPeople=p?[p]:[];S.meId=p?p.id:null;S.partEx=p&&p.ex?{[p.id]:p.ex}:{};
   if(p&&S.onb&&S.onb.step==='loading')S.onb=null;
-  if(!p&&(!S.onb||S.onb.step==='loading'))S.onb={step:'consent',c1:false,c2:false,c3:false,c4:false,c5:false,p:{name:u.displayName||'',gender:null,birthYear:null,occupation:null,province:null,district:'',smoking:null},err:''}});
+  if(!p&&(!S.onb||S.onb.step==='loading'))S.onb={step:'consent',c1:false,c2:false,c3:false,c4:false,c5:false,p:{name:u.displayName||'',gender:null,birthYear:null,occupation:null,province:null,district:'',smoking:null},err:''}}
  on(d.collection('reports').where('uid','==',u.uid),q=>{S.myReports=docs(q,x=>normR(x.id,x.data()));S.overrides=ovFrom(S.myReports)});
  on(d.collection('claims').where('uid','==',u.uid),q=>{S.claims=docs(q,x=>normC(x.data())).sort((a,b)=>a.at_t-b.at_t)});
  on(d.collection('pub').where('t','>',Date.now()-31*DAY),q=>{LV.pub=docs(q,x=>normPub(x.id,x.data()))});
@@ -2160,7 +2167,7 @@ function liveSubmit(r){const d=LV.db,b=d.batch(),me=LV.me||{},di=kIdx(Date.now()
  if(QC[r.id]&&QC[r.id].status==='pass'&&LV.me&&LV.me.pubId)b.set(d.collection('pub').doc(r.id),pubOf(r,LV.me.pubId));
  b.commit().catch(e=>{if(e&&e.code==='permission-denied'){if(S.sent===r.id)S.sent=null;toast(L(`Not accepted by the server: wait ${S.settings.gap} min between reports, at most ${S.settings.daily} a day, or the survey is paused.`,`서버가 받지 않았습니다: 응답 간격 ${S.settings.gap}분, 하루 ${S.settings.daily}건 제한, 또는 설문 일시 중지.`));lvRender()}else liveFail(e)})}
 async function liveDeleteMe(){const u=LV.user,d=LV.db;
- try{const b=d.batch();S.myReports.forEach(r=>{b.delete(d.collection('pub').doc(r.id));b.delete(d.collection('reports').doc(r.id))});
+ try{LV.deleting=true;const b=d.batch();S.myReports.forEach(r=>{b.delete(d.collection('pub').doc(r.id));b.delete(d.collection('reports').doc(r.id))});
   S.claims.forEach(c=>b.delete(d.collection('claims').doc(c.id)));b.delete(d.collection('participants').doc(u.uid));await b.commit();
   S.delArm=false;toast(L('Account and data deleted.','계정과 데이터를 삭제했습니다.'));
   try{await u.delete()}catch(e){await LV.auth.signOut()}}
