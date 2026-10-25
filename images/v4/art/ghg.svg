@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-label="온실가스 측정 일러스트">
+  <defs>
+    <linearGradient id="g-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E6F7FF"/><stop offset="1" stop-color="#C7ECFF"/></linearGradient>
+    <linearGradient id="g-pile" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7C5230"/><stop offset="1" stop-color="#4A2E17"/></linearGradient>
+    <radialGradient id="g-dome" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".6" stop-color="#E0F2FE" stop-opacity=".9"/><stop offset="1" stop-color="#7DD3FC" stop-opacity=".85"/></radialGradient>
+    <linearGradient id="g-cloud" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#DBEAFE"/></linearGradient>
+  </defs>
+  <rect width="640" height="480" rx="36" fill="url(#g-bg)"/>
+  <!-- cloud -->
+  <g transform="translate(380 70)">
+    <path d="M30 80 C0 80 0 40 30 40 C34 10 80 0 96 26 C110 8 150 14 150 44 C180 44 182 80 152 80Z" fill="url(#g-cloud)"/>
+    <text x="92" y="66" font-family="Arial" font-size="18" font-weight="800" fill="#0369A1" text-anchor="middle">GHG</text>
+  </g>
+  <path d="M0 350 Q180 326 340 342 T640 330 V480 H0Z" fill="#A5F3FC" opacity=".45"/>
+  <ellipse cx="270" cy="398" rx="240" ry="22" fill="#0369A1" opacity=".14"/>
+  <!-- pile -->
+  <path d="M40 392 C70 300 150 250 270 246 C390 250 470 300 500 392Z" fill="url(#g-pile)"/>
+  <g fill="#2F1C0C" opacity=".5"><circle cx="140" cy="340" r="4"/><circle cx="210" cy="300" r="3"/><circle cx="300" cy="290" r="4"/><circle cx="380" cy="330" r="3"/><circle cx="260" cy="360" r="4"/><circle cx="430" cy="370" r="3"/></g>
+  <!-- grass -->
+  <g fill="#22C55E"><path d="M20 392 l8 -22 l6 22z"/><path d="M500 392 l8 -26 l6 26z"/><path d="M520 392 l6 -16 l5 16z"/><path d="M560 392 l7 -20 l6 20z"/></g>
+  <!-- domes -->
+  <g>
+    <path d="M140 300 A44 44 0 0 1 228 300Z" fill="url(#g-dome)" stroke="#0284C7" stroke-width="3"/>
+    <path d="M236 262 A48 48 0 0 1 332 262Z" fill="url(#g-dome)" stroke="#0284C7" stroke-width="3"/>
+    <path d="M340 300 A44 44 0 0 1 428 300Z" fill="url(#g-dome)" stroke="#0284C7" stroke-width="3"/>
+    <path d="M150 284 a30 30 0 0 1 22 -20" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M248 244 a32 32 0 0 1 24 -22" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M350 284 a30 30 0 0 1 22 -20" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round"/>
+  </g>
+  <!-- tubes to analyzer -->
+  <g fill="none" stroke="#0EA5E9" stroke-width="4" stroke-linecap="round">
+    <path d="M184 256 C190 200 360 190 520 236"/>
+    <path d="M284 214 C300 180 420 190 520 246"/>
+    <path d="M384 256 C410 230 470 236 520 256"/>
+  </g>
+  <!-- analyzer -->
+  <g transform="translate(510 214)">
+    <rect width="104" height="150" rx="14" fill="#0C4A6E"/>
+    <rect x="12" y="14" width="80" height="50" rx="6" fill="#082F49"/>
+    <text x="52" y="36" font-family="Arial" font-size="12" font-weight="700" fill="#7DD3FC" text-anchor="middle">CH₄ · CO₂</text>
+    <text x="52" y="54" font-family="Arial" font-size="12" font-weight="700" fill="#FDE68A" text-anchor="middle">N₂O · NH₃</text>
+    <circle cx="30" cy="92" r="9" fill="#34D399"/><circle cx="56" cy="92" r="9" fill="#FBBF24"/><circle cx="82" cy="92" r="9" fill="#F87171"/>
+    <rect x="14" y="114" width="76" height="10" rx="5" fill="#075985"/>
+    <rect x="14" y="114" width="46" height="10" rx="5" fill="#38BDF8"/>
+  </g>
+  <!-- molecules -->
+  <g font-family="Arial" font-weight="800" text-anchor="middle">
+    <g transform="translate(110 130)"><circle r="34" fill="#38BDF8"/><text y="7" font-size="18" fill="#fff">CH₄</text></g>
+    <g transform="translate(220 92)"><circle r="28" fill="#F59E0B"/><text y="6" font-size="15" fill="#fff">N₂O</text></g>
+    <g transform="translate(300 150)"><circle r="24" fill="#10B981"/><text y="6" font-size="14" fill="#fff">CO₂</text></g>
+  </g>
+  <g fill="none" stroke="#0EA5E9" stroke-width="3" stroke-dasharray="3 8" stroke-linecap="round"><path d="M180 250 C150 210 130 180 118 166"/><path d="M286 210 C270 170 240 130 226 120"/></g>
+  <g fill="#fff"><path d="M60 230 l4 10 l10 4 l-10 4 l-4 10 l-4 -10 l-10 -4 l10 -4z"/><path d="M350 60 l3 7 l7 3 l-7 3 l-3 7 l-3 -7 l-7 -3 l7 -3z"/></g>
+</svg>
