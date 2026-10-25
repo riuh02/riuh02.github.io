@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-label="축산악취 모니터링 일러스트">
+  <defs>
+    <linearGradient id="o-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F3EEFF"/><stop offset="1" stop-color="#E2D6FF"/></linearGradient>
+    <linearGradient id="o-wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#E9E5F5"/></linearGradient>
+    <linearGradient id="o-roof" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7C3AED"/><stop offset="1" stop-color="#A78BFA"/></linearGradient>
+    <linearGradient id="o-odor" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#C084FC"/><stop offset="1" stop-color="#F472B6"/></linearGradient>
+    <linearGradient id="o-scr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1E1B4B"/><stop offset="1" stop-color="#312E81"/></linearGradient>
+  </defs>
+  <rect width="640" height="480" rx="36" fill="url(#o-bg)"/>
+  <circle cx="110" cy="110" r="70" fill="#fff" opacity=".55"/>
+  <path d="M0 360 Q200 330 360 350 T640 336 V480 H0Z" fill="#C4B5FD" opacity=".45"/>
+  <ellipse cx="250" cy="396" rx="220" ry="22" fill="#7C3AED" opacity=".14"/>
+  <!-- barn -->
+  <path d="M60 390 V230 L230 150 L400 230 V390Z" fill="url(#o-wall)"/>
+  <path d="M40 240 L230 140 L420 240 L404 254 L230 166 L56 254Z" fill="url(#o-roof)"/>
+  <rect x="60" y="290" width="340" height="12" fill="#DDD6FE"/>
+  <rect x="190" y="306" width="80" height="84" rx="4" fill="#6D28D9"/>
+  <path d="M190 306 L270 390 M270 306 L190 390" stroke="#A78BFA" stroke-width="4"/>
+  <rect x="96" y="250" width="56" height="30" rx="4" fill="#EDE9FE" stroke="#A78BFA" stroke-width="3"/>
+  <rect x="308" y="250" width="56" height="30" rx="4" fill="#EDE9FE" stroke="#A78BFA" stroke-width="3"/>
+  <!-- exhaust fan -->
+  <g transform="translate(400 300)">
+    <rect x="-6" y="-44" width="40" height="88" rx="6" fill="#4C1D95"/>
+    <circle cx="14" cy="0" r="30" fill="#EDE9FE" stroke="#4C1D95" stroke-width="5"/>
+    <g fill="#7C3AED"><path d="M14 0 C14 -18 24 -24 30 -20 C28 -10 22 -4 14 0Z"/><path d="M14 0 C30 6 32 18 26 24 C18 18 14 10 14 0Z"/><path d="M14 0 C2 12 -10 10 -12 2 C-2 -4 6 -4 14 0Z"/></g>
+    <circle cx="14" cy="0" r="5" fill="#4C1D95"/>
+  </g>
+  <!-- odour plume -->
+  <g fill="none" stroke="url(#o-odor)" stroke-width="10" stroke-linecap="round" opacity=".9">
+    <path d="M450 270 C480 250 500 290 530 270 S580 250 600 266"/>
+    <path d="M450 300 C484 284 504 322 536 300 S586 286 610 300"/>
+    <path d="M450 330 C480 316 500 350 528 332 S572 320 596 334"/>
+  </g>
+  <g fill="#F472B6" opacity=".8"><circle cx="560" cy="226" r="9"/><circle cx="590" cy="240" r="6"/><circle cx="540" cy="370" r="7"/><circle cx="604" cy="356" r="5"/></g>
+  <text x="566" y="214" font-family="Arial" font-size="14" font-weight="800" fill="#7C3AED">NH₃</text>
+  <text x="572" y="392" font-family="Arial" font-size="14" font-weight="800" fill="#DB2777">H₂S</text>
+  <!-- sensor mast -->
+  <g transform="translate(520 120)">
+    <path d="M0 0 V150" stroke="#1E1B4B" stroke-width="6" stroke-linecap="round"/>
+    <rect x="-26" y="-10" width="52" height="40" rx="10" fill="#1E1B4B"/>
+    <circle cx="0" cy="10" r="9" fill="#34D399"/>
+    <g fill="none" stroke="#34D399" stroke-width="4" stroke-linecap="round"><path d="M-36 -22 A40 40 0 0 1 36 -22"/><path d="M-50 -36 A60 60 0 0 1 50 -36" opacity=".6"/></g>
+  </g>
+  <!-- monitor -->
+  <g transform="translate(52 64)">
+    <rect width="200" height="128" rx="16" fill="url(#o-scr)"/>
+    <rect x="12" y="12" width="176" height="104" rx="8" fill="#0F0C2E"/>
+    <path d="M24 92 L54 70 L80 80 L108 44 L134 60 L160 30 L176 38" fill="none" stroke="#34D399" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M24 100 H176" stroke="#312E81" stroke-width="2"/>
+    <circle cx="160" cy="30" r="6" fill="#F472B6"/>
+    <text x="24" y="34" font-family="Arial" font-size="12" font-weight="700" fill="#A5B4FC">ODOUR · LIVE</text>
+    <path d="M90 128 L80 150 H120 L110 128" fill="#312E81"/>
+  </g>
+  <g fill="#fff"><path d="M300 70 l4 10 l10 4 l-10 4 l-4 10 l-4 -10 l-10 -4 l10 -4z"/><path d="M440 110 l3 7 l7 3 l-7 3 l-3 7 l-3 -7 l-7 -3 l7 -3z"/></g>
+</svg>
