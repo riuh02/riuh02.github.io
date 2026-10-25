@@ -1035,7 +1035,7 @@ const NOW0=Math.floor(Date.now()/MIN)*MIN;
 const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 // Build flavour, set by build.py: 'demo' = synthetic artifact; 'p' = live participant app; 'a' = live admin console (Firebase).
 // App version: shown in the header and on the Profile screen, stored on every report, and used as the offline-cache name.
-const APPVER='2.5.0';
+const APPVER='2.5.1';
 const BUILD='p',LIVE=BUILD!=='demo',FBCFG={"apiKey": "AIzaSyDHMB2I-YCAXivzPs9O_bNHAScwwInysSY", "authDomain": "eco-survey-331bb.firebaseapp.com", "projectId": "eco-survey-331bb", "storageBucket": "eco-survey-331bb.firebasestorage.app", "messagingSenderId": "392355803426", "appId": "1:392355803426:web:0fb02f4ba643e432d2757b"};
 const SKEY=LIVE?'eco-live-'+BUILD:'eco2';
 
@@ -1798,7 +1798,7 @@ const INAPP=/KAKAOTALK|FBAN|FBAV|Instagram|Line\/|NAVER\(|DaumApps/i.test(naviga
 function pOnboard(){
  const o=S.onb;
  const hero=(sz=64)=>`<span class="logo" style="width:${sz}px;height:${sz}px;border-radius:18px">${ic('mapMarker',sz*.56)}</span>`;
- if(o.step==='loading')return`<div class="scroll" style="justify-content:center;align-items:center;gap:14px;padding:24px">${hero()}<p class="muted" style="margin:0">${L('Connecting…','연결 중…')}</p></div>`;
+ if(o.step==='loading')return`<div class="scroll" style="justify-content:center;align-items:center;gap:14px;padding:24px">${hero()}<p class="muted" style="margin:0">${L('Connecting…','연결 중…')}</p>${LV.slow?`<p class="muted" style="margin:0;text-align:center;max-width:280px">${L('This is taking longer than usual. Check the connection, close other Eco Survey tabs, then reload.','평소보다 오래 걸립니다. 연결을 확인하고 다른 Eco Survey 탭을 닫은 뒤 새로고침하세요.')}</p><button class="btn primary" onclick="location.reload()">${L('Reload','새로고침')}</button>`:''}</div>`;
  if(o.step==='error')return`<div class="scroll" style="justify-content:center;gap:16px;padding:24px">${hero()}<div class="alert">${ic('alertOutline',18)}<span>${esc(LV.err)}</span></div><button class="btn primary full" onclick="location.reload()">${L('Reload','새로고침')}</button></div>`;
  if(LIVE&&o.step==='signin')return`<div class="scroll" style="justify-content:center;gap:18px;padding:24px"><div class="stack" style="align-items:flex-start;gap:14px">${hero()}
  <h1 style="font-family:var(--f-display);font-stretch:115%;font-size:32px;line-height:1.1">${L('Report the odor you notice.','느낀 냄새를 알려 주세요.')}</h1><p class="muted" style="margin:0">${L('Your reports help the CNU research team understand odor in your neighbourhood. Each accepted report earns points toward rewards.','여러분의 응답은 충남대 연구팀이 우리 동네 냄새를 이해하는 데 쓰입니다. 승인된 응답마다 포인트가 쌓입니다.')}</p></div>
@@ -2261,7 +2261,9 @@ function liveInit(){if(!LIVE)return;
  if(!window.firebase||!FBCFG){LV.err=L('Cannot reach the server. Check the connection and reload.','서버에 연결할 수 없습니다. 연결을 확인하고 새로고침하세요.');if(BUILD==='p')S.onb={step:'error'};else S.login.err=LV.err;return render()}
  firebase.initializeApp(FBCFG);LV.auth=firebase.auth();LV.db=firebase.firestore();
  if(FBCFG.emulator){LV.auth.useEmulator('http://127.0.0.1:9099',{disableWarnings:true});LV.db.useEmulator('127.0.0.1',8080)}
- if(BUILD==='p'){LV.db.enablePersistence({synchronizeTabs:true}).catch(()=>{});LV.db.doc('config/app').onSnapshot(s=>{applyConfig(s.data());lvRender()},()=>{})}
+ // No on-device Firestore cache (enablePersistence): a tab the phone has frozen in the background keeps its IndexedDB
+ // lock and every other tab then hangs on "Connecting…". Each tab works from memory; queued writes still go out once online.
+ if(BUILD==='p'){LV.db.doc('config/app').onSnapshot(s=>{applyConfig(s.data());lvRender()},()=>{})}
  LV.auth.getRedirectResult().catch(e=>{LV.err=S.login.err=authErr(e);render()});
  LV.auth.onAuthStateChanged(u=>{LV.unsub.forEach(f=>f());LV.unsub=[];LV.loaded={};LV.user=u;(BUILD==='a'?adminSession:partSession)(u)});
 }
@@ -2285,7 +2287,8 @@ function partSession(u){
  Object.assign(S,{myReports:[],newPeople:[],claims:[],overrides:{},partEx:{},meId:null,draft:null,sent:null,sheet:null,scr:'home'});LV.pub=[];LV.me=null;
  LV.deleting=false;LV.claimsIn=false;LV.tried=new Set();
  if(!u){S.onb={step:'signin'};return lvRender()}
- LV.err='';S.onb={step:'loading'};render();
+ LV.err='';S.onb={step:'loading'};LV.slow=false;render();
+ clearTimeout(LV.st);LV.st=setTimeout(()=>{if(LV.user===u&&S.onb&&S.onb.step==='loading'){LV.slow=true;render()}},12000);
  const d=LV.db,on=(ref,fn)=>LV.unsub.push(ref.onSnapshot(x=>{if(fn(x)!==false)lvRender()},liveFail));
  const pref=d.collection('participants').doc(u.uid);
  on(pref,s=>{if(!s.exists&&s.metadata.fromCache)return false;
