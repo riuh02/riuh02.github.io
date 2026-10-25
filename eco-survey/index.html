@@ -879,6 +879,12 @@ textarea.input{resize:vertical;min-height:72px}
 .tabbar button{position:relative}
 .tbadge{position:absolute;top:0;left:calc(50% + 6px);width:9px;height:9px;border-radius:50%;background:var(--err);box-shadow:0 0 0 2px var(--surf)}
 .coupon code{font-family:var(--f-mono);font-weight:700;letter-spacing:.08em;overflow-wrap:anywhere}
+.coupon.col{flex-direction:column;align-items:stretch}
+.bcwrap{background:#fff;color:#000;border:0;border-radius:8px;padding:10px 8px 8px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;font:inherit}
+.bcwrap svg,.bcfull svg{display:block;max-width:100%}
+.bcwrap code{color:#000;font-size:14px}
+.bcfull{position:absolute;inset:0;z-index:8;background:#fff;color:#111;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:24px 16px;text-align:center;animation:up .18s ease-out}
+.bcfull code{font-family:var(--f-mono);font-weight:700;font-size:22px;letter-spacing:.12em;overflow-wrap:anywhere}
 
 .stats3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .stat{background:var(--bg);border-radius:12px;padding:10px}
@@ -1029,7 +1035,7 @@ const NOW0=Math.floor(Date.now()/MIN)*MIN;
 const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 // Build flavour, set by build.py: 'demo' = synthetic artifact; 'p' = live participant app; 'a' = live admin console (Firebase).
 // App version: shown in the header and on the Profile screen, stored on every report, and used as the offline-cache name.
-const APPVER='2.4.0';
+const APPVER='2.5.0';
 const BUILD='p',LIVE=BUILD!=='demo',FBCFG={"apiKey": "AIzaSyDHMB2I-YCAXivzPs9O_bNHAScwwInysSY", "authDomain": "eco-survey-331bb.firebaseapp.com", "projectId": "eco-survey-331bb", "storageBucket": "eco-survey-331bb.firebasestorage.app", "messagingSenderId": "392355803426", "appId": "1:392355803426:web:0fb02f4ba643e432d2757b"};
 const SKEY=LIVE?'eco-live-'+BUILD:'eco2';
 
@@ -1159,20 +1165,21 @@ const RULE_META={
 // participant's accepted points reach the milestone; otherwise an admin issues it. rid never changes, so claims stay linked
 // when points or names are edited. stock: unused codes left (kept equal to the list by the admin console) or, for 'manual', by hand.
 const DEFAULT_MILESTONES=[
- {rid:'A50',at:50,en:'Starbucks Caffè Americano (Tall) e-coupon',ko:'스타벅스 아메리카노 T 모바일 쿠폰',kind:'code',auto:true,howEn:'Show the code at any Starbucks counter, or add it in the Starbucks app.',howKo:'스타벅스 매장 계산대에서 코드를 보여 주거나 스타벅스 앱에 등록하세요.',stock:200,ico:'coffee',on:true},
- {rid:'A150',at:150,en:'Starbucks Caffè Latte + cake set',ko:'스타벅스 카페라떼 + 케이크 세트',kind:'code',auto:true,howEn:'Show the code at any Starbucks counter.',howKo:'스타벅스 매장 계산대에서 코드를 보여 주세요.',stock:80,ico:'coffee',on:true},
+ {rid:'A50',at:50,en:'Starbucks Caffè Americano (Tall) e-coupon',ko:'스타벅스 아메리카노 T 모바일 쿠폰',kind:'code',auto:true,howEn:'Show the barcode at any Starbucks counter, or add the number in the Starbucks app.',howKo:'스타벅스 매장 계산대에서 바코드를 보여 주거나 스타벅스 앱에 번호를 등록하세요.',show:'barcode',stock:200,ico:'coffee',on:true},
+ {rid:'A150',at:150,en:'Starbucks Caffè Latte + cake set',ko:'스타벅스 카페라떼 + 케이크 세트',kind:'code',auto:true,howEn:'Show the barcode at any Starbucks counter.',howKo:'스타벅스 매장 계산대에서 바코드를 보여 주세요.',show:'barcode',stock:80,ico:'coffee',on:true},
  {rid:'A300',at:300,en:'Convenience-store voucher ₩10,000',ko:'편의점 상품권 1만원',kind:'link',auto:true,howEn:'Open the link to get the mobile voucher.',howKo:'링크를 열어 모바일 상품권을 받으세요.',stock:50,ico:'ticketPercentOutline',on:true},
- {rid:'A500',at:500,en:'Culture gift voucher ₩30,000',ko:'문화상품권 3만원',kind:'code',auto:false,howEn:'Register the PIN on the culture-voucher website.',howKo:'문화상품권 사이트에서 PIN을 등록하세요.',stock:20,ico:'giftOutline',on:true}];
+ {rid:'A500',at:500,en:'Culture gift voucher ₩30,000',ko:'문화상품권 3만원',kind:'code',auto:false,howEn:'Register the PIN on the culture-voucher website.',howKo:'문화상품권 사이트에서 PIN을 등록하세요.',show:'number',stock:20,ico:'giftOutline',on:true}];
 const MS_KINDS=['code','link','manual'],MS_ICONS=['giftOutline','coffee','ticketPercentOutline','silverwareForkKnife','star','trophyOutline','qrcode'];
+// show (voucher codes only): 'barcode' = barcode + number, 'number' = number only.
 // Reward types come from config/app, which only admins write; still coerce every field (rid fills in for older configs).
 function normMs(list){const used=new Set();
  return(Array.isArray(list)?list:DEFAULT_MILESTONES).map(m=>{m=m||{};const at=Math.max(1,Math.round(Number(m.at)||0)),kind=MS_KINDS.includes(m.kind)?m.kind:'code';
   let rid=/^[A-Z0-9]{1,8}$/.test(m.rid)?m.rid:'A'+at;while(used.has(rid))rid=(rid+'X').slice(-8);used.add(rid);
-  return{rid,at,en:String(m.en??'').slice(0,80),ko:String(m.ko??'').slice(0,80),kind,auto:kind!=='manual'&&m.auto!==false,howEn:String(m.howEn??'').slice(0,300),howKo:String(m.howKo??'').slice(0,300),
+  return{rid,at,en:String(m.en??'').slice(0,80),ko:String(m.ko??'').slice(0,80),kind,auto:kind!=='manual'&&m.auto!==false,howEn:String(m.howEn??'').slice(0,300),howKo:String(m.howKo??'').slice(0,300),show:kind==='code'&&m.show==='number'?'number':'barcode',
    stock:Math.max(0,Math.round(Number(m.stock)||0)),ico:MS_ICONS.includes(m.ico)?m.ico:'giftOutline',on:m.on!==false}}).sort((a,b)=>a.at-b.at)}
 // Demo only: made-up codes so automatic issuing can be tried without a server.
-function demoVouchers(){const out=[],t=Date.now()-30*DAY,code=()=>Array.from({length:3},()=>Math.random().toString(36).slice(2,6).toUpperCase().padEnd(4,'X')).join('-');
- [['A50',12],['A150',6],['A300',4]].forEach(([rid,n])=>{for(let i=0;i<n;i++)out.push({id:'V-DEMO'+rid+i,rid,code:rid==='A300'?'https://example.com/coupon/DEMO-'+code():'DEMO-'+code(),exp:kDay(Date.now()+120*DAY),st:'free',add_t:t+i})});return out}
+function demoVouchers(){const out=[],t=Date.now()-30*DAY,num=()=>('9'+String(Math.random()).slice(2,13).padEnd(11,'7')).replace(/(\d{4})(?=\d)/g,'$1 '),code=()=>Array.from({length:3},()=>Math.random().toString(36).slice(2,6).toUpperCase().padEnd(4,'X')).join('-');
+ [['A50',12],['A150',6],['A300',4]].forEach(([rid,n])=>{for(let i=0;i<n;i++)out.push({id:'V-DEMO'+rid+i,rid,code:rid==='A300'?'https://example.com/coupon/DEMO-'+code():num(),exp:kDay(Date.now()+120*DAY),st:'free',add_t:t+i})});return out}
 const ADMINS={'admin@eco-survey.kr':{pw:'Demo!2026',role:'admin',name:'Lab administrator'},'analyst@eco-survey.kr':{pw:'Demo!2026',role:'analyst',name:'Data analyst'}};
 const OTP='246810';
 
@@ -1651,7 +1658,8 @@ function renderP(){
  if(S.onb)inner=pOnboard();
  else{inner=pHeader()+`<div class="scroll" id="pscroll">${({home:pHome,map:pMap,history:pHistory,rewards:pRewards,me:pMe})[S.scr]()}</div>`+pTabs();
   if(S.draft)inner+=pReport();else if(S.sent)inner+=pSent();
-  if(S.sheet==='cool')inner+=pCool();}
+  if(S.sheet==='cool')inner+=pCool();
+  if(S.bc)inner+=pBarcode();}
  $('view').innerHTML=`<div class="stage"><div class="phone" id="phone"><div class="statusbar"><span class="mono">9:41</span><span class="notch"></span><span class="row" style="gap:4px">${ic('wifi',14)}${ic('battery',16)}</span></div>${inner}</div>
  <aside class="notes"><div class="card"><div class="id">${n[0]} · ${L('SCREEN SPEC','화면 사양')}</div><h3>${esc(n[1])}</h3><ul>${n[2].map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
  <div class="card"><div class="eyebrow">${L('Demo controls','데모 조작')}</div><div class="stack" style="margin-top:10px">
@@ -1706,9 +1714,28 @@ const SEEN='eco-seen-rewards';
 function unseen(){if(!S.meId)return 0;const s=store.get(SEEN,[]);return S.claims.filter(c=>c.pid===S.meId&&c.status==='issued'&&!s.includes(c.id)).length}
 const httpsUrl=v=>/^https:\/\/[^\s"'<>]+$/.test(v||'');
 function msOf(c){return S.milestones.find(m=>m.rid===c.rid)||(!c.rid?S.milestones.find(m=>m.at===c.at):null)||null}
-function claimBox(c,m){const k=c.kind||(m&&m.kind)||'code',how=m?L(m.howEn,m.howKo):'',exp=c.exp?` · ${L('valid until','유효기간')} ${esc(c.exp)}`:'';
+/* Code 128 barcode (what gift-shop e-coupons use). The number is drawn as bars; a shop scanner reads it as if typed in.
+   All-digit codes use set C (two digits per symbol), anything else set B. Spaces and dashes between digits are dropped. */
+const C128='212222 222122 222221 121223 121322 131222 122213 122312 132212 221213 221312 231212 112232 122132 122231 113222 123122 123221 223211 221132 221231 213212 223112 312131 311222 321122 321221 312212 322112 322211 212123 212321 232121 111323 131123 131321 112313 132113 132311 211313 231113 231311 112133 112331 132131 113123 113321 133121 313121 211331 231131 213113 213311 213131 311123 311321 331121 312113 312311 332111 314111 221411 431111 111224 111422 121124 121421 141122 141221 112214 112412 122114 122411 142112 142211 241211 221114 413111 241112 134111 111242 121142 121241 114212 124112 124211 411212 421112 421211 212141 214121 412121 111143 111341 131141 114113 114311 411113 411311 113141 114131 311141 411131 211412 211214 211232 2331112'.split(' ');
+function bcText(code){const t=String(code||'').trim();return/^\d[\d -]*\d$/.test(t)?t.replace(/[ -]/g,''):t}
+function c128(s){if(!/^[\x20-\x7E]{1,48}$/.test(s))return null;const v=[];
+ if(/^\d{4,}$/.test(s)){v.push(105);let i=0;for(;i+1<s.length;i+=2)v.push(Number(s.substr(i,2)));if(i<s.length)v.push(100,s.charCodeAt(i)-32)}
+ else{v.push(104);for(const ch of s)v.push(ch.charCodeAt(0)-32)}
+ let sum=v[0];for(let i=1;i<v.length;i++)sum+=v[i]*i;v.push(sum%103,106);
+ return v.flatMap(x=>[...C128[x]].map(Number))}
+// Whole pixels per bar unit so every bar keeps its width on screen; 10-unit white margin each side for the scanner.
+function barSvg(code,maxW,h){const s=bcText(code),w=c128(s);if(!w)return'';const n=w.reduce((a,b)=>a+b,0)+20,mw=Math.max(1,Math.floor(maxW/n));
+ let x=10,r='';w.forEach((k,i)=>{if(i%2===0)r+=`<rect x="${x}" width="${k}" height="1"/>`;x+=k});
+ return`<svg viewBox="0 0 ${n} 1" width="${n*mw}" height="${h}" preserveAspectRatio="none" shape-rendering="crispEdges" role="img" aria-label="${L('Barcode','바코드')} ${esc(s)}"><rect width="${n}" height="1" fill="#fff"/><g fill="#000">${r}</g></svg>`}
+const showBar=(c,m)=>(c.kind||(m&&m.kind)||'code')==='code'&&(!m||m.show!=='number')&&!!c128(bcText(c.code));
+function pBarcode(){const c=S.claims.find(x=>x.id===S.bc&&x.status==='issued');if(!c){S.bc=null;return''}const m=msOf(c),w=(($('phone')||{}).clientWidth||360)-32;
+ return`<div class="bcfull" data-act="bcClose"><b style="font-size:17px">${esc(m?L(m.en,m.ko):L(c.en,c.ko))}</b>${barSvg(c.code,w,Math.min(150,Math.round(w*.42)))}<code>${esc(c.code)}</code>${c.exp?`<span class="small" style="color:#555">${L('valid until','유효기간')} ${esc(c.exp)}</span>`:''}
+ <span class="small" style="color:#555">${L('Turn your screen brightness up and hold the phone flat under the scanner.','화면 밝기를 높이고 스캐너 아래에 휴대폰을 평평하게 대 주세요.')}</span><button class="btn dark" data-act="bcClose">${L('Close','닫기')}</button></div>`}
+function claimBox(c,m){const k=c.kind||(m&&m.kind)||'code',how=m?L(m.howEn,m.howKo):'',exp=c.exp?` · <span style="white-space:nowrap">${L('valid until','유효기간')} ${esc(c.exp)}</span>`:'';
  const box=k==='link'&&httpsUrl(c.code)?`<div class="coupon"><div><div class="small">${L('Coupon link','쿠폰 링크')}${exp}</div><a class="btn primary sm" style="margin-top:6px" href="${esc(c.code)}" target="_blank" rel="noopener noreferrer">${ic('giftOutline',16)}${L('Open coupon','쿠폰 열기')}</a></div><button class="icon-btn" data-act="copy" data-v="${esc(c.code)}" aria-label="${L('Copy link','링크 복사')}">${ic('contentCopy',18)}</button></div>`
   :k==='manual'?(c.code?`<div class="alert info">${ic('informationOutline',18)}<span>${esc(c.code)}</span></div>`:'')
+  :c.code&&showBar(c,m)?`<div class="coupon col"><div class="between"><div class="small">${L('Voucher code','쿠폰 번호')}${exp}</div><button class="icon-btn" data-act="copy" data-v="${esc(c.code)}" aria-label="${L('Copy code','코드 복사')}">${ic('contentCopy',18)}</button></div>
+   <button class="bcwrap" data-act="bcOpen" data-v="${esc(c.id)}" aria-label="${L('Show the barcode full screen','바코드 크게 보기')}">${barSvg(c.code,260,64)}<code>${esc(c.code)}</code></button><span class="small">${L('Tap the barcode to show it full screen at the counter.','계산대에서는 바코드를 눌러 크게 보여 주세요.')}</span></div>`
   :c.code?`<div class="coupon"><div><div class="small">${L('Voucher code','쿠폰 번호')}${exp}</div><code>${esc(c.code)}</code></div><button class="icon-btn" data-act="copy" data-v="${esc(c.code)}" aria-label="${L('Copy code','코드 복사')}">${ic('contentCopy',18)}</button></div>`:'';
  return`<span class="led ok">${L('Issued','발급 완료')}</span>${box}${how?`<span class="small">${esc(how)}</span>`:''}`}
 function claimState(c,m){
@@ -1727,7 +1754,7 @@ function pRewards(){
   return`<div class="rung ${done||c?'done':''}"><div class="dot">${done||c?ic(m.ico||'giftOutline',22):m.at}</div><div class="stack" style="gap:6px"><div class="between"><b style="font-size:13.5px">${esc(L(m.en,m.ko))}</b><span class="mono small">${m.at} pts</span></div>
   ${c?claimState(c,m):!done?`<div class="meter blue"><i style="width:${Math.min(100,ps.points/m.at*100)}%"></i></div><span class="small">${L(`${Math.ceil((m.at-ps.points)/S.settings.ppr)} more report(s)`,`응답 ${Math.ceil((m.at-ps.points)/S.settings.ppr)}건 더`)}</span>`
   :`<span class="led blue">${L('Reached · claiming…','달성 · 신청 중…')}</span>`}</div></div>`}).join('')}</div></div>
- <div class="alert info">${ic('informationOutline',18)}<span>${L('Only reports that pass the quality checks earn points. When you reach a milestone, the reward is claimed for you and the code appears here.','품질 검사를 통과한 응답만 포인트가 쌓입니다. 마일스톤에 도달하면 리워드가 자동으로 신청되고 코드가 이곳에 표시됩니다.')}${LIVE?'':' '+L('Demo codes are not real.','데모 코드는 실제 쿠폰이 아닙니다.')}</span></div>`;
+ <div class="alert info">${ic('informationOutline',18)}<span>${L('Only reports that pass the quality checks earn points. When you reach a milestone, the reward is claimed for you and its barcode or code appears here.','품질 검사를 통과한 응답만 포인트가 쌓입니다. 마일스톤에 도달하면 리워드가 자동으로 신청되고 바코드나 코드가 이곳에 표시됩니다.')}${LIVE?'':' '+L('Demo codes are not real.','데모 코드는 실제 쿠폰이 아닙니다.')}</span></div>`;
 }
 function pMe(){
  const p=me(),f=S.settings.fields;
@@ -1836,7 +1863,7 @@ function pSent(){
  <div class="card pad stack"><div class="between">${ichip(r.inten)}<span class="led ${QCLAB[q.status][2]}">${L(QCLAB[q.status][0],QCLAB[q.status][1])}</span></div>
  <div class="small">${fDT(r.t)} · ${areaName(nearestArea(r))}${r.chars.length?' · '+r.chars.map(c=>esc(L(SMELL[c].en,SMELL[c].ko))).join(', '):''}</div>
  <div class="small">${q.status==='pass'?L(`+${S.settings.ppr} points added. Weather and wind for this time are added by the server.`,`+${S.settings.ppr} 포인트 지급. 이 시각의 날씨·풍향은 서버가 추가합니다.`):q.status==='review'?L(`+${S.settings.ppr} points pending a researcher's check.`,`연구원 확인 후 +${S.settings.ppr} 포인트 지급 예정.`):L('This report did not pass the automatic checks, so it earns no points.','자동 검사를 통과하지 못해 포인트가 지급되지 않습니다.')}</div></div>
- ${fm?`<div class="card pad points stack"><b>${ic('trophyOutline',20)} ${L('Milestone reached!','마일스톤 달성!')}</b><span>${esc(L(fm.en,fm.ko))}</span><span class="small">${fresh[0].status==='issued'?L('Your code is ready.','코드가 도착했습니다.'):L('Your reward has been claimed for you.','리워드가 자동으로 신청되었습니다.')}</span><button class="btn dark" data-act="goRewards">${L('Open Rewards','리워드 보기')}</button></div>`
+ ${fm?`<div class="card pad points stack"><b>${ic('trophyOutline',20)} ${L('Milestone reached!','마일스톤 달성!')}</b><span>${esc(L(fm.en,fm.ko))}</span><span class="small">${fresh[0].status==='issued'?(showBar(fresh[0],fm)?L('Your barcode is ready.','바코드가 도착했습니다.'):L('Your code is ready.','코드가 도착했습니다.')):L('Your reward has been claimed for you.','리워드가 자동으로 신청되었습니다.')}</span><button class="btn dark" data-act="goRewards">${L('Open Rewards','리워드 보기')}</button></div>`
  :nm?`<div class="card pad stack"><div class="between small"><span>${L('Next reward','다음 리워드')}: <b>${esc(L(nm.en,nm.ko))}</b></span><span class="mono">${ps.points}/${nm.at}</span></div><div class="meter blue"><i style="width:${ps.points/nm.at*100}%"></i></div></div>`:''}
  <p class="small" style="margin:0">${ic('timerOutline',16)} ${L(`Next report possible at ${fT(cd.last+S.settings.gap*MIN)} (every ${S.settings.gap} min, up to ${S.settings.daily} a day).`,`다음 응답 가능 시각 ${fT(cd.last+S.settings.gap*MIN)} (${S.settings.gap}분 간격, 하루 ${S.settings.daily}회).`)}</p></div>
  <div class="footer"><button class="btn primary" data-act="closeSent">${L('Done','완료')}</button></div></div>`;
@@ -2098,10 +2125,13 @@ function aRewards(){
   <div class="rwf">${fld('at',L('Points needed','필요 포인트'),'type="number" min="1" step="10"')}${fld('en',L('Name (English)','이름 (영문)'))}${fld('ko',L('Name (Korean)','이름 (국문)'))}</div>
   <div class="rwf"><div class="fgroup"><span>${L('What the participant gets','지급 방식')}</span>${chips('kind',[['code',L('Voucher code','쿠폰 번호')],['link',L('Coupon link','쿠폰 링크')],['manual',L('No code (hand over)','코드 없음 (직접 전달)')]])}</div>
    <div class="fgroup"><span>${L('Issuing','발급')}</span>${chips('auto',[['true',L('Automatic','자동')],['false',L('Admin issues','관리자 발급')]],m.kind==='manual')}</div>
+   ${m.kind==='code'?`<div class="fgroup"><span>${L('Participant sees','참여자 화면')}</span>${chips('show',[['barcode',L('Barcode + number','바코드 + 번호')],['number',L('Number only','번호만')]])}</div>`:''}
    <div class="fgroup"><span>${L('Icon','아이콘')}</span><div class="chips">${MS_ICONS.map(k=>`<button class="chip" data-act="msSet" data-ms="${i}" data-mk="ico" data-v="${k}" aria-pressed="${m.ico===k}" aria-label="${k}" ${ro?'disabled':''}>${ic(k,18)}</button>`).join('')}</div></div></div>
   <div class="rwf">${fld('howEn',L('How to use it (English)','사용 방법 (영문)'))}${fld('howKo',L('How to use it (Korean)','사용 방법 (국문)'))}${pool?'':fld('stock',L('Stock left','남은 수량'),'type="number" min="0"')}</div>
   ${pool?`<div class="rwc"><div class="between" style="gap:8px;flex-wrap:wrap"><b style="font-size:13px">${m.kind==='link'?L('Coupon links','쿠폰 링크 목록'):L('Voucher codes','쿠폰 번호 목록')}</b><span class="row small" style="gap:8px"><span><b class="num" style="color:${ps.free?'var(--ok)':'var(--err)'}">${ps.free}</b> ${L('unused','미사용')} · ${ps.issued} ${L('issued','발급')}${ps.expired?` · ${ps.expired} ${L('expired','만료')}`:''}${ps.void?` · ${ps.void} ${L('removed','삭제')}`:''}</span><button class="btn ghost sm" data-act="codesOpen" data-v="${m.rid}">${show?L('Hide list','목록 닫기'):L('Show list','목록 보기')}</button></span></div>
    <textarea class="input sm" rows="3" id="pool-${m.rid}" data-pool="${m.rid}" placeholder="${m.kind==='link'?'https://…&#10;https://…, 2027-03-31':'ABCD-1234-5678&#10;EFGH-5678-9012, 2027-03-31'}" ${ro?'disabled':''}>${esc(S.pool[m.rid]||'')}</textarea>
+   ${m.kind==='code'&&m.show!=='number'?(()=>{const nx=freeCodes(m.rid)[0],smp=nx?nx.code:'9123 4567 8901',bar=barSvg(smp,240,48);
+    return`<div class="row" style="gap:12px;flex-wrap:wrap;align-items:center"><div class="bcwrap" style="cursor:default">${bar||`<span class="small" style="color:#a00">${L('Cannot be drawn as a barcode','바코드로 표시할 수 없음')}</span>`}<code style="font-size:12px">${esc(smp)}</code></div><span class="small" style="flex:1;min-width:180px">${bar?(nx?L('Preview of the next code to be issued. Before you start, scan it once with the shop’s scanner to check it is accepted.','다음에 발급될 코드의 미리보기입니다. 시작 전에 매장 스캐너로 한 번 찍어 인식되는지 확인하세요.'):L('Example barcode. The real one shows once codes are in the list.','예시 바코드입니다. 목록에 코드를 넣으면 실제 코드가 표시됩니다.')):L('Barcodes need Latin letters, digits and symbols only; this code is shown as a number.','바코드는 영문, 숫자, 기호만 가능합니다. 이 코드는 번호로 표시됩니다.')}</span></div>`})():''}
    <div class="between" style="gap:8px;flex-wrap:wrap"><span class="small" style="flex:1;min-width:200px">${L('Paste one per line; an expiry date after a comma is optional. Each code is given to one person only.','한 줄에 하나씩 붙여 넣으세요. 쉼표 뒤 유효기간은 선택입니다. 코드 하나는 한 사람에게만 지급됩니다.')}</span><button class="btn primary sm" data-act="addCodes" data-v="${m.rid}" ${ro?'disabled':''}>${ic('plus',16)}${L('Add to list','목록에 추가')}</button></div>
    ${!show?'':vl.length?`<div class="tbl-wrap" style="max-height:280px;overflow:auto"><table class="tbl"><thead><tr><th>${L('Code','코드')}</th><th>${L('Valid until','유효기간')}</th><th>${L('Status','상태')}</th><th></th></tr></thead><tbody>${vl.slice(0,300).map(v=>`<tr><td class="mono" style="max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(v.code)}</td><td class="mono small">${esc(v.exp||'—')}</td><td>${v.st==='free'?(v.exp&&v.exp<today?`<span class="pill rev">${L('Expired','만료')}</span>`:`<span class="pill">${L('Unused','미사용')}</span>`):v.st==='issued'?`<span class="pill ok">${L('Issued','발급')}</span> <span class="small mono">${esc(v.pid)}</span>`:`<span class="pill ex">${L('Removed','삭제')}</span>`}</td><td>${v.st==='free'?`<button class="btn ghost sm" data-act="voidCode" data-v="${v.id}" ${ro?'disabled':''}>${L('Remove','삭제')}</button>`:''}</td></tr>`).join('')}</tbody></table></div>${vl.length>300?`<span class="small">${L(`Showing 300 of ${vl.length}.`,`${vl.length}개 중 300개 표시.`)}</span>`:''}`:`<span class="small">${L('The list is empty.','목록이 비어 있습니다.')}</span>`}
   </div>`:''}
@@ -2382,6 +2412,8 @@ const ACT={
  toggleMine:()=>{S.showMine=!S.showMine;render()},
  histOpen:el=>{S.histOpen=S.histOpen===el.dataset.v?null:el.dataset.v;render()},
  askReview:el=>{const id=el.dataset.v;S.overrides[id]={status:'review',reason:'Participant asked for review',by:'participant',at:Date.now()};if(LIVE)liveUpd('reports',id,{reviewReq:Date.now()});audit('review request',id);buildDB();toast(L('Review requested. A researcher will check it.','검토를 요청했습니다.'));render()},
+ bcOpen:el=>{S.bc=el.dataset.v;try{navigator.wakeLock&&navigator.wakeLock.request('screen').then(l=>{S.wl=l},()=>{})}catch(e){}render()},
+ bcClose:()=>{S.bc=null;try{S.wl&&S.wl.release()}catch(e){}S.wl=null;render()},
  copy:el=>{const v=el.dataset.v;if(navigator.clipboard)navigator.clipboard.writeText(v).then(()=>toast(L('Code copied','코드 복사됨')),()=>toast(v));else toast(v)},
  meEdit:el=>{S.meEdit=el.dataset.v==='1';S.pf={...me()};render()},
  pf:el=>{const tgt=S.onb?S.onb.p:S.pf;if(!tgt)return;const k=el.dataset.k;tgt[k]=el.dataset.v;if(S.onb)S.onb.err='';const nm=$('pf-name');if(nm)tgt.name=nm.value;const ds=$('pf-district');if(ds)tgt.district=ds.value;render()},
@@ -2468,7 +2500,7 @@ document.addEventListener('submit',e=>{if(e.target.id!=='loginForm')return;e.pre
   l.step=2;l.err='';return render()}
  if($('lg-otp').value.trim()!==OTP){l.fails++;l.err=L('That code is not valid. Use the current code from your authenticator app.','유효하지 않은 코드입니다.');return render()}
  const a=ADMINS[l.email];S.admin={email:l.email,role:a.role,name:a.name};l.step=1;l.err='';l.fails=0;audit('sign-in',`${l.email} (${a.role})`);render()});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(S.drawer){S.drawer=null;render()}else if(S.sheet){S.sheet=null;render()}}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(S.bc){ACT.bcClose()}else if(S.drawer){S.drawer=null;render()}else if(S.sheet){S.sheet=null;render()}}});
 
 /* ---------------- boot ---------------- */
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();window._bip=e;if(S.scr==='me')render()});
